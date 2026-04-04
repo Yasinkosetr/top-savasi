@@ -275,7 +275,7 @@ const GOAL_W = 65, GOAL_H = 22;
 const BALL_R = 22; 
 
 let arenaAngle = 0;
-const ROTATE_SPEED = 0.020;
+let ROTATE_SPEED = 0.012;
 
 // KART VE GOL DEĞİŞKENLERİ
 let scores = { team1:0, team2:0 };
@@ -687,6 +687,7 @@ function runActualGame() {
   nextYellowDisplay=35;
   goalCooldown=0;
   arenaAngle=0;
+  ROTATE_SPEED = 0.0012;
   particles=[];
   
   updateScoreDisplay(null);
@@ -698,6 +699,7 @@ function runActualGame() {
   
   timerInterval=setInterval(()=>{
     displaySeconds++;
+    ROTATE_SPEED += 0.0003;
     updateTimerDisplay();
     if(displaySeconds===nextYellowDisplay){
       spawnYellowCard();
