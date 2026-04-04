@@ -313,8 +313,8 @@ function resetBalls() {
   const d = 50;
   ballTeam1 = makeBall('team1', CX+Math.cos(a1)*d, CY+Math.sin(a1)*d, (Math.random()-0.5)*8, (Math.random()-0.5)*8);
   ballTeam2 = makeBall('team2', CX+Math.cos(a2)*d, CY+Math.sin(a2)*d, (Math.random()-0.5)*8, (Math.random()-0.5)*8);
-  ensureSpeed(ballTeam1, 5.5);
-  ensureSpeed(ballTeam2, 5.5);
+  ensureSpeed(ballTeam1, 8.0);
+  ensureSpeed(ballTeam2, 8.0);
 }
 
 function ensureSpeed(ball, min) {
@@ -400,8 +400,8 @@ function updateBall(ball) {
   if(ball.trail.length > 18) ball.trail.shift();
 
   // Top hızlarını burada tutuyorum, isteğine göre artırabilirsin
-  clampSpeed(ball, 9);
-  ensureSpeed(ball, 5);
+  clampSpeed(ball, 15);
+  ensureSpeed(ball, 7);
 
   ball.x += ball.vx;
   ball.y += ball.vy;
