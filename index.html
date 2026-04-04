@@ -282,7 +282,7 @@ let scores = { team1:0, team2:0 };
 let teamYellowCards = { team1:0, team2:0 }; 
 let displaySeconds = 0;
 const TOTAL_DISPLAY = 90;
-const TICK_MS = 500;
+const TICK_MS = 300;
 
 let gameRunning = false;
 let timerInterval = null;
@@ -313,8 +313,8 @@ function resetBalls() {
   const d = 50;
   ballTeam1 = makeBall('team1', CX+Math.cos(a1)*d, CY+Math.sin(a1)*d, (Math.random()-0.5)*8, (Math.random()-0.5)*8);
   ballTeam2 = makeBall('team2', CX+Math.cos(a2)*d, CY+Math.sin(a2)*d, (Math.random()-0.5)*8, (Math.random()-0.5)*8);
-  ensureSpeed(ballTeam1, 8.0);
-  ensureSpeed(ballTeam2, 8.0);
+  ensureSpeed(ballTeam1, 9.0);
+  ensureSpeed(ballTeam2, 9.0);
 }
 
 function ensureSpeed(ball, min) {
@@ -401,7 +401,7 @@ function updateBall(ball) {
 
   // Top hızlarını burada tutuyorum, isteğine göre artırabilirsin
   clampSpeed(ball, 15);
-  ensureSpeed(ball, 7);
+  ensureSpeed(ball, 9);
 
   ball.x += ball.vx;
   ball.y += ball.vy;
