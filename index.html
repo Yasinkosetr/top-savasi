@@ -271,7 +271,7 @@ const W = canvas.width, H = canvas.height;
 const CX = W/2, CY = H/2 - 50;
 const ARENA_R = 168;
 
-const GOAL_W = 48, GOAL_H = 22; 
+const GOAL_W = 45, GOAL_H = 22; 
 const BALL_R = 22; 
 
 let arenaAngle = 0;
@@ -315,8 +315,8 @@ function resetBalls() {
   const d = 50;
   ballTeam1 = makeBall('team1', CX+Math.cos(a1)*d, CY+Math.sin(a1)*d, (Math.random()-0.5)*8, (Math.random()-0.5)*8);
   ballTeam2 = makeBall('team2', CX+Math.cos(a2)*d, CY+Math.sin(a2)*d, (Math.random()-0.5)*8, (Math.random()-0.5)*8);
-  ensureSpeed(ballTeam1, 9.0);
-  ensureSpeed(ballTeam2, 9.0);
+  ensureSpeed(ballTeam1, 7.0);
+  ensureSpeed(ballTeam2, 7.0);
 }
 
 function ensureSpeed(ball, min) {
@@ -402,8 +402,8 @@ function updateBall(ball) {
   if(ball.trail.length > 18) ball.trail.shift();
 
   // Top hızlarını burada tutuyorum, isteğine göre artırabilirsin
-  clampSpeed(ball, 15);
-  ensureSpeed(ball, 9);
+  clampSpeed(ball, 13);
+  ensureSpeed(ball, 8);
 
   ball.x += ball.vx;
   ball.y += ball.vy;
