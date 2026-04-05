@@ -230,19 +230,19 @@ const AYARLAR = {
     isim: "FENERBAHÇE",
     logo: "./fb-logo.png",
     muzik: "fb-gol.mp3",
-    renkAna: "#FDB912", 
-    renkIkinci: "#890522", 
-    kazandiYazisi: "💛❤️ FENERBAHÇE KAZANDI!",
-    oyuncular: ["Lemina", "Jakobs", "Sanchez", "Icardi", "Yunus", "Torreira", "Singo", "Lang"]
+    renkAna: "#FBED11", 
+    renkIkinci: "#000044", 
+    kazandiYazisi: "💛💙 FENERBAHÇE KAZANDI!",
+    oyuncular: ["Kerem", "Nene", "Cherif", "Asensio", "Kante", "Guendouzi", "Oosterwolde"]
   },
   takim2: {
     isim: "BEŞİKTAŞ",
     logo: "bjk-logo.png",
     muzik: "bjk-gol.mp3",
-    renkAna: "#6BB1E1", 
-    renkIkinci: "#800032", 
-    kazandiYazisi: "❤️💙 BEŞİKTAŞ KAZANDI!",
-    oyuncular: ["Nwakaeme", "Savic", "Zubkov", "Onuachu", "Pina", "Ozan", "Augusto"]
+    renkAna: "#FFFFFF", 
+    renkIkinci: "#222222", 
+    kazandiYazisi: "🦅 BEŞİKTAŞ KAZANDI!",
+    oyuncular: ["Orkun", "Cerny", "Oh", "Murillo", "Ndidi", "Olaitan", "Agbadou"]
   }
 };
 // ==========================================
@@ -271,7 +271,7 @@ const W = canvas.width, H = canvas.height;
 const CX = W/2, CY = H/2 - 50;
 const ARENA_R = 168;
 
-const GOAL_W = 53, GOAL_H = 22; 
+const GOAL_W = 48, GOAL_H = 22; 
 const BALL_R = 22; 
 
 let arenaAngle = 0;
@@ -282,7 +282,7 @@ let scores = { team1:0, team2:0 };
 let teamYellowCards = { team1:0, team2:0 }; 
 let displaySeconds = 0;
 const TOTAL_DISPLAY = 90;
-const TICK_MS = 300;
+const TICK_MS = 280;
 
 let gameRunning = false;
 let timerInterval = null;
