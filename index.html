@@ -682,6 +682,16 @@ function gameLoop() {
 
 // ==== YENİ GERİ SAYIM BAŞLATMA FONKSİYONU ====
 function startCountdown() {
+
+// --- MOBİL SES KİLİDİ AÇMA KODU ---
+  try {
+    const a1 = document.getElementById('audio-team1');
+    const a2 = document.getElementById('audio-team2');
+    a1.play().catch(()=>{}); a1.pause(); a1.currentTime = 0;
+    a2.play().catch(()=>{}); a2.pause(); a2.currentTime = 0;
+  } catch(e) {}
+  // ---------------------------------
+
   document.getElementById('overlay').style.display='none';
   const cdOverlay = document.getElementById('countdown-overlay');
   const cdText = document.getElementById('countdown-text');
