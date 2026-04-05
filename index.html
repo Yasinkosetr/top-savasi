@@ -287,6 +287,8 @@ const TICK_MS = 280;
 let gameRunning = false;
 let timerInterval = null;
 let goalCooldown = 0;
+let musicTimeout = null;
+
 
 let yellowCard = null;
 let nextYellowDisplay = 20; 
@@ -485,8 +487,27 @@ function handleGoal(scorer) {
   spawnGoalParticles(CX, CY, scorer);
   
   try {
-    const audio = document.getElementById(scorer === 'team1' ? 'audio-team1' : 'audio-team2');
-    audio.currentTime = 0; audio.play();
+    const audio1 = document.getElementById('audio-team1');
+    const audio2 = document.getElementById('audio-team2');
+
+    // 1. Önce çalan tüm müzikleri durdur (Çakışmayı önler)
+    audio1.pause();
+    audio1.currentTime = 0;
+    audio2.pause();
+    audio2.currentTime = 0;
+
+    // 2. Eğer önceki golden kalan bir 3 saniye sayacı varsa iptal et
+    if(musicTimeout) clearTimeout(musicTimeout);
+
+    // 3. Golü atan takımın müziğini başlat
+    const aktifAudio = scorer === 'team1' ? audio1 : audio2;
+    aktifAudio.play();
+
+    // 4. Tam 4 saniye (4000 milisaniye) sonra müziği sustur
+    musicTimeout = setTimeout(() => {
+      aktifAudio.pause();
+    }, 4000);
+
   } catch (e) { console.log("Ses çalınamadı", e); }
 
   resetBalls();
