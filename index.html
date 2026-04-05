@@ -378,7 +378,7 @@ function addEventUI(teamKey, type, player, minute) {
   container.scrollTop = container.scrollHeight; 
 }
 
-function spawnParticles(x, y, teamOrColor, count=18) {
+function spawnParticles(x, y, teamOrColor, count=5) { // Sayıyı 18'den 5'e düşürdük
   let colorHex = teamOrColor;
   if(teamOrColor === 'team1') colorHex = AYARLAR.takim1.renkAna;
   if(teamOrColor === 'team2') colorHex = AYARLAR.takim2.renkAna;
@@ -396,7 +396,7 @@ function spawnParticles(x, y, teamOrColor, count=18) {
 
 function spawnGoalParticles(x, y, team) {
   const colorHex = team === 'team1' ? AYARLAR.takim1.renkAna : AYARLAR.takim2.renkAna;
-  for(let i=0;i<40;i++){
+  for(let i=0;i<15;i++){ // Sayıyı 40'tan 15'e düşürdük
     const angle = Math.random()*Math.PI*2;
     const speed = 3 + Math.random()*10;
     particles.push({
@@ -418,7 +418,9 @@ function updateParticles() {
 function drawParticles() {
   for(const p of particles){
     ctx.save();
-    ctx.globalAlpha = p.life; ctx.shadowColor = p.color; ctx.shadowBlur = 8; ctx.fillStyle = p.color;
+    ctx.globalAlpha = p.life; 
+    // shadowColor ve shadowBlur SİLİNDİ (Mobil Optimizasyon)
+    ctx.fillStyle = p.color;
     ctx.beginPath(); ctx.arc(p.x,p.y,p.r*p.life,0,Math.PI*2); ctx.fill();
     ctx.restore();
   }
@@ -590,7 +592,7 @@ function drawArena() {
   ctx.restore(); ctx.restore();
 
   ctx.save();
-  ctx.shadowColor='#ff3300'; ctx.shadowBlur=28; ctx.strokeStyle='#ff4400'; ctx.lineWidth=4.5;
+  ctx.shadowColor='#ff3300'; ctx.shadowBlur=0; ctx.strokeStyle='#ff4400'; ctx.lineWidth=4.5;
   ctx.beginPath(); ctx.arc(CX,CY,ARENA_R,0,Math.PI*2); ctx.stroke();
   ctx.shadowBlur=8; ctx.strokeStyle='rgba(255,100,0,0.4)'; ctx.lineWidth=1.5;
   ctx.beginPath(); ctx.arc(CX,CY,ARENA_R+5,0,Math.PI*2); ctx.stroke();
@@ -640,7 +642,7 @@ function drawBall(ball) {
 
   ctx.save();
   ctx.shadowColor = tRenk;
-  ctx.shadowBlur = 25;
+  ctx.shadowBlur = 0;
 
   const grad = ctx.createRadialGradient(ball.x - ball.r*0.3, ball.y - ball.r*0.3, ball.r*0.1, ball.x, ball.y, ball.r);
   grad.addColorStop(0, '#ffffff'); 
