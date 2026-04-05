@@ -578,7 +578,9 @@ function drawYellowCard() {
 
 function drawBall(ball) {
   const tRenk = ball.team === 'team1' ? AYARLAR.takim1.renkAna : AYARLAR.takim2.renkAna;
+  const imgToDraw = ball.team === 'team1' ? imgTeam1 : imgTeam2; // Hangi takımın logosu olduğunu seç
   
+  // 1. İz (Trail) Efekti
   for(let i=0;i<ball.trail.length;i++){
     const t=i/ball.trail.length;
     const alpha=t*0.32;
@@ -592,6 +594,7 @@ function drawBall(ball) {
   ctx.shadowColor = tRenk;
   ctx.shadowBlur = 25;
 
+  // 2. Alt Zemin (Küre için Renk Geçişi)
   const grad = ctx.createRadialGradient(ball.x - ball.r*0.3, ball.y - ball.r*0.3, ball.r*0.1, ball.x, ball.y, ball.r);
   grad.addColorStop(0, '#ffffff'); 
   grad.addColorStop(0.4, tRenk);   
@@ -602,10 +605,29 @@ function drawBall(ball) {
   ctx.fillStyle = grad;
   ctx.fill();
 
+  // Logonun etrafına gölge taşmasını engellemek için gölgeyi kapat
+  ctx.shadowBlur = 0; 
+
+  // 3. LOGO ÇİZİMİ (Kırpma Maskesi ile)
+  if (imgToDraw && imgToDraw.complete && imgToDraw.naturalWidth !== 0) {
+    ctx.save();
+    // Logoyu topun sınırları içine hapsetmek için yuvarlak kırpma alanı oluştur
+    ctx.beginPath();
+    ctx.arc(ball.x, ball.y, ball.r * 0.85, 0, Math.PI*2); // Logo topun kenarlarına tam değmesin diye 0.85 ile küçülttük
+    ctx.clip();
+    
+    // Logoyu merkeze hizalayarak çiz
+    const logoSize = ball.r * 1.7; // Logonun boyutu
+    ctx.drawImage(imgToDraw, ball.x - logoSize/2, ball.y - logoSize/2, logoSize, logoSize);
+    ctx.restore();
+  }
+
+  // 4. En üste 3D Cam/Işık Yansıması (Logonun da üstünde kalarak derinlik verir)
   ctx.beginPath(); 
   ctx.arc(ball.x - ball.r*0.32, ball.y - ball.r*0.32, ball.r*0.28, 0, Math.PI*2);
   ctx.fillStyle = 'rgba(255,255,255,0.4)';
   ctx.fill();
+  
   ctx.restore();
 }
 
