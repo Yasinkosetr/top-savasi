@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Top Savaşı V7 - KUSURSUZ SÜRÜM</title>
+<title>Top Savaşı V8 - Lig Sistemli ve Büyük Logolu</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@300;400;600;700&display=swap');
   * { margin:0; padding:0; box-sizing:border-box; }
@@ -125,12 +125,16 @@
   /* ===== TAKIM SEÇME EKRANI ===== */
   #team-select-overlay {
     position:absolute; top:88px; left:1.5px; right:1.5px; bottom:1.5px; background:rgba(3,8,3,0.95);
-    border-radius:0 0 17px 17px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:20px; z-index:30; backdrop-filter:blur(8px);
+    border-radius:0 0 17px 17px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:15px; z-index:30; backdrop-filter:blur(8px);
   }
-  #team-select-overlay h2 { font-size:36px; color:#fff; text-shadow:0 0 20px #4cff70; font-family:'Bebas Neue',cursive; letter-spacing:2px; }
-  .select-group { display:flex; flex-direction:column; align-items:center; gap:5px; width: 80%; }
-  .select-group label { color:#fff; font-family:'Oswald',sans-serif; font-size:16px; letter-spacing:1px; }
-  .select-group select { width:100%; padding:10px; font-size:18px; font-family:'Oswald',sans-serif; font-weight:bold; background:#0a1f0a; color:#fff; border:2px solid #4cff70; border-radius:8px; outline:none; text-align:center; cursor:pointer; }
+  #team-select-overlay h2 { font-size:36px; color:#fff; text-shadow:0 0 20px #4cff70; font-family:'Bebas Neue',cursive; letter-spacing:2px; margin-bottom:5px; }
+  .select-group { display:flex; flex-direction:column; align-items:center; gap:4px; width: 80%; }
+  .select-group label { color:#fff; font-family:'Oswald',sans-serif; font-size:14px; letter-spacing:1px; color: #4cff70; }
+  .select-group select { width:100%; padding:8px; font-size:16px; font-family:'Oswald',sans-serif; font-weight:bold; background:#0a1f0a; color:#fff; border:2px solid rgba(255,255,255,0.2); border-radius:8px; outline:none; text-align:center; cursor:pointer; transition: border-color 0.2s; }
+  .select-group select:focus { border-color: #4cff70; }
+  
+  /* Lig Seçimi Özel Stili */
+  #select-league { background: #134a11; border-color: #4cff70; color: #fff; font-size: 18px; }
 
   /* ===== GERİ SAYIM EKRANI ===== */
   #countdown-overlay {
@@ -155,8 +159,8 @@
   #overlay .result-score { font-size:72px; color:white; letter-spacing:10px; text-shadow:0 0 30px rgba(255,255,255,0.4); }
   #overlay .winner-text { font-size:28px; color:#ffd700; text-shadow:0 0 30px #ffd700, 0 0 60px rgba(255,215,0,0.4); text-align:center; }
   button {
-    background:linear-gradient(135deg,#ff6600,#cc2200); color:white; border:none; padding:13px 42px; font-size:22px; font-family:'Bebas Neue',cursive;
-    border-radius:50px; cursor:pointer; letter-spacing:3px; box-shadow:0 4px 24px rgba(255,80,0,0.5), 0 1px 0 rgba(255,255,255,0.15) inset; transition:transform 0.1s, box-shadow 0.1s;
+    background:linear-gradient(135deg,#ff6600,#cc2200); color:white; border:none; padding:12px 38px; font-size:22px; font-family:'Bebas Neue',cursive;
+    border-radius:50px; cursor:pointer; letter-spacing:3px; box-shadow:0 4px 24px rgba(255,80,0,0.5), 0 1px 0 rgba(255,255,255,0.15) inset; transition:transform 0.1s, box-shadow 0.1s; margin-top:5px;
   }
   button:hover { transform:scale(1.05); box-shadow:0 6px 32px rgba(255,80,0,0.7); }
   button:active { transform:scale(0.97); }
@@ -216,6 +220,12 @@
 
   <div id="team-select-overlay">
     <h2>⚔️ TAKIMLARI SEÇ ⚔️</h2>
+    
+    <div class="select-group">
+      <label>🌍 LİG SEÇİMİ</label>
+      <select id="select-league" onchange="leagueChanged()"></select>
+    </div>
+
     <div class="select-group">
       <label>EV SAHİBİ</label>
       <select id="select-team1"></select>
@@ -235,25 +245,74 @@
 
 <script>
 // ==========================================
-// 📚 TÜM TAKIMLARIN KÜTÜPHANESİ 📚
+// 📚 LİGLER VE TAKIMLAR KÜTÜPHANESİ 📚
 // ==========================================
-// ==========================================
-// 📚 TÜM TAKIMLARIN KÜTÜPHANESİ 📚
-// ==========================================
-const TAKIM_KUTUPHANESI = {
-  "fb": { isim: "FENERBAHÇE", logo: "./fb-logo.png", muzik: "fb-gol.mp3", renkAna: "#FBED11", renkIkinci: "#000044", kazandiYazisi: "💛💙 FENERBAHÇE KAZANDI!", oyuncular: ["Kerem", "Nene", "Cherif", "Asensio", "Kante", "Guendouzi", "Oosterwolde"] },
-  "bjk": { isim: "BEŞİKTAŞ", logo: "./bjk-logo.png", muzik: "bjk-gol.mp3", renkAna: "#FFFFFF", renkIkinci: "#222222", kazandiYazisi: "🦅 BEŞİKTAŞ KAZANDI!", oyuncular: ["Orkun", "Cerny", "Oh", "Murillo", "Ndidi", "Olaitan", "Agbadou"] },
-  "gs": { isim: "GALATASARAY", logo: "./gs-logo.png", muzik: "gs-gol.mp3", renkAna: "#A90432", renkIkinci: "#FDB912", kazandiYazisi: "❤️💛 GALATASARAY KAZANDI!", oyuncular: ["Osimhen", "Singo", "Lemina", "Barış", "Lang", "Sane", "Yunus", "Icardi", "Torreira"] },
-  "ts": { isim: "TRABZONSPOR", logo: "./ts-logo.png", muzik: "ts-gol.mp3", renkAna: "#8C0B29", renkIkinci: "#45B2E6", kazandiYazisi: "❤️💙 TRABZONSPOR KAZANDI!", oyuncular: ["Batagov", "Nwaiwu", "Pina", "Oulai", "Folcarelli", "Ozan", "Zubkov", "Onuachu", "Muci"] },
-  "basaksehir": { isim: "BAŞAKŞEHİR", logo: "./basaksehir-logo.png", muzik: "basaksehir-gol.mp3", renkAna: "#F47321", renkIkinci: "#002A54", kazandiYazisi: "🟠🔵 BAŞAKŞEHİR KAZANDI!", oyuncular: ["Shomurodov", "Harit", "Opuku", "Operi", "Bertuğ", "Ebosele", "Selke", "Kaluzinski", "Kemen"] },
-  "kocaeli": { isim: "KOCAELİSPOR", logo: "./kocaeli-logo.png", muzik: "kocaeli-gol.mp3", renkAna: "#008037", renkIkinci: "#000000", kazandiYazisi: "🟢⚫ KOCAELİSPOR KAZANDI!", oyuncular: ["Petkovic", "Smolcic", "Keita", "Show", "Nonge", "Linetty", "Keleş", "Dijksteel", "Churlinov"] },
-  "napoli": { isim: "NAPOLI", logo: "./napoli-logo.png", muzik: "napoli-gol.mp3", renkAna: "#005BA9", renkIkinci: "#FFFFFF", kazandiYazisi: "💙 NAPOLI KAZANDI!", oyuncular: ["Hojlund", "McTominay", "Neres", "Gilmour", "Buongiorno", "Anguissa", "Olivera", "Vergara", "De Bruyne"] },
-  "milan": { isim: "MILAN", logo: "./milan-logo.png", muzik: "milan-gol.mp3", renkAna: "#FB090B", renkIkinci: "#000000", kazandiYazisi: "🔴⚫ MILAN KAZANDI!", oyuncular: ["Leao", "Pulisic", "Pavlovic", "Jashari", "Nkunku", "Modric", "Rabiot", "Fofana", "Ricci"] }
+const LIGLER = {
+  "superlig": {
+    isim: "🇹🇷 Türkiye Süper Lig",
+    takimlar: {
+      "fb": { isim: "FENERBAHÇE", logo: "./fb-logo.png", muzik: "fb-gol.mp3", renkAna: "#FBED11", renkIkinci: "#000044", kazandiYazisi: "💛💙 FENERBAHÇE KAZANDI!", oyuncular: ["Kerem", "Nene", "Cherif", "Asensio", "Kante", "Guendouzi", "Oosterwolde"] },
+      "bjk": { isim: "BEŞİKTAŞ", logo: "./bjk-logo.png", muzik: "bjk-gol.mp3", renkAna: "#FFFFFF", renkIkinci: "#222222", kazandiYazisi: "🦅 BEŞİKTAŞ KAZANDI!", oyuncular: ["Orkun", "Cerny", "Oh", "Murillo", "Ndidi", "Olaitan", "Agbadou"] },
+      "gs": { isim: "GALATASARAY", logo: "./gs-logo.png", muzik: "gs-gol.mp3", renkAna: "#A90432", renkIkinci: "#FDB912", kazandiYazisi: "❤️💛 GALATASARAY KAZANDI!", oyuncular: ["Osimhen", "Singo", "Lemina", "Barış", "Lang", "Sane", "Yunus", "Icardi", "Torreira"] },
+      "ts": { isim: "TRABZONSPOR", logo: "./ts-logo.png", muzik: "ts-gol.mp3", renkAna: "#8C0B29", renkIkinci: "#45B2E6", kazandiYazisi: "❤️💙 TRABZONSPOR KAZANDI!", oyuncular: ["Batagov", "Nwaiwu", "Pina", "Oulai", "Folcarelli", "Ozan", "Zubkov", "Onuachu", "Muci"] },
+      "basaksehir": { isim: "BAŞAKŞEHİR", logo: "./basaksehir-logo.png", muzik: "basaksehir-gol.mp3", renkAna: "#F47321", renkIkinci: "#002A54", kazandiYazisi: "🟠🔵 BAŞAKŞEHİR KAZANDI!", oyuncular: ["Shomurodov", "Harit", "Opuku", "Operi", "Bertuğ", "Ebosele", "Selke", "Kaluzinski", "Kemen"] },
+      "kocaeli": { isim: "KOCAELİSPOR", logo: "./kocaeli-logo.png", muzik: "kocaeli-gol.mp3", renkAna: "#008037", renkIkinci: "#000000", kazandiYazisi: "🟢⚫ KOCAELİSPOR KAZANDI!", oyuncular: ["Petkovic", "Smolcic", "Keita", "Show", "Nonge", "Linetty", "Keleş", "Dijksteel", "Churlinov"] }
+    }
+  },
+  "seriea": {
+    isim: "🇮🇹 İtalya Serie A",
+    takimlar: {
+      "napoli": { isim: "NAPOLI", logo: "./napoli-logo.png", muzik: "napoli-gol.mp3", renkAna: "#005BA9", renkIkinci: "#FFFFFF", kazandiYazisi: "💙 NAPOLI KAZANDI!", oyuncular: ["Hojlund", "McTominay", "Neres", "Gilmour", "Buongiorno", "Anguissa", "Olivera", "Vergara", "De Bruyne"] },
+      "inter": { isim: "INTER", logo: "./inter-logo.png", muzik: "inter-gol.mp3", renkAna: "#0018A8", renkIkinci: "#000000", kazandiYazisi: "🔵⚫ INTER KAZANDI!", oyuncular: ["Lautaro", "Barella", "Thuram", "Çalhanoğlu", "Bastoni", "Dimarco"] },
+      "juventus": { isim: "JUVENTUS", logo: "./juventus-logo.png", muzik: "juventus-gol.mp3", renkAna: "#FFFFFF", renkIkinci: "#000000", kazandiYazisi: "⚪⚫ JUVENTUS KAZANDI!", oyuncular: ["Vlahovic", "Kenan Yıldız", "Bremer", "Koopmeiners", "Locatelli", "Cambiaso"] },
+      "atalanta": { isim: "ATALANTA", logo: "./atalanta-logo.png", muzik: "atalanta-gol.mp3", renkAna: "#1E4CB3", renkIkinci: "#000000", kazandiYazisi: "🔵⚫ ATALANTA KAZANDI!", oyuncular: ["Scalvini", "De Ketelaere", "Krstovic", "Ederson", "Raspadori", "Zalewski"] },
+      "roma": { isim: "AS ROMA", logo: "./roma-logo.png", muzik: "roma-gol.mp3", renkAna: "#8E192C", renkIkinci: "#F0C420", kazandiYazisi: "🐺 AS ROMA KAZANDI!", oyuncular: ["Kone", "Pellegrini", "Wesley", "Malen", "Svilar", "Soule"] },
+      "lazio": { isim: "LAZIO", logo: "./lazio-logo.png", muzik: "lazio-gol.mp3", renkAna: "#87D8F7", renkIkinci: "#FFFFFF", kazandiYazisi: "🦅 LAZIO KAZANDI!", oyuncular: ["Zaccagni", "Rovella", "Gila", "Isaksen", "Tavares", "Maldini", "Taylor"] },
+      "fiorentina": { isim: "FIORENTINA", logo: "./fiorentina-logo.png", muzik: "fiorentina-gol.mp3", renkAna: "#482E92", renkIkinci: "#FFFFFF", kazandiYazisi: "🟣 FIORENTINA KAZANDI!", oyuncular: ["Gudmundsson", "Kean", "Ndour", "Fabbian", "Comuzzo"] },
+      "bologna": { isim: "BOLOGNA", logo: "./bologna-logo.png", muzik: "bologna-gol.mp3", renkAna: "#1A2F5C", renkIkinci: "#C21315", kazandiYazisi: "🔴🔵 BOLOGNA KAZANDI!", oyuncular: ["Lucimi", "Castro", "Rowe", "Orsolini", "Ferguson", "Cambiaghi", "Miranda", "Odgaard"] },
+      "torino": { isim: "TORINO", logo: "./torino-logo.png", muzik: "torino-gol.mp3", renkAna: "#8C1C2A", renkIkinci: "#FFFFFF", kazandiYazisi: "🐂 TORINO KAZANDI!", oyuncular: ["Casadei", "Ilic", "Vlasic", "Coco", "Adams", "Aboukhlal", "Prati", "Gineitis"] },
+      "udinese": { isim: "UDINESE", logo: "./udinese-logo.png", muzik: "udinese-gol.mp3", renkAna: "#FFFFFF", renkIkinci: "#000000", kazandiYazisi: "⚪⚫ UDINESE KAZANDI!", oyuncular: ["Solet", "Atta", "Zaniolo", "Okoye", "Kristensen", "Miller", "Davis"] },
+      "parma": { isim: "PARMA", logo: "./parma-logo.png", muzik: "parma-gol.mp3", renkAna: "#FFD700", renkIkinci: "#002B5C", kazandiYazisi: "🟡🔵 PARMA KAZANDI!", oyuncular: ["Keita", "Bernabe", "Pellegrino", "Circati", "Sorensen", "Britschgi"] },
+      "genoa": { isim: "GENOA", logo: "./genoa-logo.png", muzik: "genoa-gol.mp3", renkAna: "#9B002B", renkIkinci: "#00224A", kazandiYazisi: "🔴🔵 GENOA KAZANDI!", oyuncular: ["Cuffy", "Frendrup", "Vasquez", "Ekhator", "Colombo", "Baldanzi"] },
+      "cremonese": { isim: "CREMONESE", logo: "./cremonese-logo.png", muzik: "cremonese-gol.mp3", renkAna: "#D2232A", renkIkinci: "#8A8D8F", kazandiYazisi: "🔴 CREMONESE KAZANDI!", oyuncular: ["Bondo", "Payero", "Faye", "Terracciano", "Luperto"] },
+      "como": { isim: "COMO", logo: "./como-logo.png", muzik: "como-gol.mp3", renkAna: "#00458C", renkIkinci: "#FFFFFF", kazandiYazisi: "🔵⚪ COMO KAZANDI!", oyuncular: ["Perrone", "Paz", "Diao", "Rodriguez", "Baturina", "Cunha", "Addai", "Kühn"] },
+      "pisa": { isim: "PISA", logo: "./pisa-logo.png", muzik: "pisa-gol.mp3", renkAna: "#0054A6", renkIkinci: "#000000", kazandiYazisi: "🖤💙 PISA KAZANDI!", oyuncular: ["Loyola", "Durosinmi", "Akinsanmiro", "Toure", "Canestrelli"] },
+      "verona": { isim: "VERONA", logo: "./verona-logo.png", muzik: "verona-gol.mp3", renkAna: "#002F6C", renkIkinci: "#FFD100", kazandiYazisi: "🟡🔵 VERONA KAZANDI!", oyuncular: ["Orban", "Nelsson", "Kotchap", "Musrati", "Belghali", "Bowie", "Suslov"] },
+      "lecce": { isim: "LECCE", logo: "./lecce-logo.png", muzik: "lecce-gol.mp3", renkAna: "#FFFF00", renkIkinci: "#ED1B24", kazandiYazisi: "🟡🔴 LECCE KAZANDI!", oyuncular: ["Camarda", "Gabriel", "Berisha", "Stulic", "Siebert", "Gllo", "Gandelman"] },
+      "cagliari": { isim: "CAGLIARI", logo: "./cagliari-logo.png", muzik: "cagliari-gol.mp3", renkAna: "#002350", renkIkinci: "#E00024", kazandiYazisi: "🔴🔵 CAGLIARI KAZANDI!", oyuncular: ["Palestra", "Semih", "Esposito", "Dossena", "Esposito", "Obert"] },
+      "sassuolo": { isim: "SASSUOLO", logo: "./sassuolo-logo.png", muzik: "sassuolo-gol.mp3", renkAna: "#00A752", renkIkinci: "#000000", kazandiYazisi: "🖤💚 SASSUOLO KAZANDI!", oyuncular: ["Muharemovic", "Kone", "Lauriente", "Pinamonti", "Idzes"] },
+      "milan": { isim: "MILAN", logo: "./milan-logo.png", muzik: "milan-gol.mp3", renkAna: "#FB090B", renkIkinci: "#000000", kazandiYazisi: "🔴⚫ MILAN KAZANDI!", oyuncular: ["Leao", "Pulisic", "Pavlovic", "Jashari", "Nkunku", "Modric", "Rabiot", "Fofana", "Ricci"] },
+    }
+  },
+  "laliga": {
+    isim: "🇪🇸 İspanya La Liga",
+    takimlar: {
+      "rm": { isim: "REAL MADRID", logo: "./rm-logo.png", muzik: "rm-gol.mp3", renkAna: "#FFFFFF", renkIkinci: "#00529F", kazandiYazisi: "👑 REAL MADRID KAZANDI!", oyuncular: ["Mbappe", "Vinicius Jr", "Bellingham", "Rodrygo", "Valverde", "Modric", "Arda Güler"] },
+      "barca": { isim: "BARCELONA", logo: "./barca-logo.png", muzik: "barca-gol.mp3", renkAna: "#A50044", renkIkinci: "#004D98", kazandiYazisi: "🔵🔴 BARCELONA KAZANDI!", oyuncular: ["Lewandowski", "Lamine Yamal", "Pedri", "Raphinha", "Dani Olmo", "Gavi", "Fermin"] },
+      "atletico": { isim: "ATLETICO MADRID", logo: "./atletico-logo.png", muzik: "atletico-gol.mp3", renkAna: "#CB3524", renkIkinci: "#272E61", kazandiYazisi: "🔴⚪ ATLETICO MADRID KAZANDI!", oyuncular: ["Griezmann", "Alvarez", "Sorloth", "De Paul", "Koke", "Llorente", "Oblak"] },
+      "bilbao": { isim: "ATHLETIC BILBAO", logo: "./bilbao-logo.png", muzik: "bilbao-gol.mp3", renkAna: "#EE2523", renkIkinci: "#000000", kazandiYazisi: "🔴⚪ ATHLETIC BILBAO KAZANDI!", oyuncular: ["Iñaki Williams", "Nico Williams", "Sancet", "Guruzeta", "Vivian", "Unai Simon"] },
+      "sociedad": { isim: "REAL SOCIEDAD", logo: "./sociedad-logo.png", muzik: "sociedad-gol.mp3", renkAna: "#0067B1", renkIkinci: "#FFFFFF", kazandiYazisi: "🔵⚪ REAL SOCIEDAD KAZANDI!", oyuncular: ["Oyarzabal", "Kubo", "Zubimendi", "Brais Mendez", "Becker", "Remiro"] },
+      "betis": { isim: "REAL BETIS", logo: "./betis-logo.png", muzik: "betis-gol.mp3", renkAna: "#078930", renkIkinci: "#FFFFFF", kazandiYazisi: "🟢⚪ REAL BETIS KAZANDI!", oyuncular: ["Isco", "Lo Celso", "Abde", "Fornals", "Vitor Roque", "Bartra"] },
+      "villarreal": { isim: "VILLARREAL", logo: "./villarreal-logo.png", muzik: "villarreal-gol.mp3", renkAna: "#FCE300", renkIkinci: "#00508F", kazandiYazisi: "🟡🔵 VILLARREAL KAZANDI!", kazandiYazisi: "🟡🔵 VILLARREAL KAZANDI!", oyuncular: ["Baena", "Gerard Moreno", "Ayoze Perez", "Parejo", "Yeremy Pino", "Comesana"] },
+      "sevilla": { isim: "SEVILLA", logo: "./sevilla-logo.png", muzik: "sevilla-gol.mp3", renkAna: "#D11241", renkIkinci: "#FFFFFF", kazandiYazisi: "🔴⚪ SEVILLA KAZANDI!", oyuncular: ["Jesus Navas", "Isaac Romero", "Lukebakio", "Sow", "Bade", "Nyland"] },
+      "valencia": { isim: "VALENCIA", logo: "./valencia-logo.png", muzik: "valencia-gol.mp3", renkAna: "#FFFFFF", renkIkinci: "#000000", kazandiYazisi: "🦇 VALENCIA KAZANDI!", oyuncular: ["Hugo Duro", "Javi Guerra", "Pepelu", "Diego Lopez", "Gaya", "Mamardashvili"] },
+      "girona": { isim: "GIRONA", logo: "./girona-logo.png", muzik: "girona-gol.mp3", renkAna: "#E20613", renkIkinci: "#FFFFFF", kazandiYazisi: "🔴⚪ GIRONA KAZANDI!", oyuncular: ["Tsygankov", "Stuani", "Herrera", "Miguel Gutierrez", "Gazzaniga"] },
+      "celta": { isim: "CELTA VIGO", logo: "./celta-logo.png", muzik: "celta-gol.mp3", renkAna: "#8CC6D7", renkIkinci: "#E53027", kazandiYazisi: "🩵 CELTA VIGO KAZANDI!", oyuncular: ["Iago Aspas", "Bamba", "Mingueza", "Beltran", "Starfelt"] },
+      "mallorca": { isim: "MALLORCA", logo: "./mallorca-logo.png", muzik: "mallorca-gol.mp3", renkAna: "#E2001A", renkIkinci: "#000000", kazandiYazisi: "🔴⚫ MALLORCA KAZANDI!", oyuncular: ["Muriqi", "Darder", "Samu Costa", "Raillo", "Valjent"] },
+      "osasuna": { isim: "OSASUNA", logo: "./osasuna-logo.png", muzik: "osasuna-gol.mp3", renkAna: "#C11D2A", renkIkinci: "#002D57", kazandiYazisi: "🔴🔵 OSASUNA KAZANDI!", oyuncular: ["Budimir", "Aimar Oroz", "Moncayola", "Boyomo", "Sergio Herrera"] },
+      "alaves": { isim: "ALAVES", logo: "./alaves-logo.png", muzik: "alaves-gol.mp3", renkAna: "#0050BC", renkIkinci: "#FFFFFF", kazandiYazisi: "🔵⚪ ALAVES KAZANDI!", oyuncular: ["Kike Garcia", "Guridi", "Guevara", "Tenaglia", "Sivera"] },
+      "getafe": { isim: "GETAFE", logo: "./getafe-logo.png", muzik: "getafe-gol.mp3", renkAna: "#004F9F", renkIkinci: "#FFFFFF", kazandiYazisi: "🔵 GETAFE KAZANDI!", oyuncular: ["Borja Mayoral", "Milla", "Arambarri", "Djene", "David Soria"] },
+      "rayo": { isim: "RAYO VALLECANO", logo: "./rayo-logo.png", muzik: "rayo-gol.mp3", renkAna: "#FFFFFF", renkIkinci: "#E53027", kazandiYazisi: "⚡ RAYO VALLECANO KAZANDI!", oyuncular: ["Isi Palazon", "Alvaro Garcia", "Camello", "Trejo", "Lejeune"] },
+      "levante": { isim: "LEVANTE", logo: "./levante-logo.png", muzik: "levante-gol.mp3", renkAna: "#005CA5", renkIkinci: "#A61B2B", kazandiYazisi: "🔵🔴 LEVANTE KAZANDI!", oyuncular: ["Morales", "Carlos Alvarez", "Brugue", "Kochorashvili", "Pablo Martinez", "Oriol Rey"] },
+      "elche": { isim: "ELCHE", logo: "./elche-logo.png", muzik: "elche-gol.mp3", renkAna: "#FFFFFF", renkIkinci: "#006747", kazandiYazisi: "⚪🟢 ELCHE KAZANDI!", oyuncular: ["Nico Castro", "Mourad", "Oscar Plano", "Febas", "Clerc", "Dituro"] },
+      "oviedo": { isim: "REAL OVIEDO", logo: "./oviedo-logo.png", muzik: "oviedo-gol.mp3", renkAna: "#003E7E", renkIkinci: "#FFFFFF", kazandiYazisi: "🔵⚪ REAL OVIEDO KAZANDI!", oyuncular: ["Cazorla", "Alemao", "Sebas Moyano", "Colombatto", "Dani Calvo", "Escandell"] }
+    }
+  }
 };
 
 let AYARLAR = {
-  takim1: TAKIM_KUTUPHANESI["fb"],
-  takim2: TAKIM_KUTUPHANESI["bjk"]
+  takim1: LIGLER["superlig"].takimlar["fb"],
+  takim2: LIGLER["superlig"].takimlar["bjk"]
 };
 // ==========================================
 
@@ -289,7 +348,7 @@ let nextYellowDisplay = 20;
 let particles = [];
 let ballTeam1, ballTeam2;
 
-// --- ÇARPIŞMA SESİ MOTORU (YAPAY ZEKA) ---
+// --- ÇARPIŞMA SESİ MOTORU ---
 let sesMotoru;
 let sonSesZamani = 0;
 function playBounceSound(isWall = true) {
@@ -319,7 +378,6 @@ function playBounceSound(isWall = true) {
   osc.start();
   osc.stop(sesMotoru.currentTime + 0.15);
 }
-// ------------------------------------------
 
 function getGoalInfo() {
   const radialAngle = Math.PI/2 + arenaAngle;
@@ -436,7 +494,6 @@ function updateBall(ball) {
   const dx=ball.x-CX, dy=ball.y-CY;
   const dist=Math.sqrt(dx*dx+dy*dy);
   
-  // DUVARA ÇARPMA KONTROLÜ VE SEKME FİZİĞİ EKSİKSİZ BURADA
   if(dist+ball.r > ARENA_R) {
     const nx=dx/dist, ny=dy/dist;
     const dot=ball.vx*nx+ball.vy*ny;
@@ -578,7 +635,7 @@ function updateTimerDisplay() {
   document.getElementById('timer').textContent = `${mins}'`;
 }
 
-// IPHONE OPTİMİZASYONLU EKRAN ÇİZİMİ (TERS MASKELEME)
+// IPHONE OPTİMİZASYONLU EKRAN ÇİZİMİ
 function drawArena() {
   ctx.fillStyle='#134a11';
   ctx.beginPath(); ctx.arc(CX,CY,ARENA_R,0,Math.PI*2); ctx.fill();
@@ -633,11 +690,11 @@ function drawYellowCard() {
   ctx.restore();
 }
 
+// BÜYÜTÜLMÜŞ LOGO ÇİZİMİ
 function drawBall(ball) {
   const tRenk = ball.team === 'team1' ? AYARLAR.takim1.renkAna : AYARLAR.takim2.renkAna;
   const imgToDraw = ball.team === 'team1' ? imgTeam1 : imgTeam2; 
   
-  // 1. Kuyruk Efekti Çizimi
   for(let i=0;i<ball.trail.length;i++){
     const t=i/ball.trail.length;
     const alpha=t*0.32;
@@ -648,21 +705,19 @@ function drawBall(ball) {
   }
 
   ctx.save();
-  // 2. Topun Arka Plan Çizimi
   ctx.beginPath(); 
   ctx.arc(ball.x, ball.y, ball.r, 0, Math.PI*2);
   ctx.fillStyle = tRenk; 
   ctx.fill();
 
-  // 3. LOGOYU ÇİZME VE BÜYÜTME KISMI
   if (imgToDraw && imgToDraw.complete && imgToDraw.naturalWidth !== 0) {
     ctx.save();
     ctx.beginPath();
-    // Maske Sınırını Büyüttük (0.85'ten 0.98'e çıktı, topun tamamını kaplar)
+    // Maske sınırını büyüttük
     ctx.arc(ball.x, ball.y, ball.r * 0.98, 0, Math.PI*2); 
     ctx.clip();
     
-    // Logonun Ölçeğini Büyüttük (1.7'den 2.4'e çıktı, daha yakından gösterir)
+    // Logo ölçeğini büyüttük
     const logoSize = ball.r * 2.4; 
     ctx.drawImage(imgToDraw, ball.x - logoSize/2, ball.y - logoSize/2, logoSize, logoSize);
     ctx.restore();
@@ -698,28 +753,52 @@ function gameLoop() {
   drawBall(ballTeam1); drawBall(ballTeam2); requestAnimationFrame(gameLoop);
 }
 
-// ==== TAKIM SEÇME VE OYUNU BAŞLATMA ALTYAPISI ====
+// ==== LİG VE TAKIM SEÇME EKRANI ====
 function initTeamSelect() {
   document.getElementById('scoreboard').style.display = 'none';
   document.getElementById('overlay').style.display = 'none';
   
-  const s1 = document.getElementById('select-team1');
-  const s2 = document.getElementById('select-team2');
+  const sLig = document.getElementById('select-league');
+  sLig.innerHTML = '';
   
-  s1.innerHTML = '';
-  s2.innerHTML = '';
-  
-  for(const key in TAKIM_KUTUPHANESI) {
-    const t = TAKIM_KUTUPHANESI[key];
-    s1.innerHTML += `<option value="${key}">${t.isim}</option>`;
-    s2.innerHTML += `<option value="${key}">${t.isim}</option>`;
+  // Önce Ligleri Doldur
+  for(const ligKey in LIGLER){ 
+    sLig.innerHTML += `<option value="${ligKey}">${LIGLER[ligKey].isim}</option>`; 
   }
   
-  s1.value = "fb";
-  s2.value = "bjk";
+  // İlk açılışta seçili olan lige göre takımları doldur
+  leagueChanged();
+}
+
+// Lig değiştiğinde takımları güncelleyen fonksiyon
+function leagueChanged() {
+  const secilenLig = document.getElementById('select-league').value;
+  const takimlar = LIGLER[secilenLig].takimlar;
+  
+  const s1 = document.getElementById('select-team1');
+  const s2 = document.getElementById('select-team2');
+  s1.innerHTML = ''; s2.innerHTML = '';
+  
+  let ilkTakim = null;
+  let ikinciTakim = null;
+  let count = 0;
+
+  for(const key in takimlar){ 
+    s1.innerHTML += `<option value="${key}">${takimlar[key].isim}</option>`; 
+    s2.innerHTML += `<option value="${key}">${takimlar[key].isim}</option>`; 
+    if(count === 0) ilkTakim = key;
+    if(count === 1) ikinciTakim = key;
+    count++;
+  }
+  
+  // Aynı takımların birbirleriyle seçili gelmemesini sağlar
+  if (ilkTakim) s1.value = ilkTakim;
+  if (ikinciTakim) s2.value = ikinciTakim;
+  else if (ilkTakim) s2.value = ilkTakim;
 }
 
 function confirmTeams() {
+  const secilenLig = document.getElementById('select-league').value;
   const v1 = document.getElementById('select-team1').value;
   const v2 = document.getElementById('select-team2').value;
   
@@ -728,8 +807,9 @@ function confirmTeams() {
     return;
   }
 
-  AYARLAR.takim1 = TAKIM_KUTUPHANESI[v1];
-  AYARLAR.takim2 = TAKIM_KUTUPHANESI[v2];
+  const takimlar = LIGLER[secilenLig].takimlar;
+  AYARLAR.takim1 = takimlar[v1];
+  AYARLAR.takim2 = takimlar[v2];
 
   document.getElementById('name-team1').textContent = AYARLAR.takim1.isim;
   document.getElementById('img-team1').src = AYARLAR.takim1.logo;
@@ -843,7 +923,6 @@ function endGame() {
   gameRunning=false;
   clearInterval(timerInterval);
 
-  // --- OYUN BİTİNCE TÜM MÜZİKLERİ ANINDA KES ---
   try {
     const a1 = document.getElementById('audio-team1');
     const a2 = document.getElementById('audio-team2');
@@ -851,7 +930,6 @@ function endGame() {
     a2.pause(); a2.currentTime = 0;
     if(musicTimeout) clearTimeout(musicTimeout);
   } catch(e) {}
-  // ----------------------------------------------
 
   const overlay=document.getElementById('overlay');
   overlay.style.display='flex';
