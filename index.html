@@ -705,9 +705,9 @@ function renderFixtures() {
     
     list.innerHTML += `
       <div class="match-card" style="opacity:${opacity}">
-        <div class="match-team" style="justify-content:flex-end; text-align:right;">${ev.isim} <img src="${ev.logo}"></div>
-        <div class="match-score">${skorHtml}</div>
-        <div class="match-team"><img src="${dep.logo}"> ${dep.isim}</div>
+        <div class="match-team" style="justify-content:flex-end; text-align:right;">${formatUzunIsim(ev.isim)} <img src="${ev.logo}"></div>
+    <div class="match-score">${skorHtml}</div>
+    <div class="match-team"><img src="${dep.logo}"> ${formatUzunIsim(dep.isim)}</div>
       </div>
     `;
   });
