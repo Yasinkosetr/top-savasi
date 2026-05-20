@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Top Savaşı — Premium</title>
+<title>Top Savaşı — Premium Kariyer Modu</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -27,10 +27,10 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: center; /* Ortaya aldık */
     min-height: 100vh;
     font-family: 'Barlow Condensed', sans-serif;
-    overflow: hidden;
+    /* overflow: hidden; satırını sildik ki PC'de sorun olmasın */
   }
 
   /* ========== NOISE TEXTURE OVERLAY ========== */
@@ -48,8 +48,12 @@
   #game-wrapper {
     position: relative;
     width: 390px;
-    max-width: 100vw;
-    margin-top: 20px;
+    height: 844px;
+    max-height: 95vh; /* PC ekranına tam sığması için eklendi */
+    border-radius: 30px; /* Telefon hissiyatı vermek için köşeleri yuvarlattık */
+    background: radial-gradient(circle at top, #0a1a1f 0%, #050d0f 100%);
+    overflow: hidden; /* Sadece telefon ekranının içini gizle */
+    box-shadow: 0 10px 50px rgba(0,0,0,0.8), 0 0 20px rgba(0,255,135,0.1); /* Dışa gölge eklendi */
   }
 
   /* ========== SCOREBOARD — PREMIUM ========== */
@@ -67,7 +71,6 @@
     backdrop-filter: blur(20px);
   }
 
-  /* Top shimmer line */
   #scoreboard::before {
     content: '';
     position: absolute;
@@ -77,7 +80,6 @@
     box-shadow: 0 0 12px var(--neon-green), 0 0 24px rgba(0,255,135,0.4);
   }
 
-  /* Grid texture */
   #scoreboard::after {
     content: '';
     position: absolute;
@@ -90,22 +92,9 @@
   }
 
   /* ========== TEAM COLUMNS ========== */
-  .team-col {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100px;
-    z-index: 1;
-    gap: 4px;
-  }
+  .team-col { display: flex; flex-direction: column; align-items: center; width: 100px; z-index: 1; gap: 4px; }
+  .team-logo-ring { position: relative; width: 58px; height: 58px; }
 
-  .team-logo-ring {
-    position: relative;
-    width: 58px;
-    height: 58px;
-  }
-
-  /* Animated ring */
   .team-logo-ring::before {
     content: '';
     position: absolute;
@@ -133,460 +122,176 @@
     overflow: hidden;
   }
 
-  .team-logo img {
-    width: 88%;
-    height: 88%;
-    object-fit: contain;
-    filter: drop-shadow(0 0 4px rgba(255,255,255,0.2));
-  }
+  .team-logo img { width: 88%; height: 88%; object-fit: contain; filter: drop-shadow(0 0 4px rgba(255,255,255,0.2)); }
 
   .team-name {
-    font-size: 10px;
-    color: rgba(255,255,255,0.7);
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 700;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    text-align: center;
-    line-height: 1.2;
+    font-size: 10px; color: rgba(255,255,255,0.7); font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; text-align: center; line-height: 1.2;
   }
 
   /* Events */
-  .team-events {
-    width: 100%;
-    height: 75px;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    scrollbar-width: none;
-  }
+  .team-events { width: 100%; height: 75px; overflow-y: auto; display: flex; flex-direction: column; gap: 2px; scrollbar-width: none; }
   .team-events::-webkit-scrollbar { display: none; }
-
   .event-item {
-    font-size: 13px;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 600;
-    text-align: left;
-    background: rgba(255,255,255,0.04);
-    padding: 2px 6px;
-    border-radius: 4px;
-    border-left: 2px solid currentColor;
-    display: flex;
-    align-items: center;
-    gap: 3px;
-    letter-spacing: 0.5px;
-    flex-shrink: 0;
+    font-size: 13px; font-family: 'Barlow Condensed', sans-serif; font-weight: 600; text-align: left;
+    background: rgba(255,255,255,0.04); padding: 2px 6px; border-radius: 4px; border-left: 2px solid currentColor;
+    display: flex; align-items: center; gap: 3px; letter-spacing: 0.5px; flex-shrink: 0;
   }
   .event-time { opacity: 0.5; font-size: 12px; }
 
   /* ========== CENTER SCORE ========== */
-  .score-center {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 6px;
-    z-index: 1;
-  }
-
-  .scores-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
+  .score-center { display: flex; flex-direction: column; align-items: center; gap: 6px; z-index: 1; }
+  .scores-row { display: flex; align-items: center; gap: 8px; }
   .team-score {
-    font-family: 'Bebas Neue', cursive;
-    font-size: 52px;
-    color: #fff;
-    line-height: 1;
-    min-width: 36px;
-    text-align: center;
-    letter-spacing: -1px;
-    text-shadow:
-      0 0 20px rgba(255,255,255,0.5),
-      0 0 40px rgba(255,255,255,0.2);
-    transition: color 0.3s;
+    font-family: 'Bebas Neue', cursive; font-size: 52px; color: #fff; line-height: 1; min-width: 36px;
+    text-align: center; letter-spacing: -1px; text-shadow: 0 0 20px rgba(255,255,255,0.5), 0 0 40px rgba(255,255,255,0.2); transition: color 0.3s;
   }
-
-  #score-divider {
-    font-family: 'Bebas Neue', cursive;
-    font-size: 36px;
-    color: rgba(255,255,255,0.2);
-    line-height: 1;
-  }
+  #score-divider { font-family: 'Bebas Neue', cursive; font-size: 36px; color: rgba(255,255,255,0.2); line-height: 1; }
 
   /* Timer pill */
   #timer-wrap {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    background: rgba(0,255,135,0.08);
-    border: 1px solid rgba(0,255,135,0.2);
-    border-radius: 20px;
-    padding: 4px 12px;
-    box-shadow: 0 0 12px rgba(0,255,135,0.1), inset 0 1px 0 rgba(0,255,135,0.1);
+    display: flex; align-items: center; gap: 6px; background: rgba(0,255,135,0.08); border: 1px solid rgba(0,255,135,0.2);
+    border-radius: 20px; padding: 4px 12px; box-shadow: 0 0 12px rgba(0,255,135,0.1), inset 0 1px 0 rgba(0,255,135,0.1);
   }
-
   #timer-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--neon-green);
-    box-shadow: 0 0 8px var(--neon-green), 0 0 16px rgba(0,255,135,0.5);
-    animation: pulse-dot 1s ease-in-out infinite;
+    width: 6px; height: 6px; border-radius: 50%; background: var(--neon-green);
+    box-shadow: 0 0 8px var(--neon-green), 0 0 16px rgba(0,255,135,0.5); animation: pulse-dot 1s ease-in-out infinite;
   }
-
-  @keyframes pulse-dot {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.3; transform: scale(0.7); }
-  }
-
-  #timer {
-    font-family: 'Rajdhani', sans-serif;
-    font-size: 15px;
-    font-weight: 700;
-    color: var(--neon-green);
-    letter-spacing: 1px;
-  }
+  @keyframes pulse-dot { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.3; transform: scale(0.7); } }
+  #timer { font-family: 'Rajdhani', sans-serif; font-size: 15px; font-weight: 700; color: var(--neon-green); letter-spacing: 1px; }
 
   /* ========== CANVAS ========== */
-  #gameCanvas {
-    display: block;
-    border: 1px solid rgba(0,255,135,0.1);
-    border-top: none;
-    border-radius: 0 0 22px 22px;
-    background: #071409;
-  }
+  #gameCanvas { display: block; border: 1px solid rgba(0,255,135,0.1); border-top: none; border-radius: 0 0 22px 22px; background: #071409; }
 
   /* ========== OVERLAYS ========== */
-  #overlay {
-    position: absolute;
-    top: 175px; left: 1px; right: 1px; bottom: 1px;
-    background: rgba(3, 8, 6, 0.94);
-    border-radius: 0 0 21px 21px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 16px;
-    z-index: 10;
-    backdrop-filter: blur(8px);
+  .overlay-screen {
+    position: absolute; top: 0; left: 1px; right: 1px; bottom: 1px;
+    background: linear-gradient(160deg, rgba(5,13,15,0.98), rgba(3,10,8,0.99)); border-radius: 21px;
+    display: none; flex-direction: column; align-items: center; justify-content: center; gap: 14px;
+    z-index: 30; backdrop-filter: blur(12px); border: 1px solid rgba(0,255,135,0.08);
   }
+  #overlay { top: 175px; background: rgba(3, 8, 6, 0.94); border-radius: 0 0 21px 21px; }
+
+  /* ========== 🆕 ANA MENÜ VE KARİYER EKRANLARI ========== */
+  #main-menu { display: flex; z-index: 40; }
+  .menu-logo { font-family: 'Bebas Neue'; font-size: 55px; color: #fff; text-shadow: 0 0 20px var(--neon-green); margin-bottom: 20px; text-align: center; line-height: 1; }
+  .menu-logo span { color: var(--neon-green); }
+  
+  .big-btn {
+    width: 80%; padding: 20px; background: rgba(0,255,135,0.05); border: 2px solid var(--neon-green);
+    border-radius: 16px; color: #fff; font-family: 'Barlow Condensed'; font-size: 22px; font-weight: 700;
+    cursor: pointer; text-transform: uppercase; box-shadow: 0 0 15px rgba(0,255,135,0.2); transition: all 0.2s;
+    display: flex; flex-direction: column; align-items: center; gap: 5px; margin-bottom: 15px;
+  }
+  .big-btn span { font-size: 13px; color: rgba(255,255,255,0.6); font-weight: 500; text-transform: none; }
+  .big-btn:hover { background: rgba(0,255,135,0.15); transform: scale(1.03); box-shadow: 0 0 30px rgba(0,255,135,0.4); }
+  
+  .sim-btn { border-color: #00d4ff; box-shadow: 0 0 15px rgba(0,212,255,0.2); }
+  .sim-btn:hover { background: rgba(0,212,255,0.15); box-shadow: 0 0 30px rgba(0,212,255,0.4); }
+
+  #sim-dashboard { justify-content: flex-start; padding-top: 20px; z-index: 35; }
+  .dash-header { width: 100%; text-align: center; font-family: 'Bebas Neue'; font-size: 36px; color: var(--neon-green); margin-bottom: 10px; letter-spacing: 2px; }
+  
+  .tabs { display: flex; width: 90%; background: rgba(255,255,255,0.05); border-radius: 8px; overflow: hidden; margin-bottom: 15px; flex-shrink: 0; }
+  .tab-btn { flex: 1; padding: 12px; text-align: center; color: #fff; font-family: 'Barlow Condensed'; font-weight: 700; font-size: 16px; cursor: pointer; border-bottom: 3px solid transparent; }
+  .tab-btn.active { border-bottom: 3px solid var(--neon-green); background: rgba(0,255,135,0.1); color: var(--neon-green); }
+
+  .tab-content { width: 95%; flex: 1; overflow-y: auto; display: none; padding-bottom: 20px; }
+  .tab-content.active { display: block; }
+  
+  /* Scrollbar gizleme */
+  .tab-content::-webkit-scrollbar { display: none; }
+  .tab-content { -ms-overflow-style: none; scrollbar-width: none; }
+
+  /* Fikstür Stili */
+  .week-nav { display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.5); padding: 10px; border-radius: 8px; margin-bottom: 10px; color: #fff; font-weight: 700; border: 1px solid rgba(255,255,255,0.1); }
+  .week-nav button { background: none; border: none; color: var(--neon-green); font-size: 20px; cursor: pointer; padding: 0 15px; font-weight: bold; }
+  .match-card { display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.03); padding: 10px 5px; border-radius: 8px; margin-bottom: 8px; border: 1px solid rgba(255,255,255,0.05); }
+  .match-team { display: flex; align-items: center; gap: 6px; width: 35%; color: #fff; font-size: 13px; font-family: 'Rajdhani'; font-weight: 600; white-space: nowrap; }
+  .match-team img { width: 22px; height: 22px; object-fit: contain; }
+  .match-score { width: 30%; text-align: center; font-family: 'Bebas Neue'; font-size: 22px; color: var(--neon-yellow); }
+  .play-match-btn { background: var(--neon-green); color: #000; border: none; padding: 6px 12px; border-radius: 4px; font-weight: 700; cursor: pointer; font-family: 'Barlow Condensed'; font-size: 14px; }
+
+  /* Puan Durumu Stili */
+  .table-row { display: flex; align-items: center; font-size: 13px; font-family: 'Rajdhani'; color: #fff; border-bottom: 1px solid rgba(255,255,255,0.05); padding: 10px 0; font-weight: 600; }
+  .table-header { font-weight: 700; color: rgba(255,255,255,0.5); background: rgba(0,0,0,0.5); border-top: 1px solid rgba(255,255,255,0.1); margin-bottom: 5px; border-radius: 4px; }
+  .col-no { width: 8%; text-align: center; font-family: 'Bebas Neue'; font-size: 16px; }
+  .col-team { width: 44%; display: flex; align-items: center; gap: 6px; }
+  .col-team img { width: 18px; height: 18px; object-fit: contain; }
+  .col-stat { width: 8%; text-align: center; color: rgba(255,255,255,0.7); }
+  .col-pts { width: 12%; text-align: center; font-weight: 700; color: var(--neon-green); font-size: 15px; }
+  
+  .row-1 .col-no { background: var(--neon-green); color: #000; border-radius: 4px; }
+  .row-2 .col-no, .row-3 .col-no { background: #00d4ff; color: #000; border-radius: 4px; }
+  .row-16 .col-no, .row-17 .col-no, .row-18 .col-no { background: #ff4444; color: #fff; border-radius: 4px; }
 
   /* ========== TEAM SELECT ========== */
-  #team-select-overlay {
-    position: absolute;
-    top: 0; left: 1px; right: 1px; bottom: 1px;
-    background: linear-gradient(160deg, rgba(5,13,15,0.98), rgba(3,10,8,0.99));
-    border-radius: 21px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 14px;
-    z-index: 30;
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(0,255,135,0.08);
-  }
-
-  /* Ambient glow in select screen */
-  #team-select-overlay::before {
-    content: '';
-    position: absolute;
-    top: -100px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 300px;
-    height: 300px;
-    background: radial-gradient(circle, rgba(0,255,135,0.12) 0%, transparent 70%);
-    pointer-events: none;
-  }
-
-  .select-title {
-    font-family: 'Bebas Neue', cursive;
-    font-size: 40px;
-    color: #fff;
-    letter-spacing: 4px;
-    text-align: center;
-    position: relative;
-    z-index: 1;
-  }
-
-  .select-title span {
-    background: linear-gradient(135deg, var(--neon-green), #00d4ff);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    filter: drop-shadow(0 0 12px rgba(0,255,135,0.5));
-  }
-
-  .select-group {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 5px;
-    width: 82%;
-    position: relative;
-    z-index: 1;
-  }
-
-  .select-group label {
-    color: var(--neon-green);
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-  }
-
+  #team-select-overlay::before { content: ''; position: absolute; top: -100px; left: 50%; transform: translateX(-50%); width: 300px; height: 300px; background: radial-gradient(circle, rgba(0,255,135,0.12) 0%, transparent 70%); pointer-events: none; }
+  .select-title { font-family: 'Bebas Neue', cursive; font-size: 40px; color: #fff; letter-spacing: 4px; text-align: center; position: relative; z-index: 1; }
+  .select-title span { background: linear-gradient(135deg, var(--neon-green), #00d4ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; filter: drop-shadow(0 0 12px rgba(0,255,135,0.5)); }
+  .select-group { display: flex; flex-direction: column; align-items: flex-start; gap: 5px; width: 82%; position: relative; z-index: 1; }
+  .select-group label { color: var(--neon-green); font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
   .select-group select {
-    width: 100%;
-    padding: 10px 14px;
-    font-size: 15px;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 600;
-    background: rgba(0,255,135,0.04);
-    color: #fff;
-    border: 1px solid rgba(0,255,135,0.2);
-    border-radius: 10px;
-    outline: none;
-    cursor: pointer;
-    transition: all 0.2s;
-    letter-spacing: 0.5px;
-    appearance: none;
-    -webkit-appearance: none;
+    width: 100%; padding: 10px 14px; font-size: 15px; font-family: 'Barlow Condensed', sans-serif; font-weight: 600; background: rgba(0,255,135,0.04); color: #fff;
+    border: 1px solid rgba(0,255,135,0.2); border-radius: 10px; outline: none; cursor: pointer; transition: all 0.2s; letter-spacing: 0.5px; appearance: none; -webkit-appearance: none;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2300ff87' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 12px center;
-    padding-right: 32px;
+    background-repeat: no-repeat; background-position: right 12px center; padding-right: 32px;
   }
-
-  .select-group select:focus {
-    border-color: var(--neon-green);
-    background-color: rgba(0,255,135,0.07);
-    box-shadow: 0 0 0 3px rgba(0,255,135,0.1), 0 0 20px rgba(0,255,135,0.08);
-  }
-
-  /* BURASI EKLENDİ: AÇILIR MENÜ ARKA PLAN RENGİ DÜZELTMESİ */
-  .select-group select option {
-    background-color: var(--dark-bg);
-    color: #ffffff;
-  }
-
-  #select-league {
-    border-color: rgba(0,255,135,0.35);
-    background-color: rgba(0,255,135,0.06);
-    font-size: 16px;
-  }
+  .select-group select:focus { border-color: var(--neon-green); background-color: rgba(0,255,135,0.07); box-shadow: 0 0 0 3px rgba(0,255,135,0.1), 0 0 20px rgba(0,255,135,0.08); }
+  .select-group select option { background-color: var(--dark-bg); color: #ffffff; }
 
   /* ========== COUNTDOWN ========== */
   #countdown-overlay {
-    position: absolute;
-    top: 175px; left: 1px; right: 1px; bottom: 1px;
-    background: rgba(3,8,6,0.88);
-    border-radius: 0 0 21px 21px;
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    z-index: 20;
-    backdrop-filter: blur(6px);
+    position: absolute; top: 175px; left: 1px; right: 1px; bottom: 1px; background: rgba(3,8,6,0.88); border-radius: 0 0 21px 21px;
+    display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 20; backdrop-filter: blur(6px);
   }
-
-  #countdown-text {
-    font-family: 'Bebas Neue', cursive;
-    font-size: 150px;
-    color: #fff;
-    letter-spacing: 8px;
-    text-shadow:
-      0 0 30px var(--neon-green),
-      0 0 60px rgba(0,255,135,0.5),
-      0 0 100px rgba(0,255,135,0.2);
-  }
-
-  .animate-pop {
-    animation: pop 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-  }
-
-  @keyframes pop {
-    0% { transform: scale(0.4); opacity: 0; }
-    30% { transform: scale(1.15); opacity: 1; }
-    50% { transform: scale(1); opacity: 1; }
-    80% { transform: scale(1.0); opacity: 1; }
-    95% { transform: scale(1.05); opacity: 0.8; }
-    100% { transform: scale(1.4); opacity: 0; }
-  }
+  #countdown-text { font-family: 'Bebas Neue', cursive; font-size: 150px; color: #fff; letter-spacing: 8px; text-shadow: 0 0 30px var(--neon-green), 0 0 60px rgba(0,255,135,0.5), 0 0 100px rgba(0,255,135,0.2); }
+  .animate-pop { animation: pop 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+  @keyframes pop { 0% { transform: scale(0.4); opacity: 0; } 30% { transform: scale(1.15); opacity: 1; } 50% { transform: scale(1); opacity: 1; } 80% { transform: scale(1.0); opacity: 1; } 95% { transform: scale(1.05); opacity: 0.8; } 100% { transform: scale(1.4); opacity: 0; } }
 
   /* ========== OVERLAY CONTENT ========== */
-  #overlay h1 {
-    font-family: 'Bebas Neue', cursive;
-    font-size: 42px;
-    color: white;
-    letter-spacing: 4px;
-    text-align: center;
-    text-shadow: 0 0 30px var(--neon-green), 0 0 60px rgba(0,255,135,0.3);
-  }
-
-  #overlay .subtitle {
-    font-family: 'Barlow Condensed', sans-serif;
-    color: rgba(255,255,255,0.4);
-    font-size: 13px;
-    text-align: center;
-    padding: 0 28px;
-    line-height: 1.7;
-    letter-spacing: 0.5px;
-  }
-
-  #overlay .result-score {
-    font-family: 'Bebas Neue', cursive;
-    font-size: 80px;
-    color: white;
-    letter-spacing: 12px;
-    text-shadow: 0 0 40px rgba(255,255,255,0.3);
-    line-height: 1;
-  }
-
-  #overlay .winner-text {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 22px;
-    font-weight: 700;
-    color: var(--neon-yellow);
-    text-shadow: 0 0 20px var(--neon-yellow), 0 0 40px rgba(255,230,0,0.4);
-    text-align: center;
-    letter-spacing: 1px;
-  }
+  #overlay h1 { font-family: 'Bebas Neue', cursive; font-size: 42px; color: white; letter-spacing: 4px; text-align: center; text-shadow: 0 0 30px var(--neon-green), 0 0 60px rgba(0,255,135,0.3); }
+  #overlay .result-score { font-family: 'Bebas Neue', cursive; font-size: 80px; color: white; letter-spacing: 12px; text-shadow: 0 0 40px rgba(255,255,255,0.3); line-height: 1; }
+  #overlay .winner-text { font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 700; color: var(--neon-yellow); text-shadow: 0 0 20px var(--neon-yellow), 0 0 40px rgba(255,230,0,0.4); text-align: center; letter-spacing: 1px; }
 
   /* ========== BUTTONS ========== */
-  button {
-    background: linear-gradient(135deg, var(--neon-green) 0%, #00c96a 100%);
-    color: #050d0f;
-    border: none;
-    padding: 12px 42px;
-    font-size: 20px;
-    font-family: 'Bebas Neue', cursive;
-    border-radius: 50px;
-    cursor: pointer;
-    letter-spacing: 4px;
-    box-shadow:
-      0 0 20px rgba(0,255,135,0.4),
-      0 0 40px rgba(0,255,135,0.15),
-      0 4px 20px rgba(0,0,0,0.4),
-      inset 0 1px 0 rgba(255,255,255,0.3);
-    transition: transform 0.12s, box-shadow 0.12s;
-    font-weight: 700;
-    margin-top: 4px;
+  button.action-btn {
+    background: linear-gradient(135deg, var(--neon-green) 0%, #00c96a 100%); color: #050d0f; border: none; padding: 12px 42px;
+    font-size: 20px; font-family: 'Bebas Neue', cursive; border-radius: 50px; cursor: pointer; letter-spacing: 4px;
+    box-shadow: 0 0 20px rgba(0,255,135,0.4), 0 0 40px rgba(0,255,135,0.15), 0 4px 20px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.3);
+    transition: transform 0.12s, box-shadow 0.12s; font-weight: 700; margin-top: 4px;
   }
-
-  button:hover {
-    transform: scale(1.05) translateY(-1px);
-    box-shadow: 0 0 30px rgba(0,255,135,0.6), 0 0 60px rgba(0,255,135,0.2), 0 8px 24px rgba(0,0,0,0.4);
-  }
-
-  button:active {
-    transform: scale(0.97);
-  }
+  button.action-btn:hover { transform: scale(1.05) translateY(-1px); box-shadow: 0 0 30px rgba(0,255,135,0.6), 0 0 60px rgba(0,255,135,0.2), 0 8px 24px rgba(0,0,0,0.4); }
+  button.action-btn:active { transform: scale(0.97); }
+  
+  .secondary-btn { background: #333 !important; color: #fff !important; box-shadow: none !important; border: 1px solid #555 !important; }
+  .secondary-btn:hover { background: #444 !important; }
 
   /* ========== GOAL FLASH ========== */
-  #goal-flash {
-    position: absolute;
-    top: 175px; left: 1px; right: 1px; bottom: 1px;
-    border-radius: 0 0 21px 21px;
-    pointer-events: none;
-    opacity: 0;
-    z-index: 5;
-  }
+  #goal-flash { position: absolute; top: 175px; left: 1px; right: 1px; bottom: 1px; border-radius: 0 0 21px 21px; pointer-events: none; opacity: 0; z-index: 5; }
   #goal-flash.flash { animation: goalFlash 0.9s ease-out forwards; }
-  @keyframes goalFlash {
-    0% { opacity: 1; }
-    30% { opacity: 0.8; }
-    100% { opacity: 0; }
-  }
+  @keyframes goalFlash { 0% { opacity: 1; } 30% { opacity: 0.8; } 100% { opacity: 0; } }
 
   /* ========== GOAL TEXT ========== */
-  #goal-text {
-    position: absolute;
-    top: 52%; left: 50%;
-    transform: translate(-50%,-50%) scale(0) rotate(-6deg);
-    z-index: 8;
-    pointer-events: none;
-    opacity: 0;
-    white-space: nowrap;
-    text-align: center;
-  }
-
-  #goal-text .g-main {
-    display: block;
-    font-family: 'Bebas Neue', cursive;
-    font-size: 78px;
-    letter-spacing: 6px;
-    color: #fff;
-    text-shadow:
-      0 0 10px currentColor,
-      0 0 30px currentColor,
-      0 0 70px currentColor,
-      4px 4px 0 rgba(0,0,0,0.6);
-  }
-
-  #goal-text .g-sub {
-    display: block;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 26px;
-    font-weight: 700;
-    letter-spacing: 5px;
-    color: rgba(255,255,255,0.6);
-    margin-top: 4px;
-    text-transform: uppercase;
-  }
-
-  #goal-text.show {
-    animation: goalPop 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-  }
-
-  @keyframes goalPop {
-    0% { transform: translate(-50%,-50%) scale(0) rotate(-6deg); opacity: 0; }
-    12% { opacity: 1; }
-    25% { transform: translate(-50%,-50%) scale(1.2) rotate(2deg); opacity: 1; }
-    45% { transform: translate(-50%,-50%) scale(1.0) rotate(-0.5deg); opacity: 1; }
-    75% { transform: translate(-50%,-50%) scale(1.05) rotate(0deg); opacity: 1; }
-    88% { opacity: 1; }
-    100% { transform: translate(-50%,-50%) scale(0.85) rotate(0deg); opacity: 0; }
-  }
+  #goal-text { position: absolute; top: 52%; left: 50%; transform: translate(-50%,-50%) scale(0) rotate(-6deg); z-index: 8; pointer-events: none; opacity: 0; white-space: nowrap; text-align: center; }
+  #goal-text .g-main { display: block; font-family: 'Bebas Neue', cursive; font-size: 78px; letter-spacing: 6px; color: #fff; text-shadow: 0 0 10px currentColor, 0 0 30px currentColor, 0 0 70px currentColor, 4px 4px 0 rgba(0,0,0,0.6); }
+  #goal-text .g-sub { display: block; font-family: 'Barlow Condensed', sans-serif; font-size: 26px; font-weight: 700; letter-spacing: 5px; color: rgba(255,255,255,0.6); margin-top: 4px; text-transform: uppercase; }
+  #goal-text.show { animation: goalPop 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+  @keyframes goalPop { 0% { transform: translate(-50%,-50%) scale(0) rotate(-6deg); opacity: 0; } 12% { opacity: 1; } 25% { transform: translate(-50%,-50%) scale(1.2) rotate(2deg); opacity: 1; } 45% { transform: translate(-50%,-50%) scale(1.0) rotate(-0.5deg); opacity: 1; } 75% { transform: translate(-50%,-50%) scale(1.05) rotate(0deg); opacity: 1; } 88% { opacity: 1; } 100% { transform: translate(-50%,-50%) scale(0.85) rotate(0deg); opacity: 0; } }
 
   /* Score bump */
   .score-bump { animation: bump 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-  @keyframes bump {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.6); }
-    100% { transform: scale(1); }
-  }
+  @keyframes bump { 0% { transform: scale(1); } 50% { transform: scale(1.6); } 100% { transform: scale(1); } }
 
   /* ========== HOME ICON ========== */
   .home-icon-btn {
-    cursor: pointer;
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.12);
-    width: 52px;
-    height: 52px;
-    border-radius: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.5);
-    transition: all 0.15s;
+    cursor: pointer; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12);
+    width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.5); transition: all 0.15s; margin-top: 10px;
   }
-  .home-icon-btn:hover {
-    background: rgba(0,255,135,0.1);
-    border-color: rgba(0,255,135,0.3);
-    transform: scale(1.05);
-  }
+  .home-icon-btn:hover { background: rgba(0,255,135,0.1); border-color: rgba(0,255,135,0.3); transform: scale(1.05); }
 
-  /* ========== MATCH END DIVIDER ========== */
-  .result-divider {
-    width: 60px;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(0,255,135,0.5), transparent);
-  }
+  .result-divider { width: 60px; height: 1px; background: linear-gradient(90deg, transparent, rgba(0,255,135,0.5), transparent); margin: 10px 0; }
 </style>
 </head>
 <body>
@@ -596,7 +301,78 @@
 
 <div id="game-wrapper">
 
-  <div id="scoreboard">
+  <div id="main-menu" class="overlay-screen">
+    <div class="menu-logo">TOP <span>SAVAŞI</span><br><span style="font-size: 28px; color:#fff;">PREMİUM</span></div>
+    
+    <button class="big-btn sim-btn" onclick="startCareerMode()">
+      🏆 KARİYER MODU
+      <span>Trendyol Süper Lig Simülasyonu</span>
+    </button>
+    
+    <button class="big-btn" onclick="startCustomMode()">
+      ⚔️ ÖZEL MAÇ
+      <span>İstediğin İki Takımı Kapıştır</span>
+    </button>
+  </div>
+
+  <div id="sim-dashboard" class="overlay-screen">
+    <div class="dash-header">🏆 TÜRKİYE SÜPER LİG</div>
+    
+    <div class="tabs">
+      <div class="tab-btn active" onclick="switchTab('fikstur')">FİKSTÜR</div>
+      <div class="tab-btn" onclick="switchTab('puan')">PUAN DURUMU</div>
+    </div>
+
+    <div id="tab-fikstur" class="tab-content active">
+      <div class="week-nav">
+        <button onclick="changeWeek(-1)">◀</button>
+        <span id="week-title" style="font-size:18px;">1. Hafta</span>
+        <button onclick="changeWeek(1)">▶</button>
+      </div>
+      <div id="fixture-list"></div>
+      <div style="text-align:center; margin-top:15px;">
+        <button class="action-btn secondary-btn" style="font-size: 16px; padding: 10px 20px;" onclick="showMainMenu()">ANA MENÜ</button>
+      </div>
+    </div>
+
+    <div id="tab-puan" class="tab-content">
+      <div class="table-row table-header">
+        <div class="col-no">#</div>
+        <div class="col-team">TAKIM</div>
+        <div class="col-stat" title="Oynanan">O</div>
+        <div class="col-stat" title="Galibiyet">G</div>
+        <div class="col-stat" title="Beraberlik">B</div>
+        <div class="col-stat" title="Mağlubiyet">M</div>
+        <div class="col-stat" title="Averaj">AV</div>
+        <div class="col-pts" title="Puan">P</div>
+      </div>
+      <div id="league-table-body"></div>
+    </div>
+  </div>
+
+  <div id="team-select-overlay" class="overlay-screen">
+    <div class="select-title">⚔ <span>TAKIMLARI</span> SEÇ ⚔</div>
+
+    <div class="select-group">
+      <label>🌍 Lig Seçimi</label>
+      <select id="select-league" onchange="leagueChanged()"></select>
+    </div>
+    <div class="select-group">
+      <label>🏠 Ev Sahibi</label>
+      <select id="select-team1"></select>
+    </div>
+    <div class="select-group">
+      <label>✈️ Deplasman</label>
+      <select id="select-team2"></select>
+    </div>
+    <button class="action-btn" onclick="confirmCustomTeams()">ONAYLA</button>
+    <button class="action-btn secondary-btn" style="padding: 10px 20px; font-size:16px;" onclick="showMainMenu()">İPTAL</button>
+  </div>
+
+  <div id="scoreboard" style="display:none;">
+    <div id="match-info-badge" style="position: absolute; top: 0; left: 50%; transform: translateX(-50%); background: #050d0f; border: 1px solid var(--neon-green); border-top: none; border-radius: 0 0 10px 10px; padding: 2px 15px; font-family: 'Barlow Condensed'; font-size: 13px; font-weight: 700; color: var(--neon-green); text-align: center; z-index: 20; letter-spacing: 1px; box-shadow: 0 0 15px rgba(0,255,135,0.3); display: none;">
+    🏆 SÜPER LİG <br><span id="match-week-text" style="color: #fff; font-size: 11px;">1. HAFTA</span>
+  </div>
     <div class="team-col">
       <div class="team-logo-ring" style="--team-color: #FBED11" id="ring-1">
         <div class="team-logo"><img id="img-team1" src=""></div>
@@ -626,7 +402,7 @@
     </div>
   </div>
 
-  <canvas id="gameCanvas" width="390" height="680"></canvas>
+  <canvas id="gameCanvas" width="390" height="680" style="display:none;"></canvas>
 
   <div id="goal-flash"></div>
   <div id="goal-text">
@@ -634,29 +410,12 @@
     <span class="g-sub" id="goal-sub-text">⚽ TAKIM ⚽</span>
   </div>
 
-  <div id="team-select-overlay">
-    <div class="select-title">⚔ <span>TAKIMLARI</span> SEÇ ⚔</div>
-
-    <div class="select-group">
-      <label>🌍 Lig Seçimi</label>
-      <select id="select-league" onchange="leagueChanged()"></select>
-    </div>
-    <div class="select-group">
-      <label>🏠 Ev Sahibi</label>
-      <select id="select-team1"></select>
-    </div>
-    <div class="select-group">
-      <label>✈️ Deplasman</label>
-      <select id="select-team2"></select>
-    </div>
-    <button onclick="confirmTeams()">ONAYLA</button>
-  </div>
-
   <div id="countdown-overlay">
     <div id="countdown-text" class="animate-pop">3</div>
   </div>
 
-  <div id="overlay"></div>
+  <div id="overlay" class="overlay-screen"></div>
+
 </div>
 
 <script>
@@ -843,14 +602,290 @@ const LIGLER = {
   }
 };
 
-let AYARLAR = {
-  takim1: LIGLER["superlig"].takimlar["fb"],
-  takim2: LIGLER["superlig"].takimlar["bjk"]
+let AYARLAR = { takim1: null, takim2: null };
+const imgTeam1 = new Image();
+const imgTeam2 = new Image();
+
+// ==========================================
+// 🧠 SİMÜLASYON (KARİYER) MOTORU
+// ==========================================
+let currentGameMode = ''; // 'sim' veya 'custom'
+let currentMatchData = null; 
+
+let simData = {
+  aktif: false,
+  hafta: 1,
+  takimlar: {}, 
+  fikstur: [] 
 };
 
-const imgTeam1 = new Image(); imgTeam1.src = AYARLAR.takim1.logo;
-const imgTeam2 = new Image(); imgTeam2.src = AYARLAR.takim2.logo;
+function initSimData() {
+  // 💾 1. ADIM: KAYITLI VERİ VARSA DİREKT ONU YÜKLE
+  const kayitliVeri = localStorage.getItem('futbolTayfaKariyer');
+  if (kayitliVeri) {
+    simData = JSON.parse(kayitliVeri);
+    return;
+  }
 
+  // EĞER İLK DEFA GİRİYORSA LİGİ SIFIRDAN KUR
+  if(simData.fikstur.length > 0) return; 
+  
+  const superLigTakimlari = LIGLER.superlig.takimlar;
+  const takimIds = Object.keys(superLigTakimlari);
+  
+  takimIds.forEach(id => {
+    simData.takimlar[id] = { o:0, g:0, b:0, m:0, a:0, y:0, p:0 };
+  });
+
+  let t = [...takimIds];
+  let haftalar = [];
+  let n = t.length;
+  
+  for (let i = 0; i < n - 1; i++) {
+    let haftaMaclari = [];
+    for (let j = 0; j < n / 2; j++) {
+      let ev = t[j]; let dep = t[n - 1 - j];
+      if (i % 2 === 0) haftaMaclari.push({ ev: ev, dep: dep, oynandi: false, skorEv: 0, skorDep: 0 });
+      else haftaMaclari.push({ ev: dep, dep: ev, oynandi: false, skorEv: 0, skorDep: 0 });
+    }
+    haftalar.push(haftaMaclari);
+    t.splice(1, 0, t.pop());
+  }
+  
+  let ikinciYari = haftalar.map(hafta => hafta.map(m => ({ ev: m.dep, dep: m.ev, oynandi: false, skorEv: 0, skorDep: 0 })));
+  simData.fikstur = [...haftalar, ...ikinciYari];
+  simData.aktif = true;
+}
+
+// ==========================================
+// 🖥️ UI VE MENÜ GEÇİŞLERİ
+// ==========================================
+function showMainMenu() {
+  document.querySelectorAll('.overlay-screen').forEach(el => el.style.display = 'none');
+  document.getElementById('scoreboard').style.display = 'none';
+  document.getElementById('gameCanvas').style.display = 'none';
+  document.getElementById('main-menu').style.display = 'flex';
+}
+
+// -- KARİYER MODU --
+function startCareerMode() {
+  initSimData();
+  document.getElementById('main-menu').style.display = 'none';
+  document.getElementById('sim-dashboard').style.display = 'flex';
+  renderFixtures();
+  renderTable();
+}
+
+function switchTab(tabId) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('tab-' + tabId).classList.add('active');
+}
+
+function changeWeek(dir) {
+  simData.hafta += dir;
+  if(simData.hafta < 1) simData.hafta = 1;
+  if(simData.hafta > 34) simData.hafta = 34;
+  renderFixtures();
+}
+
+function renderFixtures() {
+  document.getElementById('week-title').textContent = simData.hafta + ". Hafta";
+  const list = document.getElementById('fixture-list');
+  list.innerHTML = '';
+  
+  let maclar = simData.fikstur[simData.hafta - 1];
+  maclar.forEach((mac, index) => {
+    const ev = LIGLER.superlig.takimlar[mac.ev];
+    const dep = LIGLER.superlig.takimlar[mac.dep];
+    
+    let skorHtml = mac.oynandi ? `${mac.skorEv} - ${mac.skorDep}` : `<button class="play-match-btn" onclick="playSimMatch(${simData.hafta - 1}, ${index})">OYNA ▶</button>`;
+    let opacity = mac.oynandi ? "0.6" : "1";
+    
+    list.innerHTML += `
+      <div class="match-card" style="opacity:${opacity}">
+        <div class="match-team" style="justify-content:flex-end; text-align:right;">${ev.isim} <img src="${ev.logo}"></div>
+        <div class="match-score">${skorHtml}</div>
+        <div class="match-team"><img src="${dep.logo}"> ${dep.isim}</div>
+      </div>
+    `;
+  });
+}
+
+function formatUzunIsim(isim) {
+  if (isim === "GENÇLERBİRLİĞİ") return "G.BİRLİĞİ";
+  if (isim === "FATİH KARAGÜMRÜK") return "F.KARAGÜMRÜK";
+  if (isim === "GAZİANTEP FK") return "G.ANTEP FK";
+  if (isim.length > 12) return isim.substring(0, 10) + "..";
+  return isim; // Kısa isimleri tam yaz
+}
+
+function renderTable() {
+  const tbody = document.getElementById('league-table-body');
+  tbody.innerHTML = '';
+  
+  let siralama = Object.keys(simData.takimlar).map(id => ({ id, ...simData.takimlar[id] }));
+  siralama.sort((a, b) => {
+    if(b.p !== a.p) return b.p - a.p;
+    if((b.a - b.y) !== (a.a - a.y)) return (b.a - b.y) - (a.a - a.y);
+    return b.a - a.a;
+  });
+
+  siralama.forEach((t, i) => {
+    const tk = LIGLER.superlig.takimlar[t.id];
+    const av = t.a - t.y;
+    
+    // Tabloda görünecek ismi ayarla
+    const tabloIsmi = formatUzunIsim(tk.isim);
+
+    tbody.innerHTML += `
+      <div class="table-row row-${i+1}">
+        <div class="col-no">${i+1}</div>
+        <div class="col-team"><img src="${tk.logo}"> ${tabloIsmi}</div>
+        <div class="col-stat">${t.o}</div>
+        <div class="col-stat">${t.g}</div>
+        <div class="col-stat">${t.b}</div>
+        <div class="col-stat">${t.m}</div>
+        <div class="col-stat">${av > 0 ? '+'+av : av}</div>
+        <div class="col-pts">${t.p}</div>
+      </div>
+    `;
+  });
+}
+
+function playSimMatch(haftaIndex, macIndex) {
+  const mac = simData.fikstur[haftaIndex][macIndex];
+  if(mac.oynandi) return; 
+  
+  currentMatchData = mac;
+  currentGameMode = 'sim';
+  
+  AYARLAR.takim1 = LIGLER.superlig.takimlar[mac.ev];
+  AYARLAR.takim2 = LIGLER.superlig.takimlar[mac.dep];
+  
+  // HAFTA ROZETİNİ GÖSTER VE YAZISINI GÜNCELLE
+  document.getElementById('match-info-badge').style.display = 'block';
+  document.getElementById('match-week-text').textContent = (haftaIndex + 1) + ". HAFTA";
+  
+  prepareGameUI();
+}
+
+
+
+function saveSimResult() {
+  const evId = currentMatchData.ev;
+  const depId = currentMatchData.dep;
+  const sEv = scores.team1;
+  const sDep = scores.team2;
+  
+  currentMatchData.oynandi = true;
+  currentMatchData.skorEv = sEv;
+  currentMatchData.skorDep = sDep;
+
+  let tEv = simData.takimlar[evId];
+  let tDep = simData.takimlar[depId];
+
+  tEv.o++; tDep.o++;
+  tEv.a += sEv; tEv.y += sDep;
+  tDep.a += sDep; tDep.y += sEv;
+
+  if(sEv > sDep) { tEv.g++; tEv.p += 3; tDep.m++; }
+  else if(sDep > sEv) { tDep.g++; tDep.p += 3; tEv.m++; }
+  else { tEv.b++; tDep.b++; tEv.p += 1; tDep.p += 1; }
+
+  // 💾 HER MAÇ BİTTİĞİNDE YENİ PUAN DURUMUNU HAFIZAYA KAYDET
+  localStorage.setItem('futbolTayfaKariyer', JSON.stringify(simData));
+
+  // Dashboarda Dön
+  document.getElementById('overlay').style.display = 'none';
+  document.getElementById('scoreboard').style.display = 'none';
+  document.getElementById('gameCanvas').style.display = 'none';
+  document.getElementById('sim-dashboard').style.display = 'flex';
+  renderFixtures();
+  renderTable();
+}
+
+// -- ÖZEL MAÇ MODU --
+function startCustomMode() {
+  document.getElementById('main-menu').style.display = 'none';
+  const selLig = document.getElementById('select-league');
+  selLig.innerHTML = '';
+  for(let key in LIGLER) selLig.innerHTML += `<option value="${key}">${LIGLER[key].isim}</option>`;
+  leagueChanged();
+  document.getElementById('team-select-overlay').style.display = 'flex';
+}
+
+function leagueChanged() {
+  const lig = document.getElementById('select-league').value;
+  const takimlar = LIGLER[lig].takimlar;
+  const s1 = document.getElementById('select-team1');
+  const s2 = document.getElementById('select-team2');
+  s1.innerHTML=''; s2.innerHTML='';
+  let keys = Object.keys(takimlar);
+  keys.forEach(k => {
+    s1.innerHTML += `<option value="${k}">${takimlar[k].isim}</option>`;
+    s2.innerHTML += `<option value="${k}">${takimlar[k].isim}</option>`;
+  });
+  if (keys.length > 0) s1.value = keys[0];
+  if (keys.length > 1) s2.value = keys[1];
+}
+
+function confirmCustomTeams() {
+  const lig = document.getElementById('select-league').value;
+  const v1 = document.getElementById('select-team1').value;
+  const v2 = document.getElementById('select-team2').value;
+  if (v1 === v2) { alert("İki farklı takım seçmelisin!"); return; }
+
+  currentGameMode = 'custom';
+  AYARLAR.takim1 = LIGLER[lig].takimlar[v1];
+  AYARLAR.takim2 = LIGLER[lig].takimlar[v2];
+  
+  // ÖZEL MAÇTA HAFTA ROZETİNİ GİZLE
+  document.getElementById('match-info-badge').style.display = 'none';
+  
+  prepareGameUI();
+}
+
+// ==========================================
+// ⚽ OYUN HAZIRLIK VE MOTOR BAŞLATMA
+// ==========================================
+function prepareGameUI() {
+  // Update scoreboard UI
+  document.getElementById('name-team1').textContent = AYARLAR.takim1.isim;
+  document.getElementById('img-team1').src = AYARLAR.takim1.logo;
+  if(AYARLAR.takim1.muzik) document.getElementById('audio-team1').src = AYARLAR.takim1.muzik;
+  document.getElementById('ring-1').style.setProperty('--team-color', AYARLAR.takim1.renkAna);
+  document.getElementById('score-team1').style.color = AYARLAR.takim1.renkAna;
+  document.getElementById('score-team1').style.textShadow = `0 0 30px ${AYARLAR.takim1.renkAna}, 0 0 60px ${hexToRgba(AYARLAR.takim1.renkAna, 0.4)}`;
+
+  document.getElementById('name-team2').textContent = AYARLAR.takim2.isim;
+  document.getElementById('img-team2').src = AYARLAR.takim2.logo;
+  if(AYARLAR.takim2.muzik) document.getElementById('audio-team2').src = AYARLAR.takim2.muzik;
+  document.getElementById('ring-2').style.setProperty('--team-color', AYARLAR.takim2.renkAna);
+  document.getElementById('score-team2').style.color = AYARLAR.takim2.renkAna;
+  document.getElementById('score-team2').style.textShadow = `0 0 30px ${AYARLAR.takim2.renkAna}, 0 0 60px ${hexToRgba(AYARLAR.takim2.renkAna, 0.4)}`;
+
+  imgTeam1.src = AYARLAR.takim1.logo;
+  imgTeam2.src = AYARLAR.takim2.logo;
+
+  scores={team1:0,team2:0};
+  document.getElementById('score-team1').textContent='0';
+  document.getElementById('score-team2').textContent='0';
+  document.getElementById('events-team1').innerHTML='';
+  document.getElementById('events-team2').innerHTML='';
+  document.getElementById('timer').textContent="0'";
+
+  document.querySelectorAll('.overlay-screen').forEach(el => el.style.display = 'none');
+  document.getElementById('scoreboard').style.display='flex';
+  document.getElementById('gameCanvas').style.display='block';
+
+  startCountdown();
+}
+
+// ==========================================
+// OYUN MOTORU (FİZİK VE ÇİZİM DEĞİŞMEDİ)
+// ==========================================
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 const W = canvas.width, H = canvas.height;
@@ -861,7 +896,6 @@ const BALL_R = 23;
 
 let arenaAngle = 0;
 let ROTATE_SPEED = 0.018;
-let scores = { team1:0, team2:0 };
 let teamYellowCards = { team1:0, team2:0 };
 let displaySeconds = 0;
 const TOTAL_DISPLAY = 90;
@@ -878,17 +912,13 @@ let ballTeam1, ballTeam2;
 let sesMotoru;
 let sonSesZamani = 0;
 
-// Generate stars for background
 function initStars() {
   stars = [];
   for (let i = 0; i < 60; i++) {
     stars.push({
-      x: Math.random() * W,
-      y: Math.random() * H,
-      r: Math.random() * 1.2 + 0.2,
-      alpha: Math.random() * 0.4 + 0.1,
-      twinkle: Math.random() * 0.02 + 0.005,
-      phase: Math.random() * Math.PI * 2
+      x: Math.random() * W, y: Math.random() * H,
+      r: Math.random() * 1.2 + 0.2, alpha: Math.random() * 0.4 + 0.1,
+      twinkle: Math.random() * 0.02 + 0.005, phase: Math.random() * Math.PI * 2
     });
   }
 }
@@ -922,9 +952,7 @@ function getGoalInfo() {
   return { gx, gy, radialAngle, drawAngle };
 }
 
-function makeBall(team, x, y, vx, vy) {
-  return { team, x, y, vx, vy, r: BALL_R, trail: [] };
-}
+function makeBall(team, x, y, vx, vy) { return { team, x, y, vx, vy, r: BALL_R, trail: [] }; }
 
 function resetBalls() {
   const a1 = Math.random() * Math.PI * 2;
@@ -932,8 +960,7 @@ function resetBalls() {
   const d = 55;
   ballTeam1 = makeBall('team1', CX + Math.cos(a1) * d, CY + Math.sin(a1) * d, (Math.random()-0.5)*8, (Math.random()-0.5)*8);
   ballTeam2 = makeBall('team2', CX + Math.cos(a2) * d, CY + Math.sin(a2) * d, (Math.random()-0.5)*8, (Math.random()-0.5)*8);
-  ensureSpeed(ballTeam1, 7.5);
-  ensureSpeed(ballTeam2, 7.5);
+  ensureSpeed(ballTeam1, 7.5); ensureSpeed(ballTeam2, 7.5);
 }
 
 function ensureSpeed(ball, min) {
@@ -946,8 +973,10 @@ function clampSpeed(ball, max) {
 }
 
 function getRandomPlayer(teamKey) {
+  // Gelen 'team1' verisini 'takim1' ile eşleştiriyoruz
   const key = teamKey === 'team1' ? 'takim1' : 'takim2';
   const l = AYARLAR[key]?.oyuncular;
+  
   if (!l || !l.length) return "Oyuncu";
   return l[Math.floor(Math.random() * l.length)];
 }
@@ -978,13 +1007,11 @@ function spawnParticles(x, y, teamOrColor, count = 6) {
 
 function spawnGoalParticles(x, y, team) {
   const colorHex = team === 'team1' ? AYARLAR.takim1.renkAna : AYARLAR.takim2.renkAna;
-  // Big burst
   for (let i = 0; i < 28; i++) {
     const angle = Math.random() * Math.PI * 2;
     const speed = 3 + Math.random() * 12;
     particles.push({ x, y, vx: Math.cos(angle)*speed, vy: Math.sin(angle)*speed, life: 1.0, decay: 0.008 + Math.random()*0.018, r: 3 + Math.random()*9, color: (Math.random() > 0.4 ? colorHex : '#ffffff') });
   }
-  // Neon green sparks
   for (let i = 0; i < 12; i++) {
     const angle = Math.random() * Math.PI * 2;
     const speed = 2 + Math.random() * 8;
@@ -1003,9 +1030,7 @@ function updateParticles() {
 function drawParticles() {
   for (const p of particles) {
     ctx.save();
-    ctx.globalAlpha = p.life;
-    ctx.shadowColor = p.color;
-    ctx.shadowBlur = p.r * 3;
+    ctx.globalAlpha = p.life; ctx.shadowColor = p.color; ctx.shadowBlur = p.r * 3;
     ctx.fillStyle = p.color;
     ctx.beginPath(); ctx.arc(p.x, p.y, p.r * p.life, 0, Math.PI*2); ctx.fill();
     ctx.restore();
@@ -1015,10 +1040,8 @@ function drawParticles() {
 function updateBall(ball) {
   ball.trail.push({ x: ball.x, y: ball.y });
   if (ball.trail.length > 8) ball.trail.shift();
-  clampSpeed(ball, 14);
-  ensureSpeed(ball, 8);
-  ball.x += ball.vx;
-  ball.y += ball.vy;
+  clampSpeed(ball, 14); ensureSpeed(ball, 8);
+  ball.x += ball.vx; ball.y += ball.vy;
   const dx = ball.x - CX, dy = ball.y - CY;
   const dist = Math.sqrt(dx*dx + dy*dy);
   if (dist + ball.r > ARENA_R) {
@@ -1041,15 +1064,12 @@ function collideBalls(a, b) {
     const dot = relVx*nx + relVy*ny;
     if (dot > 0) {
       const imp = dot * 1.2;
-      a.vx -= imp*nx; a.vy -= imp*ny;
-      b.vx += imp*nx; b.vy += imp*ny;
+      a.vx -= imp*nx; a.vy -= imp*ny; b.vx += imp*nx; b.vy += imp*ny;
       playBounceSound(false);
     }
     const overlap = (a.r+b.r+2-dist)/2+1;
-    a.x -= nx*overlap; a.y -= ny*overlap;
-    b.x += nx*overlap; b.y += ny*overlap;
-    const mx=(a.x+b.x)/2, my=(a.y+b.y)/2;
-    spawnParticles(mx, my, '#ffffff', 10);
+    a.x -= nx*overlap; a.y -= ny*overlap; b.x += nx*overlap; b.y += ny*overlap;
+    spawnParticles((a.x+b.x)/2, (a.y+b.y)/2, '#ffffff', 10);
   }
 }
 
@@ -1057,8 +1077,7 @@ function checkGoal(ball) {
   const { gx, gy, drawAngle } = getGoalInfo();
   const cosA = Math.cos(-drawAngle), sinA = Math.sin(-drawAngle);
   const dx = ball.x-gx, dy = ball.y-gy;
-  const lx = dx*cosA - dy*sinA;
-  const ly = dx*sinA + dy*cosA;
+  const lx = dx*cosA - dy*sinA; const ly = dx*sinA + dy*cosA;
   return (Math.abs(lx) < (GOAL_W/2-3) && ly < 12 && ly > -(GOAL_H+20));
 }
 
@@ -1101,7 +1120,7 @@ function handleGoal(scorer) {
     a1.pause(); a1.currentTime=0; a2.pause(); a2.currentTime=0;
     if (musicTimeout) clearTimeout(musicTimeout);
     const aktif = scorer==='team1' ? a1 : a2;
-    aktif.play();
+    if(aktif.src) aktif.play().catch(()=>{});
     musicTimeout = setTimeout(()=>{ aktif.pause(); }, 4000);
   } catch(e) {}
   resetBalls();
@@ -1137,7 +1156,6 @@ function showGoalEffect(scorer) {
   flash.classList.remove('flash'); void flash.offsetWidth; flash.classList.add('flash');
   gt.classList.remove('show'); void gt.offsetWidth; gt.classList.add('show');
 
-  // Pulse scoreboard border
   const sb = document.getElementById('scoreboard');
   sb.style.transition='box-shadow 0.1s';
   sb.style.boxShadow = `0 0 30px ${hexToRgba(takim.renkAna, 0.6)}, 0 0 60px ${hexToRgba(takim.renkAna, 0.3)}`;
@@ -1148,38 +1166,27 @@ function updateTimerDisplay() {
   document.getElementById('timer').textContent = `${displaySeconds}'`;
 }
 
-// ====== CANVAS DRAWING ======
 function drawBackground() {
-  // Starfield
   const t = Date.now() * 0.001;
   for (const s of stars) {
     const alpha = s.alpha * (0.6 + 0.4 * Math.sin(t * s.twinkle + s.phase));
-    ctx.beginPath();
-    ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
-    ctx.fillStyle = `rgba(255,255,255,${alpha})`;
-    ctx.fill();
+    ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+    ctx.fillStyle = `rgba(255,255,255,${alpha})`; ctx.fill();
   }
 }
 
 function drawArena() {
-  // Outer glow rings
   for (let i = 3; i >= 1; i--) {
     const grd = ctx.createRadialGradient(CX, CY, ARENA_R - 5, CX, CY, ARENA_R + i*18);
-    grd.addColorStop(0, `rgba(0,255,135,${0.08/i})`);
-    grd.addColorStop(1, 'transparent');
+    grd.addColorStop(0, `rgba(0,255,135,${0.08/i})`); grd.addColorStop(1, 'transparent');
     ctx.beginPath(); ctx.arc(CX, CY, ARENA_R + i*18, 0, Math.PI*2);
     ctx.fillStyle = grd; ctx.fill();
   }
 
-  // Field fill with gradient
   const fieldGrd = ctx.createRadialGradient(CX, CY - 20, 0, CX, CY, ARENA_R);
-  fieldGrd.addColorStop(0, '#1a4d1a');
-  fieldGrd.addColorStop(0.5, '#0f3a0f');
-  fieldGrd.addColorStop(1, '#082208');
-  ctx.beginPath(); ctx.arc(CX, CY, ARENA_R, 0, Math.PI*2);
-  ctx.fillStyle = fieldGrd; ctx.fill();
+  fieldGrd.addColorStop(0, '#1a4d1a'); fieldGrd.addColorStop(0.5, '#0f3a0f'); fieldGrd.addColorStop(1, '#082208');
+  ctx.beginPath(); ctx.arc(CX, CY, ARENA_R, 0, Math.PI*2); ctx.fillStyle = fieldGrd; ctx.fill();
 
-  // Striped pitch pattern
   ctx.save();
   ctx.beginPath(); ctx.arc(CX, CY, ARENA_R, 0, Math.PI*2); ctx.clip();
   ctx.translate(CX, CY); ctx.rotate(arenaAngle); ctx.translate(-CX, -CY);
@@ -1189,7 +1196,6 @@ function drawArena() {
   }
   ctx.restore();
 
-  // Center ring and dot
   ctx.save();
   ctx.translate(CX, CY); ctx.rotate(arenaAngle); ctx.translate(-CX, -CY);
   ctx.strokeStyle = 'rgba(255,255,255,0.18)'; ctx.lineWidth = 1.5;
@@ -1198,128 +1204,79 @@ function drawArena() {
   ctx.fillStyle = 'rgba(255,255,255,0.25)'; ctx.fill();
   ctx.restore();
 
-  // Main border - neon
-  ctx.strokeStyle = '#00ff87'; ctx.lineWidth = 3;
-  ctx.shadowColor = '#00ff87'; ctx.shadowBlur = 18;
-  ctx.beginPath(); ctx.arc(CX, CY, ARENA_R, 0, Math.PI*2); ctx.stroke();
-  ctx.shadowBlur = 0;
-
-  // Inner border subtle
+  ctx.strokeStyle = '#00ff87'; ctx.lineWidth = 3; ctx.shadowColor = '#00ff87'; ctx.shadowBlur = 18;
+  ctx.beginPath(); ctx.arc(CX, CY, ARENA_R, 0, Math.PI*2); ctx.stroke(); ctx.shadowBlur = 0;
   ctx.strokeStyle = 'rgba(0,255,135,0.3)'; ctx.lineWidth = 1;
   ctx.beginPath(); ctx.arc(CX, CY, ARENA_R - 5, 0, Math.PI*2); ctx.stroke();
 }
 
 function drawGoal() {
   const { gx, gy, drawAngle } = getGoalInfo();
-  ctx.save();
-  ctx.translate(gx, gy); ctx.rotate(drawAngle);
+  ctx.save(); ctx.translate(gx, gy); ctx.rotate(drawAngle);
 
-  // Glow behind goal
   const glowGrd = ctx.createRadialGradient(0, -GOAL_H/2, 0, 0, -GOAL_H/2, GOAL_W);
-  glowGrd.addColorStop(0, 'rgba(255,255,255,0.15)');
-  glowGrd.addColorStop(1, 'transparent');
-  ctx.fillStyle = glowGrd;
-  ctx.beginPath(); ctx.ellipse(0, -GOAL_H/2, GOAL_W, GOAL_H*1.5, 0, 0, Math.PI*2); ctx.fill();
+  glowGrd.addColorStop(0, 'rgba(255,255,255,0.15)'); glowGrd.addColorStop(1, 'transparent');
+  ctx.fillStyle = glowGrd; ctx.beginPath(); ctx.ellipse(0, -GOAL_H/2, GOAL_W, GOAL_H*1.5, 0, 0, Math.PI*2); ctx.fill();
 
-  // Net fill
-  ctx.fillStyle = 'rgba(255,255,255,0.06)';
-  ctx.beginPath(); ctx.rect(-GOAL_W/2, -GOAL_H, GOAL_W, GOAL_H); ctx.fill();
-
-  // Net lines
+  ctx.fillStyle = 'rgba(255,255,255,0.06)'; ctx.beginPath(); ctx.rect(-GOAL_W/2, -GOAL_H, GOAL_W, GOAL_H); ctx.fill();
   ctx.strokeStyle = 'rgba(255,255,255,0.15)'; ctx.lineWidth = 0.8;
-  for (let x = -GOAL_W/2 + 8; x < GOAL_W/2; x += 8) {
-    ctx.beginPath(); ctx.moveTo(x, -GOAL_H); ctx.lineTo(x, 0); ctx.stroke();
-  }
-  for (let y = -GOAL_H + 6; y < 0; y += 6) {
-    ctx.beginPath(); ctx.moveTo(-GOAL_W/2, y); ctx.lineTo(GOAL_W/2, y); ctx.stroke();
-  }
+  for (let x = -GOAL_W/2 + 8; x < GOAL_W/2; x += 8) { ctx.beginPath(); ctx.moveTo(x, -GOAL_H); ctx.lineTo(x, 0); ctx.stroke(); }
+  for (let y = -GOAL_H + 6; y < 0; y += 6) { ctx.beginPath(); ctx.moveTo(-GOAL_W/2, y); ctx.lineTo(GOAL_W/2, y); ctx.stroke(); }
 
-  // Frame
-  ctx.shadowColor = '#ffffff'; ctx.shadowBlur = 10;
-  ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 3.5;
-  ctx.beginPath();
-  ctx.moveTo(-GOAL_W/2, 0); ctx.lineTo(-GOAL_W/2, -GOAL_H);
-  ctx.lineTo(GOAL_W/2, -GOAL_H); ctx.lineTo(GOAL_W/2, 0);
-  ctx.stroke();
-  ctx.shadowBlur = 0;
+  ctx.shadowColor = '#ffffff'; ctx.shadowBlur = 10; ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 3.5;
+  ctx.beginPath(); ctx.moveTo(-GOAL_W/2, 0); ctx.lineTo(-GOAL_W/2, -GOAL_H); ctx.lineTo(GOAL_W/2, -GOAL_H); ctx.lineTo(GOAL_W/2, 0); ctx.stroke();
   ctx.restore();
 }
 
 function drawYellowCard() {
   if (!yellowCard) return;
-  const pulse = 0.8 + 0.2 * Math.sin(Date.now() * 0.012);
-  const fade = Math.min(1, yellowCard.life / 60);
-  ctx.save();
-  ctx.translate(yellowCard.x, yellowCard.y);
-  ctx.shadowColor = '#ffe600'; ctx.shadowBlur = 28 * pulse;
-  ctx.fillStyle = `rgba(255,230,0,${0.95*pulse*fade})`;
+  const pulse = 0.8 + 0.2 * Math.sin(Date.now() * 0.012); const fade = Math.min(1, yellowCard.life / 60);
+  ctx.save(); ctx.translate(yellowCard.x, yellowCard.y);
+  ctx.shadowColor = '#ffe600'; ctx.shadowBlur = 28 * pulse; ctx.fillStyle = `rgba(255,230,0,${0.95*pulse*fade})`;
   ctx.strokeStyle = `rgba(200,120,0,${0.9*fade})`; ctx.lineWidth = 1.5;
   ctx.beginPath(); ctx.roundRect(-7, -9, 14, 18, 3); ctx.fill(); ctx.stroke();
-  ctx.fillStyle = `rgba(80,40,0,${0.95*fade})`;
-  ctx.font = 'bold 11px serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-  ctx.fillText('!', 0, 1);
+  ctx.fillStyle = `rgba(80,40,0,${0.95*fade})`; ctx.font = 'bold 11px serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText('!', 0, 1);
   ctx.restore();
 }
 
 function drawBall(ball) {
+  // 1. GÜVENLİK DUVARI: Top veya Takım yoksa çizmeyi iptal et! (Çökmeyi engeller)
+  if (!ball || !AYARLAR.takim1 || !AYARLAR.takim2) return;
+
   const tRenk = ball.team === 'team1' ? AYARLAR.takim1.renkAna : AYARLAR.takim2.renkAna;
   const imgToDraw = ball.team === 'team1' ? imgTeam1 : imgTeam2;
 
-  // Trail
   for (let i = 0; i < ball.trail.length; i++) {
-    const t = i / ball.trail.length;
-    const alpha = t * 0.28;
-    const size = ball.r * t * 0.75;
+    const t = i / ball.trail.length; const alpha = t * 0.28; const size = ball.r * t * 0.75;
     ctx.beginPath(); ctx.arc(ball.trail[i].x, ball.trail[i].y, size, 0, Math.PI*2);
-    ctx.fillStyle = hexToRgba(tRenk, alpha);
-    ctx.fill();
+    ctx.fillStyle = hexToRgba(tRenk, alpha); ctx.fill();
   }
 
-  // Outer glow ring
-  ctx.save();
-  ctx.shadowColor = tRenk; ctx.shadowBlur = 22;
-  ctx.strokeStyle = hexToRgba(tRenk, 0.6); ctx.lineWidth = 2.5;
-  ctx.beginPath(); ctx.arc(ball.x, ball.y, ball.r + 2, 0, Math.PI*2); ctx.stroke();
-  ctx.restore();
+  ctx.save(); ctx.shadowColor = tRenk; ctx.shadowBlur = 22; ctx.strokeStyle = hexToRgba(tRenk, 0.6); ctx.lineWidth = 2.5;
+  ctx.beginPath(); ctx.arc(ball.x, ball.y, ball.r + 2, 0, Math.PI*2); ctx.stroke(); ctx.restore();
 
-  // Ball fill
   const ballGrd = ctx.createRadialGradient(ball.x - ball.r*0.3, ball.y - ball.r*0.3, ball.r*0.1, ball.x, ball.y, ball.r);
-  ballGrd.addColorStop(0, hexToRgba(tRenk, 0.9));
-  ballGrd.addColorStop(1, hexToRgba(tRenk, 0.5));
-  ctx.beginPath(); ctx.arc(ball.x, ball.y, ball.r, 0, Math.PI*2);
-  ctx.fillStyle = ballGrd; ctx.fill();
+  ballGrd.addColorStop(0, hexToRgba(tRenk, 0.9)); ballGrd.addColorStop(1, hexToRgba(tRenk, 0.5));
+  ctx.beginPath(); ctx.arc(ball.x, ball.y, ball.r, 0, Math.PI*2); ctx.fillStyle = ballGrd; ctx.fill();
 
-  // Logo
   if (imgToDraw && imgToDraw.complete && imgToDraw.naturalWidth !== 0) {
-    ctx.save();
-    ctx.beginPath(); ctx.arc(ball.x, ball.y, ball.r * 0.97, 0, Math.PI*2); ctx.clip();
-    const logoSize = ball.r * 2.5;
-    ctx.drawImage(imgToDraw, ball.x - logoSize/2, ball.y - logoSize/2, logoSize, logoSize);
-    ctx.restore();
+    ctx.save(); ctx.beginPath(); ctx.arc(ball.x, ball.y, ball.r * 0.97, 0, Math.PI*2); ctx.clip();
+    const logoSize = ball.r * 2.5; ctx.drawImage(imgToDraw, ball.x - logoSize/2, ball.y - logoSize/2, logoSize, logoSize); ctx.restore();
   }
 
-  // Highlight
-  ctx.save();
-  const hlGrd = ctx.createRadialGradient(ball.x - ball.r*0.35, ball.y - ball.r*0.35, 0, ball.x - ball.r*0.1, ball.y - ball.r*0.1, ball.r*0.7);
-  hlGrd.addColorStop(0, 'rgba(255,255,255,0.35)');
-  hlGrd.addColorStop(1, 'rgba(255,255,255,0)');
-  ctx.beginPath(); ctx.arc(ball.x, ball.y, ball.r, 0, Math.PI*2);
-  ctx.fillStyle = hlGrd; ctx.fill();
-  ctx.restore();
+  ctx.save(); const hlGrd = ctx.createRadialGradient(ball.x - ball.r*0.35, ball.y - ball.r*0.35, 0, ball.x - ball.r*0.1, ball.y - ball.r*0.1, ball.r*0.7);
+  hlGrd.addColorStop(0, 'rgba(255,255,255,0.35)'); hlGrd.addColorStop(1, 'rgba(255,255,255,0)');
+  ctx.beginPath(); ctx.arc(ball.x, ball.y, ball.r, 0, Math.PI*2); ctx.fillStyle = hlGrd; ctx.fill(); ctx.restore();
 }
 
 function gameLoop() {
   ctx.clearRect(0, 0, W, H);
-
+  
   if (gameRunning) arenaAngle += ROTATE_SPEED;
 
-  drawBackground();
-  drawArena();
-  drawGoal();
-  drawParticles();
-  drawYellowCard();
+  drawBackground(); drawArena(); drawGoal(); drawParticles(); drawYellowCard();
 
-  if (gameRunning) {
+  if (gameRunning && ballTeam1 && ballTeam2) {
     updateBall(ballTeam1); updateBall(ballTeam2);
     collideBalls(ballTeam1, ballTeam2);
     updateParticles();
@@ -1340,76 +1297,13 @@ function gameLoop() {
     }
   }
 
-  drawBall(ballTeam1); drawBall(ballTeam2);
-  requestAnimationFrame(gameLoop);
-}
-
-// ====== TEAM SELECT ======
-function initTeamSelect() {
-  document.getElementById('scoreboard').style.display = 'none';
-  document.getElementById('overlay').style.display = 'none';
-  const sLig = document.getElementById('select-league');
-  sLig.innerHTML = '';
-  for (const key in LIGLER) {
-    sLig.innerHTML += `<option value="${key}">${LIGLER[key].isim}</option>`;
+  // 2. GÜVENLİK DUVARI: Sadece takımlar seçildiyse topları ekrana çiz
+  if (AYARLAR.takim1 && AYARLAR.takim2) {
+    drawBall(ballTeam1); 
+    drawBall(ballTeam2);
   }
-  leagueChanged();
-}
-
-function leagueChanged() {
-  const lig = document.getElementById('select-league').value;
-  const takimlar = LIGLER[lig].takimlar;
-  const s1 = document.getElementById('select-team1');
-  const s2 = document.getElementById('select-team2');
-  s1.innerHTML=''; s2.innerHTML='';
-  let keys = Object.keys(takimlar);
-  keys.forEach(k => {
-    s1.innerHTML += `<option value="${k}">${takimlar[k].isim}</option>`;
-    s2.innerHTML += `<option value="${k}">${takimlar[k].isim}</option>`;
-  });
-  if (keys.length > 0) s1.value = keys[0];
-  if (keys.length > 1) s2.value = keys[1];
-}
-
-function confirmTeams() {
-  const lig = document.getElementById('select-league').value;
-  const v1 = document.getElementById('select-team1').value;
-  const v2 = document.getElementById('select-team2').value;
-  if (v1 === v2) { alert("İki farklı takım seçmelisin!"); return; }
-
-  const takimlar = LIGLER[lig].takimlar;
-  AYARLAR.takim1 = takimlar[v1];
-  AYARLAR.takim2 = takimlar[v2];
-
-  // Update scoreboard
-  document.getElementById('name-team1').textContent = AYARLAR.takim1.isim;
-  document.getElementById('img-team1').src = AYARLAR.takim1.logo;
-  document.getElementById('audio-team1').src = AYARLAR.takim1.muzik;
-  document.getElementById('ring-1').style.setProperty('--team-color', AYARLAR.takim1.renkAna);
-  document.getElementById('score-team1').style.color = AYARLAR.takim1.renkAna;
-  document.getElementById('score-team1').style.textShadow = `0 0 30px ${AYARLAR.takim1.renkAna}, 0 0 60px ${hexToRgba(AYARLAR.takim1.renkAna, 0.4)}`;
-
-  document.getElementById('name-team2').textContent = AYARLAR.takim2.isim;
-  document.getElementById('img-team2').src = AYARLAR.takim2.logo;
-  document.getElementById('audio-team2').src = AYARLAR.takim2.muzik;
-  document.getElementById('ring-2').style.setProperty('--team-color', AYARLAR.takim2.renkAna);
-  document.getElementById('score-team2').style.color = AYARLAR.takim2.renkAna;
-  document.getElementById('score-team2').style.textShadow = `0 0 30px ${AYARLAR.takim2.renkAna}, 0 0 60px ${hexToRgba(AYARLAR.takim2.renkAna, 0.4)}`;
-
-  imgTeam1.src = AYARLAR.takim1.logo;
-  imgTeam2.src = AYARLAR.takim2.logo;
-
-  scores={team1:0,team2:0};
-  document.getElementById('score-team1').textContent='0';
-  document.getElementById('score-team2').textContent='0';
-  document.getElementById('events-team1').innerHTML='';
-  document.getElementById('events-team2').innerHTML='';
-  document.getElementById('timer').textContent="0'";
-
-  document.getElementById('team-select-overlay').style.display='none';
-  document.getElementById('scoreboard').style.display='flex';
-
-  startCountdown();
+  
+  requestAnimationFrame(gameLoop);
 }
 
 function startCountdown() {
@@ -1421,14 +1315,12 @@ function startCountdown() {
     if (sesMotoru.state==='suspended') sesMotoru.resume();
   } catch(e) {}
 
-  document.getElementById('overlay').style.display='none';
+  document.querySelectorAll('.overlay-screen').forEach(el => el.style.display = 'none');
   const cdOverlay=document.getElementById('countdown-overlay');
   const cdText=document.getElementById('countdown-text');
   cdOverlay.style.display='flex';
   let count=3;
-  cdText.textContent=count;
-  cdText.style.fontSize='150px';
-  cdText.style.color='#fff';
+  cdText.textContent=count; cdText.style.fontSize='150px'; cdText.style.color='#fff';
   cdText.classList.remove('animate-pop'); void cdText.offsetWidth; cdText.classList.add('animate-pop');
 
   const cdInt=setInterval(()=>{
@@ -1437,10 +1329,7 @@ function startCountdown() {
       cdText.textContent=count;
       cdText.classList.remove('animate-pop'); void cdText.offsetWidth; cdText.classList.add('animate-pop');
     } else if (count===0) {
-      cdText.textContent='BAŞLA!';
-      cdText.style.fontSize='80px';
-      cdText.style.color='#00ff87';
-      cdText.style.textShadow='0 0 40px #00ff87, 0 0 80px rgba(0,255,135,0.5)';
+      cdText.textContent='BAŞLA!'; cdText.style.fontSize='80px'; cdText.style.color='#00ff87'; cdText.style.textShadow='0 0 40px #00ff87, 0 0 80px rgba(0,255,135,0.5)';
       cdText.classList.remove('animate-pop'); void cdText.offsetWidth; cdText.classList.add('animate-pop');
     } else {
       clearInterval(cdInt);
@@ -1452,19 +1341,9 @@ function startCountdown() {
 }
 
 function runActualGame() {
-  document.getElementById('events-team1').innerHTML='';
-  document.getElementById('events-team2').innerHTML='';
-  scores={team1:0,team2:0};
   teamYellowCards={team1:0,team2:0};
-  displaySeconds=0;
-  yellowCard=null;
-  nextYellowDisplay=35;
-  goalCooldown=0;
-  arenaAngle=0;
-  ROTATE_SPEED=0.018;
-  particles=[];
-  updateScoreDisplay(null);
-  updateTimerDisplay();
+  displaySeconds=0; yellowCard=null; nextYellowDisplay=35; goalCooldown=0; arenaAngle=0; ROTATE_SPEED=0.018; particles=[];
+  updateScoreDisplay(null); updateTimerDisplay();
   resetBalls();
   gameRunning=true;
 
@@ -1473,10 +1352,7 @@ function runActualGame() {
     displaySeconds++;
     ROTATE_SPEED+=0.00025;
     updateTimerDisplay();
-    if (displaySeconds===nextYellowDisplay) {
-      spawnYellowCard();
-      nextYellowDisplay+=25;
-    }
+    if (displaySeconds===nextYellowDisplay) { spawnYellowCard(); nextYellowDisplay+=25; }
     if (displaySeconds>=TOTAL_DISPLAY) endGame();
   }, TICK_MS);
 }
@@ -1498,6 +1374,17 @@ function endGame() {
   else if (scores.team2>scores.team1) winnerHTML=`<div class="winner-text">${AYARLAR.takim2.kazandiYazisi}</div>`;
   else                                winnerHTML=`<div class="winner-text">🤝 BERABERE!</div>`;
 
+  let actionButtons = '';
+  if (currentGameMode === 'sim') {
+    actionButtons = `<button class="action-btn" onclick="saveSimResult()">KAYDET VE LİGE DÖN</button>`;
+  } else {
+    actionButtons = `
+      <button class="action-btn" onclick="startCountdown()">TEKRAR OYNA</button>
+      <div class="home-icon-btn" onclick="showMainMenu()">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#00ff87" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+      </div>`;
+  }
+
   overlay.innerHTML=`
     <h1>⏱ MAÇIN SONU!</h1>
     <div class="result-divider"></div>
@@ -1505,28 +1392,15 @@ function endGame() {
     ${winnerHTML}
     <div class="result-divider"></div>
     <div style="display:flex;flex-direction:column;align-items:center;gap:14px;margin-top:6px;">
-      <button onclick="startCountdown()">TEKRAR OYNA</button>
-      <div class="home-icon-btn" onclick="goToTeamSelect()">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#00ff87" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-          <polyline points="9 22 9 12 15 12 15 22"></polyline>
-        </svg>
-      </div>
+      ${actionButtons}
     </div>
   `;
 }
 
-function goToTeamSelect() {
-  document.getElementById('overlay').style.display='none';
-  document.getElementById('scoreboard').style.display='none';
-  document.getElementById('team-select-overlay').style.display='flex';
-  initTeamSelect();
-}
-
-// ====== START ======
-initTeamSelect();
-resetBalls();
-gameLoop();
+// ====== UYGULAMAYI BAŞLAT ======
+showMainMenu();
+resetBalls(); // Arka planda çizilmesi için objeleri hazırla
+gameLoop();   // Animasyon döngüsünü pasif şekilde başlat
 </script>
 </body>
 </html>
