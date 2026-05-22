@@ -16,6 +16,16 @@
     --glass: rgba(255,255,255,0.04);
     --border: rgba(255,255,255,0.08);
   }
+  /* Grup Takımlarını yan yana şık dizmek için */
+.wc-group-container {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin: 20px 0;
+}
+.wc-team-card {
+    background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 215, 0, 0.3);
+    border-radius: 10px; padding: 10px; display: flex; align-items: center; gap: 8px;
+}
+.wc-team-card img { width: 30px; height: 30px; }
+.wc-team-card span { font-size: 12px; color: #fff; font-weight: 700; }
 
   * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
 
@@ -306,9 +316,13 @@
     
     <button class="big-btn sim-btn" onclick="startCareerMode()">
       🏆 KARİYER MODU
-      <span>Trendyol Süper Lig Simülasyonu</span>
+      <span> Süper Lig Simülasyonu</span>
     </button>
     
+    <button class="big-btn" style="border-color: #ffd700;" onclick="startWCMode()">
+      🌍 DÜNYA KUPASI
+      <span>2026 Grup Aşaması</span>
+    </button>
     <button class="big-btn" onclick="startCustomMode()">
       ⚔️ ÖZEL MAÇ
       <span>İstediğin İki Takımı Kapıştır</span>
@@ -330,9 +344,10 @@
         <button onclick="changeWeek(1)">▶</button>
       </div>
       <div id="fixture-list"></div>
-      <div style="text-align:center; margin-top:15px;">
-        <button class="action-btn secondary-btn" style="font-size: 16px; padding: 10px 20px;" onclick="showMainMenu()">ANA MENÜ</button>
-      </div>
+      <div style="text-align:center; margin-top:15px; display:flex; justify-content:center; gap:10px;">
+  <button class="action-btn secondary-btn" style="font-size: 14px; padding: 10px 15px;" onclick="showMainMenu()">ANA MENÜ</button>
+  <button class="action-btn" style="font-size: 14px; padding: 10px 15px; background: #ff4444; color: #fff; box-shadow: 0 0 15px rgba(255,68,68,0.4);" onclick="resetCareer()">LİGİ SIFIRLA</button>
+</div>
     </div>
 
     <div id="tab-puan" class="tab-content">
@@ -347,6 +362,30 @@
         <div class="col-pts" title="Puan">P</div>
       </div>
       <div id="league-table-body"></div>
+    </div>
+  </div>
+  <div id="wc-dashboard" class="overlay-screen">
+    <div class="dash-header" style="color: #ffd700; text-shadow: 0 0 15px rgba(255,215,0,0.4);">🌍 DÜNYA KUPASI 2026</div>
+    <select id="wc-group-select" onchange="renderWCGroup()" style="width: 90%; background: #002d72; border-color: #ffd700;"></select>
+    
+    <div class="tabs">
+      <div class="tab-btn active" onclick="switchTab('wc-puan')" id="btn-wc-puan" style="border-bottom: 3px solid #ffd700; color: #ffd700;">PUAN DURUMU</div>
+      <div class="tab-btn" onclick="switchTab('wc-fikstur')" id="btn-wc-fikstur">FİKSTÜR</div>
+    </div>
+
+    <div id="tab-wc-puan" class="tab-content active">
+      <div class="table-row table-header">
+        <div class="col-no">#</div><div class="col-team">ÜLKE</div><div class="col-stat">O</div><div class="col-stat">G</div><div class="col-stat">B</div><div class="col-stat">M</div><div class="col-stat">AV</div><div class="col-pts" style="color:#ffd700;">P</div>
+      </div>
+      <div id="wc-table-body"></div>
+      <div style="text-align:center; margin-top:15px; display:flex; justify-content:center; gap:10px;">
+        <button class="standard-btn" style="background:#555; color:#fff; font-size:14px;" onclick="showMainMenu()">ANA MENÜ</button>
+        <button class="standard-btn" style="background:#ff4444; color:#fff; font-size:14px;" onclick="resetWC()">TURNUVAYI SIFIRLA</button>
+      </div>
+    </div>
+
+    <div id="tab-wc-fikstur" class="tab-content">
+      <div id="wc-fixture-list"></div>
     </div>
   </div>
 
@@ -599,6 +638,74 @@ const LIGLER = {
       "crystalpalace_uecl": { isim: "CRYSTAL PALACE", logo: "./crystalpalace-logo.png", muzik: "crystalpalace-gol.mp3", renkAna: "#1B458F", renkIkinci: "#C4122E", kazandiYazisi: "🦅 CRYSTAL PALACE KAZANDI!", oyuncular: ["Eze", "Mateta", "Wharton", "Guehi", "Mitchell", "Henderson"] },
       "fiorentina_uecl": { isim: "FIORENTINA", logo: "./fiorentina-logo.png", muzik: "fiorentina-gol.mp3", renkAna: "#482E92", renkIkinci: "#FFFFFF", kazandiYazisi: "🟣 FIORENTINA KAZANDI!", oyuncular: ["Gudmundsson", "Kean", "Ndour", "Fabbian", "Comuzzo"] }
     }
+  },
+  // superlig bittikten sonra burayı yapıştır:
+  "wc2026": {
+    isim: "🌍 Dünya Kupası 2026",
+    gruplar: {
+      A: ["Meksika","Güney Afrika","Güney Kore","Çekya"], 
+      B: ["Kanada","Bosna Hersek","Katar","İsviçre"], 
+      C: ["Brezilya","Fas","Haiti","İskoçya"],
+      D: ["ABD","Paraguay","Avustralya","Türkiye"], 
+      E: ["Almanya","Curaçao","Fildişi Sahili","Ekvador"], 
+      F: ["Hollanda","Japonya","İsveç","Tunus"],
+      G: ["Belçika","Mısır","İran","Yeni Zelanda"], 
+      H: ["İspanya","Cape Verde","Suudi Arabistan","Uruguay"], 
+      I: ["Fransa","Senegal","Irak","Norveç"],
+      J: ["Arjantin","Cezayir","Avusturya","Ürdün"], 
+      K: ["Portekiz","Kamboçya","Özbekistan","Kolombiya"],
+      L: ["İngiltere","Hırvatistan","Gana","Panama"]
+    },
+    takimlar: {
+      "Meksika": {isim:"MEKSİKA", kisa:"Meksika", logo:"./meksika.png", renkAna:"#006341", oyuncular:["Ochoa","Alvarez","Lozano"]},
+      "Güney Afrika": {isim:"GÜNEY AFRİKA", kisa:"Güney Afrika", logo:"./güneyafrika.png", renkAna:"#007749", oyuncular:["Williams","Tau","Mokoena"]},
+      "Güney Kore": {isim:"GÜNEY KORE", kisa:"Güney Kore", logo:"./güneykore.png", renkAna:"#C60C30", oyuncular:["Son","Kim","Lee"]},
+      "Çekya": {isim:"ÇEKYA", kisa:"Çekya", logo:"./çekya.png", renkAna:"#ED1C24", oyuncular:["Schick","Soucek","Coufal"]},
+      "Kanada": {isim:"KANADA", kisa:"Kanada", logo:"./kanada.png", renkAna:"#FF0000", oyuncular:["Davies","David","Buchanan"]},
+      "Bosna Hersek": {isim:"BOSNA HERSEK", kisa:"Bosna Hersek", logo:"./bosnahersek.png", renkAna:"#002395", oyuncular:["Dzeko","Kolasinac","Demirovic"]},
+      "Katar": {isim:"KATAR", kisa:"Katar", logo:"./katar.png", renkAna:"#8A1538", oyuncular:["Afif","Almoez","Ali"]},
+      "İsviçre": {isim:"İSVİÇRE", kisa:"İsviçre", logo:"./isviçre.png", renkAna:"#FF0000", oyuncular:["Xhaka","Akanji","Embolo"]},
+      "Brezilya": {isim:"BREZİLYA", kisa:"Brezilya", logo:"./brezilya.png", renkAna:"#009B3A", oyuncular:["Vinicius","Rodrygo","Ederson"]},
+      "Fas": {isim:"FAS", kisa:"Fas", logo:"./fas.png", renkAna:"#C1272D", oyuncular:["Hakimi","Ziyech","En-Nesyri"]},
+      "Haiti": {isim:"HAİTİ", kisa:"Haiti", logo:"./haiti.png", renkAna:"#00205B", oyuncular:["Nazon","Pierrot","Duce"]},
+      "İskoçya": {isim:"İSKOÇYA", kisa:"İskoçya", logo:"./iskoçya.png", renkAna:"#005EB8", oyuncular:["Robertson","McTominay","McGinn"]},
+      "ABD": {isim:"ABD", kisa:"ABD", logo:"./abd.png", renkAna:"#B31942", oyuncular:["Pulisic","Weah","McKennie"]},
+      "Paraguay": {isim:"PARAGUAY", kisa:"Paraguay", logo:"./paraguay.png", renkAna:"#D52B1E", oyuncular:["Almiron","Enciso","Gomez"]},
+      "Avustralya": {isim:"AVUSTRALYA", kisa:"Avustralya", logo:"./avustralya.png", renkAna:"#00008B", oyuncular:["Ryan","Irvine","Duke"]},
+      "Türkiye": {isim:"TÜRKİYE", kisa:"Türkiye", logo:"./türkiye.png", renkAna:"#E30A17", oyuncular:["Arda","Hakan","Merih"]},
+      "Almanya": {isim:"ALMANYA", kisa:"Almanya", logo:"./almanya.png", renkAna:"#000000", oyuncular:["Wirtz","Musiala","Neuer"]},
+      "Curaçao": {isim:"CURAÇAO", kisa:"Curaçao", logo:"./curaçao.png", renkAna:"#002B7F", oyuncular:["Bacuna","Janga","Maria"]},
+      "Fildişi Sahili": {isim:"FİLDİŞİ SAHİLİ", kisa:"Fildişi S.", logo:"./fildişisahili.png", renkAna:"#F77F00", oyuncular:["Kessie","Haller","Aurier"]},
+      "Ekvador": {isim:"EKVADOR", kisa:"Ekvador", logo:"./ekvador.png", renkAna:"#FFDD00", oyuncular:["Valencia","Caicedo","Pacho"]},
+      "Hollanda": {isim:"HOLLANDA", kisa:"Hollanda", logo:"./hollanda.png", renkAna:"#F36C21", oyuncular:["Van Dijk","Gakpo","Simons"]},
+      "JPN": {isim:"JAPONYA", kisa:"JPN", logo:"./jpn.png", renkAna:"#000555", oyuncular:["Mitoma","Kubo","Endo"]},
+      "SWE": {isim:"İSVEÇ", kisa:"SWE", logo:"./swe.png", renkAna:"#FFD700", oyuncular:["Isak","Kulusevski","Gyökeres"]},
+      "TUN": {isim:"TUNUS", kisa:"TUN", logo:"./tun.png", renkAna:"#E70013", oyuncular:["Msakni","Laidouni","Talbi"]},
+      "BEL": {isim:"BELÇİKA", kisa:"BEL", logo:"./bel.png", renkAna:"#E30613", oyuncular:["De Bruyne","Lukaku","Onana"]},
+      "EGY": {isim:"MISIR", kisa:"EGY", logo:"./egy.png", renkAna:"#CE1126", oyuncular:["Salah","Marmoush","Elneny"]},
+      "IRN": {isim:"İRAN", kisa:"IRN", logo:"./irn.png", renkAna:"#239F40", oyuncular:["Taremi","Azmoun","Jahanbakhsh"]},
+      "NZL": {isim:"YENİ ZELANDA", kisa:"NZL", logo:"./nzl.png", renkAna:"#000000", oyuncular:["Wood","Garbett","Liberato"]},
+      "ESP": {isim:"İSPANYA", kisa:"ESP", logo:"./esp.png", renkAna:"#AA151B", oyuncular:["Rodri","Yamal","Nico"]},
+      "CPV": {isim:"KAP VERDE", kisa:"CPV", logo:"./cpv.png", renkAna:"#003893", oyuncular:["Bebe","Mendes","Rocha"]},
+      "KSA": {isim:"SUUDİ ARABİSTAN", kisa:"KSA", logo:"./ksa.png", renkAna:"#006C35", oyuncular:["Al-Dawsari","Al-Buraikan","Al-Owais"]},
+      "URU": {isim:"URUGUAY", kisa:"URU", logo:"./uru.png", renkAna:"#0038A8", oyuncular:["Valverde","Nunez","Araujo"]},
+      "FRA": {isim:"FRANSA", kisa:"FRA", logo:"./fra.png", renkAna:"#002395", oyuncular:["Mbappe","Griezmann","Saliba"]},
+      "SEN": {isim:"SENEGAL", kisa:"SEN", logo:"./sen.png", renkAna:"#00853F", oyuncular:["Mane","Koulibaly","Jackson"]},
+      "IRQ": {isim:"IRAK", kisa:"IRQ", logo:"./irq.png", renkAna:"#007A3D", oyuncular:["Ali","Bayesh","Amir"]},
+      "NOR": {isim:"NORVEÇ", kisa:"NOR", logo:"./nor.png", renkAna:"#BA0C2F", oyuncular:["Haaland","Odegaard","Sorloth"]},
+      "ARG": {isim:"ARJANTİN", kisa:"ARG", logo:"./arg.png", renkAna:"#43A1D5", oyuncular:["Messi","Martinez","Enzo"]},
+      "ALG": {isim:"CEZAYİR", kisa:"ALG", logo:"./alg.png", renkAna:"#006233", oyuncular:["Mahrez","Bennacer","Bounedjah"]},
+      "AUT": {isim:"AVUSTURYA", kisa:"AUT", logo:"./aut.png", renkAna:"#ED2939", oyuncular:["Sabitzer","Arnautovic","Laimer"]},
+      "JOR": {isim:"ÜRDÜN", kisa:"JOR", logo:"./jor.png", renkAna:"#000000", oyuncular:["Al-Tamari","Al-Naimat","Olwan"]},
+      "POR": {isim:"PORTEKİZ", kisa:"POR", logo:"./por.png", renkAna:"#FF0000", oyuncular:["Ronaldo","Leao","Fernandes"]},
+      "COD": {isim:"KONGO DC", kisa:"COD", logo:"./cod.png", renkAna:"#F7D116", oyuncular:["Wissa","Mbemba","Kakuta"]},
+      "UZB": {isim:"ÖZBEKİSTAN", kisa:"UZB", logo:"./uzb.png", renkAna:"#005999", oyuncular:["Shomurodov","Fayzullayev","Masharipov"]},
+      "COL": {isim:"KOLOMBİYA", kisa:"COL", logo:"./col.png", renkAna:"#FCD116", oyuncular:["Diaz","James","Munoz"]},
+      "ENG": {isim:"İNGİLTERE", kisa:"ENG", logo:"./eng.png", renkAna:"#FFFFFF", oyuncular:["Kane","Bellingham","Foden"]},
+      "CRO": {isim:"HIRVATİSTAN", kisa:"CRO", logo:"./cro.png", renkAna:"#FF0000", oyuncular:["Modric","Gvardiol","Kramaric"]},
+      "GHA": {isim:"GANA", kisa:"GHA", logo:"./gha.png", renkAna:"#006B3F", oyuncular:["Kudus","Partey","Ayew"]},
+      "PAN": {isim:"PANAMA", kisa:"PAN", logo:"./pan.png", renkAna:"#DA291C", oyuncular:["Fajardo","Carrasquilla","Mosquera"]}
+    }
   }
 };
 
@@ -618,6 +725,8 @@ let simData = {
   takimlar: {}, 
   fikstur: [] 
 };
+let wcData = { aktif: false, gruplar: {} };
+let currentWCGroup = 'A';
 
 function initSimData() {
   // 💾 1. ADIM: KAYITLI VERİ VARSA DİREKT ONU YÜKLE
@@ -655,6 +764,35 @@ function initSimData() {
   let ikinciYari = haftalar.map(hafta => hafta.map(m => ({ ev: m.dep, dep: m.ev, oynandi: false, skorEv: 0, skorDep: 0 })));
   simData.fikstur = [...haftalar, ...ikinciYari];
   simData.aktif = true;
+  localStorage.setItem('futbolTayfaKariyer', JSON.stringify(simData)); 
+}
+function initWCData() {
+  const kayitliVeri = localStorage.getItem('futbolTayfaWC');
+  if (kayitliVeri) { wcData = JSON.parse(kayitliVeri); return; }
+  
+  Object.keys(LIGLER.wc2026.gruplar).forEach(grupHarfi => {
+    let takimlarData = {};
+    LIGLER.wc2026.gruplar[grupHarfi].forEach(id => { takimlarData[id] = { o:0, g:0, b:0, m:0, a:0, y:0, p:0 }; });
+    
+    let t = LIGLER.wc2026.gruplar[grupHarfi];
+    let fikstur = [
+      { ev: t[0], dep: t[1], oynandi: false, skorEv: 0, skorDep: 0 }, { ev: t[2], dep: t[3], oynandi: false, skorEv: 0, skorDep: 0 },
+      { ev: t[0], dep: t[2], oynandi: false, skorEv: 0, skorDep: 0 }, { ev: t[1], dep: t[3], oynandi: false, skorEv: 0, skorDep: 0 },
+      { ev: t[0], dep: t[3], oynandi: false, skorEv: 0, skorDep: 0 }, { ev: t[1], dep: t[2], oynandi: false, skorEv: 0, skorDep: 0 }
+    ];
+    wcData.gruplar[grupHarfi] = { takimlar: takimlarData, fikstur: fikstur };
+  });
+  wcData.aktif = true;
+  localStorage.setItem('futbolTayfaWC', JSON.stringify(wcData));
+}
+
+function resetWC() { 
+  if (confirm("Dünya Kupasını sıfırdan başlatmak istediğine emin misin?")) { 
+    localStorage.removeItem('futbolTayfaWC'); 
+    wcData = { aktif: false, gruplar: {} }; 
+    initWCData(); 
+    renderWCGroup(); 
+  } 
 }
 
 // ==========================================
@@ -720,7 +858,20 @@ function formatUzunIsim(isim) {
   if (isim.length > 12) return isim.substring(0, 10) + "..";
   return isim; // Kısa isimleri tam yaz
 }
-
+// ==========================================
+// 🔄 LİGİ SIFIRLAMA FONKSİYONU
+// ==========================================
+function resetCareer() {
+  const eminMisin = confirm("Tüm maç sonuçları ve puan durumu silinecek. Ligi sıfırdan başlatmak istediğine emin misin?");
+  
+  if (eminMisin) {
+    localStorage.removeItem('futbolTayfaKariyer');
+    simData = { aktif: false, hafta: 1, takimlar: {}, fikstur: [] };
+    initSimData();
+    renderFixtures();
+    renderTable();
+  }
+}
 function renderTable() {
   const tbody = document.getElementById('league-table-body');
   tbody.innerHTML = '';
@@ -753,6 +904,66 @@ function renderTable() {
     `;
   });
 }
+function startWCMode() { 
+  initWCData(); 
+  document.querySelectorAll('.overlay-screen').forEach(el => el.style.display = 'none');
+  const sel = document.getElementById('wc-group-select'); 
+  sel.innerHTML=''; 
+  Object.keys(wcData.gruplar).forEach(g => { sel.innerHTML += `<option value="${g}">GRUP ${g}</option>`; }); 
+  document.getElementById('wc-dashboard').style.display = 'flex'; 
+  renderWCGroup(); 
+}
+
+function renderWCGroup() {
+  currentWCGroup = document.getElementById('wc-group-select').value;
+  const groupData = wcData.gruplar[currentWCGroup];
+  
+  // 1. ADIM: TABLO YERİNE ŞIK KARTLAR (Puan durumu kısmı)
+  const container = document.getElementById('wc-table-body'); 
+  container.innerHTML = '<div class="wc-group-container"></div>';
+  const grid = container.querySelector('.wc-group-container');
+  
+  let siralama = Object.keys(groupData.takimlar).map(id => ({ id, ...groupData.takimlar[id] }));
+  siralama.sort((a, b) => b.p - a.p); // Basit puan sıralaması
+  
+  siralama.forEach((t, i) => { 
+    const tk = LIGLER.wc2026.takimlar[t.id]; 
+    grid.innerHTML += `
+      <div class="wc-team-card">
+        <img src="${tk.logo}">
+        <div>
+          <span style="display:block; font-size:10px; color:#ffd700;">${i+1}. SIRA</span>
+          <span>${tk.kisa} (${t.p} P)</span>
+        </div>
+      </div>`; 
+  });
+
+  // 2. ADIM: FİKSTÜRÜ DAHA ŞIK HALE GETİR
+  const flist = document.getElementById('wc-fixture-list'); flist.innerHTML = '';
+  groupData.fikstur.forEach((mac, index) => {
+    const ev = LIGLER.wc2026.takimlar[mac.ev]; const dep = LIGLER.wc2026.takimlar[mac.dep];
+    let skorHtml = mac.oynandi ? `${mac.skorEv} - ${mac.skorDep}` : `<button class="play-match-btn" style="background:#ffd700;" onclick="playWCMatch(${index})">MAÇA GİT</button>`;
+    
+    flist.innerHTML += `
+      <div class="match-card" style="background: linear-gradient(90deg, #002d72, #050d0f); border-left: 3px solid #ffd700;">
+        <div class="match-team" style="justify-content:flex-end;">${ev.kisa} <img src="${ev.logo}"></div>
+        <div class="match-score" style="color:#ffd700;">${skorHtml}</div>
+        <div class="match-team"><img src="${dep.logo}"> ${dep.kisa}</div>
+      </div>`;
+  });
+}
+
+function playWCMatch(macIndex) {
+  const mac = wcData.gruplar[currentWCGroup].fikstur[macIndex]; if(mac.oynandi) return;
+  currentMatchData = mac; currentGameMode = 'wc';
+  AYARLAR.takim1 = LIGLER.wc2026.takimlar[mac.ev]; AYARLAR.takim2 = LIGLER.wc2026.takimlar[mac.dep];
+  
+  document.getElementById('match-info-badge').style.display = 'block'; 
+  document.getElementById('match-week-text').textContent = "GRUP " + currentWCGroup; 
+  document.getElementById('match-info-badge').style.borderColor = "#ffd700"; 
+  document.getElementById('match-info-badge').style.color = "#ffd700";
+  prepareGameUI();
+}
 
 function playSimMatch(haftaIndex, macIndex) {
   const mac = simData.fikstur[haftaIndex][macIndex];
@@ -774,36 +985,30 @@ function playSimMatch(haftaIndex, macIndex) {
 
 
 function saveSimResult() {
-  const evId = currentMatchData.ev;
-  const depId = currentMatchData.dep;
-  const sEv = scores.team1;
-  const sDep = scores.team2;
+  const sEv = scores.team1; const sDep = scores.team2;
+  currentMatchData.oynandi = true; currentMatchData.skorEv = sEv; currentMatchData.skorDep = sDep;
   
-  currentMatchData.oynandi = true;
-  currentMatchData.skorEv = sEv;
-  currentMatchData.skorDep = sDep;
+  let targetTable = currentGameMode === 'sim' ? simData.takimlar : wcData.gruplar[currentWCGroup].takimlar;
+  let tEv = targetTable[currentMatchData.ev]; let tDep = targetTable[currentMatchData.dep];
 
-  let tEv = simData.takimlar[evId];
-  let tDep = simData.takimlar[depId];
-
-  tEv.o++; tDep.o++;
-  tEv.a += sEv; tEv.y += sDep;
-  tDep.a += sDep; tDep.y += sEv;
-
+  tEv.o++; tDep.o++; tEv.a += sEv; tEv.y += sDep; tDep.a += sDep; tDep.y += sEv;
   if(sEv > sDep) { tEv.g++; tEv.p += 3; tDep.m++; }
   else if(sDep > sEv) { tDep.g++; tDep.p += 3; tEv.m++; }
   else { tEv.b++; tDep.b++; tEv.p += 1; tDep.p += 1; }
 
-  // 💾 HER MAÇ BİTTİĞİNDE YENİ PUAN DURUMUNU HAFIZAYA KAYDET
-  localStorage.setItem('futbolTayfaKariyer', JSON.stringify(simData));
-
-  // Dashboarda Dön
-  document.getElementById('overlay').style.display = 'none';
+  document.getElementById('match-end').style.display = 'none';
   document.getElementById('scoreboard').style.display = 'none';
   document.getElementById('gameCanvas').style.display = 'none';
-  document.getElementById('sim-dashboard').style.display = 'flex';
-  renderFixtures();
-  renderTable();
+
+  if (currentGameMode === 'sim') {
+    localStorage.setItem('futbolTayfaKariyer', JSON.stringify(simData));
+    document.getElementById('sim-dashboard').style.display = 'flex';
+    renderFixtures(); renderTable();
+  } else if (currentGameMode === 'wc') {
+    localStorage.setItem('futbolTayfaWC', JSON.stringify(wcData));
+    document.getElementById('wc-dashboard').style.display = 'flex';
+    renderWCGroup();
+  }
 }
 
 // -- ÖZEL MAÇ MODU --
