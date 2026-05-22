@@ -330,62 +330,68 @@
   </div>
 
   <div id="sim-dashboard" class="overlay-screen">
-    <div class="dash-header">🏆 TÜRKİYE SÜPER LİG</div>
-    
-    <div class="tabs">
-      <div class="tab-btn active" onclick="switchTab('fikstur')">FİKSTÜR</div>
-      <div class="tab-btn" onclick="switchTab('puan')">PUAN DURUMU</div>
+    <div class="dash-header" style="color: #00ff87; text-shadow: 0 0 20px rgba(0,255,135,0.6); font-size: 42px; margin-bottom: 20px; font-family: 'Bebas Neue'; letter-spacing: 2px;">🏆 TÜRKİYE SÜPER LİG</div>
+
+    <div class="tabs" style="width: 90%; margin-bottom: 20px;">
+      <div class="tab-btn active" onclick="switchTab('sim', 'fikstur')" style="border-bottom: 3px solid #00ff87; color: #00ff87;">FİKSTÜR</div>
+      <div class="tab-btn" onclick="switchTab('sim', 'puan')">PUAN DURUMU</div>
     </div>
 
-    <div id="tab-fikstur" class="tab-content active">
-      <div class="week-nav">
-        <button onclick="changeWeek(-1)">◀</button>
-        <span id="week-title" style="font-size:18px;">1. Hafta</span>
-        <button onclick="changeWeek(1)">▶</button>
+    <div id="tab-sim-fikstur" class="tab-content active" style="width: 90%;">
+      <div class="week-nav" style="display:flex; justify-content:space-between; align-items:center; background:rgba(0,0,0,0.5); padding:10px 15px; border-radius:8px; margin-bottom:15px; border: 1px solid rgba(0,255,135,0.2);">
+        <button onclick="changeWeek(-1)" style="background:none; border:none; color:#00ff87; font-size:24px; cursor:pointer;">◀</button>
+        <span id="week-title" style="font-size:20px; font-weight:700; color:#fff;">1. Hafta</span>
+        <button onclick="changeWeek(1)" style="background:none; border:none; color:#00ff87; font-size:24px; cursor:pointer;">▶</button>
       </div>
-      <div id="fixture-list"></div>
-      <div style="text-align:center; margin-top:15px; display:flex; justify-content:center; gap:10px;">
-  <button class="action-btn secondary-btn" style="font-size: 14px; padding: 10px 15px;" onclick="showMainMenu()">ANA MENÜ</button>
-  <button class="action-btn" style="font-size: 14px; padding: 10px 15px; background: #ff4444; color: #fff; box-shadow: 0 0 15px rgba(255,68,68,0.4);" onclick="resetCareer()">LİGİ SIFIRLA</button>
-</div>
+      
+      <div id="fixture-list" style="display: flex; flex-direction: column; gap: 12px;"></div>
+      
+      <div style="display:flex; justify-content:center; gap:15px; margin-top:30px; padding-bottom: 20px;">
+        <button class="action-btn" style="background: #222; color: #fff; padding: 12px 20px; font-size: 16px; border-radius: 30px; border: 1px solid #555; box-shadow: 0 5px 15px rgba(0,0,0,0.5);" onclick="showMainMenu()">🏠 ANA MENÜ</button>
+        <button class="action-btn" style="background: linear-gradient(135deg, #d32f2f, #9c1414); color: #fff; padding: 12px 20px; font-size: 16px; border-radius: 30px; border: 1px solid #ff5252; box-shadow: 0 5px 20px rgba(211, 47, 47, 0.5);" onclick="resetCareer()">🔄 LİGİ SIFIRLA</button>
+      </div>
     </div>
 
-    <div id="tab-puan" class="tab-content">
-      <div class="table-row table-header">
-        <div class="col-no">#</div>
-        <div class="col-team">TAKIM</div>
-        <div class="col-stat" title="Oynanan">O</div>
-        <div class="col-stat" title="Galibiyet">G</div>
-        <div class="col-stat" title="Beraberlik">B</div>
-        <div class="col-stat" title="Mağlubiyet">M</div>
-        <div class="col-stat" title="Averaj">AV</div>
-        <div class="col-pts" title="Puan">P</div>
+    <div id="tab-sim-puan" class="tab-content" style="width: 90%; display: none;">
+      <div class="table-row table-header" style="background: rgba(0, 40, 20, 0.9); border: 1px solid rgba(0, 255, 135, 0.4); border-radius: 10px; padding: 12px 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.5);">
+        <div class="col-no" style="color: #00ff87; width: 10%;">#</div>
+        <div class="col-team" style="color: #00ff87; width: 40%;">TAKIM</div>
+        <div class="col-stat">O</div><div class="col-stat">G</div><div class="col-stat">B</div><div class="col-stat">M</div><div class="col-stat">AV</div>
+        <div class="col-pts" style="color:#00ff87;">P</div>
       </div>
-      <div id="league-table-body"></div>
+      <div id="league-table-body" style="display: flex; flex-direction: column; gap: 6px; margin-top: 10px; padding-bottom: 20px;"></div>
     </div>
   </div>
   <div id="wc-dashboard" class="overlay-screen">
-    <div class="dash-header" style="color: #ffd700; text-shadow: 0 0 15px rgba(255,215,0,0.4);">🌍 DÜNYA KUPASI 2026</div>
-    <select id="wc-group-select" onchange="renderWCGroup()" style="width: 90%; background: #002d72; border-color: #ffd700;"></select>
+    <div class="dash-header" style="color: #ffd700; text-shadow: 0 0 20px rgba(255,215,0,0.6); font-size: 42px; margin-bottom: 20px; font-family: 'Bebas Neue'; letter-spacing: 2px;">🌍 DÜNYA KUPASI 2026</div>
     
-    <div class="tabs">
-      <div class="tab-btn active" onclick="switchTab('wc-puan')" id="btn-wc-puan" style="border-bottom: 3px solid #ffd700; color: #ffd700;">PUAN DURUMU</div>
-      <div class="tab-btn" onclick="switchTab('wc-fikstur')" id="btn-wc-fikstur">FİKSTÜR</div>
+    <div style="width: 90%; position: relative; margin-bottom: 20px;">
+      <select id="wc-group-select" onchange="renderWCGroup()" style="appearance: none; -webkit-appearance: none; width: 100%; padding: 12px 20px; font-family: 'Bebas Neue'; font-size: 26px; color: #ffd700; background: linear-gradient(145deg, #001a40, #000814); border: 2px solid #ffd700; border-radius: 12px; outline: none; text-align: center; box-shadow: 0 8px 20px rgba(0,0,0,0.8); cursor: pointer; letter-spacing: 3px;"></select>
+      <div style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%); color: #ffd700; pointer-events: none; font-size: 20px;">▼</div>
     </div>
 
-    <div id="tab-wc-puan" class="tab-content active">
-      <div class="table-row table-header">
-        <div class="col-no">#</div><div class="col-team">ÜLKE</div><div class="col-stat">O</div><div class="col-stat">G</div><div class="col-stat">B</div><div class="col-stat">M</div><div class="col-stat">AV</div><div class="col-pts" style="color:#ffd700;">P</div>
+    <div class="tabs" style="width: 90%; margin-bottom: 20px;">
+      <div class="tab-btn active" onclick="switchTab('wc', 'puan')" id="btn-wc-puan" style="border-bottom: 3px solid #ffd700; color: #ffd700;">PUAN DURUMU</div>
+      <div class="tab-btn" onclick="switchTab('wc', 'fikstur')" id="btn-wc-fikstur">FİKSTÜR</div>
+    </div>
+
+    <div id="tab-wc-puan" class="tab-content active" style="width: 90%;">
+      <div class="table-row table-header" style="background: rgba(0, 26, 64, 0.9); border: 1px solid rgba(255, 215, 0, 0.4); border-radius: 10px; padding: 12px 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.5);">
+        <div class="col-no" style="color: #ffd700; width: 10%;">#</div>
+        <div class="col-team" style="color: #ffd700; width: 40%;">ÜLKE</div>
+        <div class="col-stat">O</div><div class="col-stat">G</div><div class="col-stat">B</div><div class="col-stat">M</div><div class="col-stat">AV</div>
+        <div class="col-pts" style="color:#ffd700;">P</div>
       </div>
-      <div id="wc-table-body"></div>
-      <div style="text-align:center; margin-top:15px; display:flex; justify-content:center; gap:10px;">
-        <button class="standard-btn" style="background:#555; color:#fff; font-size:14px;" onclick="showMainMenu()">ANA MENÜ</button>
-        <button class="standard-btn" style="background:#ff4444; color:#fff; font-size:14px;" onclick="resetWC()">TURNUVAYI SIFIRLA</button>
+      <div id="wc-table-body" style="display: flex; flex-direction: column; gap: 6px; margin-top: 10px;"></div>
+
+      <div style="display:flex; justify-content:center; gap:15px; margin-top:30px; padding-bottom: 20px;">
+        <button class="action-btn" style="background: #222; color: #fff; padding: 12px 20px; font-size: 16px; border-radius: 30px; border: 1px solid #555; box-shadow: 0 5px 15px rgba(0,0,0,0.5); font-family: 'Barlow Condensed'; letter-spacing: 1px;" onclick="showMainMenu()">🏠 ANA MENÜ</button>
+        <button class="action-btn" style="background: linear-gradient(135deg, #d32f2f, #9c1414); color: #fff; padding: 12px 20px; font-size: 16px; border-radius: 30px; border: 1px solid #ff5252; box-shadow: 0 5px 20px rgba(211, 47, 47, 0.5); font-family: 'Barlow Condensed'; letter-spacing: 1px;" onclick="resetWC()">🔄 SİL BAŞTAN</button>
       </div>
     </div>
 
-    <div id="tab-wc-fikstur" class="tab-content">
-      <div id="wc-fixture-list"></div>
+    <div id="tab-wc-fikstur" class="tab-content" style="width: 90%;">
+      <div id="wc-fixture-list" style="display: flex; flex-direction: column; gap: 12px; margin-top: 10px;"></div>
     </div>
   </div>
 
@@ -453,7 +459,12 @@
     <div id="countdown-text" class="animate-pop">3</div>
   </div>
 
-  <div id="overlay" class="overlay-screen"></div>
+  <div id="match-end" class="overlay-screen" style="z-index: 60; justify-content:center;">
+    <h1 style="color:white; font-family:'Bebas Neue'; font-size:50px;">MAÇ BİTTİ</h1>
+    <div id="end-score" style="font-family:'Bebas Neue'; font-size:90px; color:var(--neon-green);">0 - 0</div>
+    <div id="end-winner" style="color:#fff; font-size:24px; margin-bottom:20px; font-weight:700;"></div>
+    <div id="end-buttons"></div>
+  </div>
 
 </div>
 
@@ -814,11 +825,49 @@ function startCareerMode() {
   renderTable();
 }
 
-function switchTab(tabId) {
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-  event.target.classList.add('active');
-  document.getElementById('tab-' + tabId).classList.add('active');
+function switchTab(prefix, tabId) {
+  try {
+    const dashboard = document.getElementById(prefix + '-dashboard');
+    if (!dashboard) return; // Panel bulunamazsa çökmesini engeller
+
+    // 1. Tüm tab butonlarını temizle
+    dashboard.querySelectorAll('.tab-btn').forEach(b => { 
+      b.classList.remove('active'); 
+      b.style.borderBottom = '3px solid transparent'; 
+      b.style.color = '#fff'; 
+    });
+    
+    // 2. Tüm içerik panellerini (Fikstür / Puan Durumu) kesin olarak gizle
+    dashboard.querySelectorAll('.tab-content').forEach(c => {
+      c.classList.remove('active');
+      c.style.display = 'none'; 
+    });
+    
+    // 3. Modun rengini belirle (CSS değişkeni yerine direkt HEX kodunu yazdık ki hata vermesin)
+    let col = prefix === 'wc' ? '#ffd700' : '#00ff87'; 
+    
+    // 4. Tıklanan butonu 'güvenli' bir şekilde bul
+    const targetBtn = Array.from(dashboard.querySelectorAll('.tab-btn')).find(b => {
+      const oc = b.getAttribute('onclick');
+      return oc && oc.includes(tabId); // Eğer butonun onclick'i boşsa sistemi çökertmez
+    });
+    
+    if (targetBtn) {
+      targetBtn.classList.add('active');
+      targetBtn.style.borderBottom = '3px solid ' + col;
+      targetBtn.style.color = col;
+    }
+    
+    // 5. İstenen paneli ekrana bas
+    const activeTab = document.getElementById('tab-' + prefix + '-' + tabId);
+    if (activeTab) {
+      activeTab.classList.add('active');
+      activeTab.style.display = 'block'; 
+    }
+    
+  } catch(err) {
+    console.error("Sekme geçiş hatası:", err);
+  }
 }
 
 function changeWeek(dir) {
@@ -830,24 +879,39 @@ function changeWeek(dir) {
 
 function renderFixtures() {
   document.getElementById('week-title').textContent = simData.hafta + ". Hafta";
-  const list = document.getElementById('fixture-list');
+  const list = document.getElementById('fixture-list'); 
+  if(!list) return;
   list.innerHTML = '';
   
-  let maclar = simData.fikstur[simData.hafta - 1];
-  maclar.forEach((mac, index) => {
-    const ev = LIGLER.superlig.takimlar[mac.ev];
+  simData.fikstur[simData.hafta - 1].forEach((mac, index) => {
+    const ev = LIGLER.superlig.takimlar[mac.ev]; 
     const dep = LIGLER.superlig.takimlar[mac.dep];
     
-    let skorHtml = mac.oynandi ? `${mac.skorEv} - ${mac.skorDep}` : `<button class="play-match-btn" onclick="playSimMatch(${simData.hafta - 1}, ${index})">OYNA ▶</button>`;
-    let opacity = mac.oynandi ? "0.6" : "1";
+    // 🛡️ İSİM ÇÖZÜCÜ: Kısa isim yoksa uzun ismi akıllıca kısaltıp kullanır
+    let evIsim = ev.kisa ? ev.kisa : formatUzunIsim(ev.isim);
+    let depIsim = dep.kisa ? dep.kisa : formatUzunIsim(dep.isim);
     
+    // 🎛️ BUTON KÜÇÜLTÜLDÜ VE ZARİFLEŞTİRİLDİ (action-btn sınıfı çıkarıldı)
+    let skorHtml = mac.oynandi 
+      ? `<div style="font-family: 'Bebas Neue'; font-size: 28px; color: #00ff87; text-shadow: 0 0 10px rgba(0,255,135,0.5);">${mac.skorEv} - ${mac.skorDep}</div>` 
+      : `<button style="background: linear-gradient(135deg, #00ff87, #00b35e); color: #000; padding: 6px 14px; font-size: 14px; font-weight: 700; font-family: 'Barlow Condensed'; border: none; border-radius: 6px; box-shadow: 0 4px 10px rgba(0,255,135,0.3); cursor: pointer; letter-spacing: 0.5px;" onclick="playSimMatch(${simData.hafta - 1}, ${index})">OYNA ▶</button>`;
+      
     list.innerHTML += `
-      <div class="match-card" style="opacity:${opacity}">
-        <div class="match-team" style="justify-content:flex-end; text-align:right;">${formatUzunIsim(ev.isim)} <img src="${ev.logo}"></div>
-    <div class="match-score">${skorHtml}</div>
-    <div class="match-team"><img src="${dep.logo}"> ${formatUzunIsim(dep.isim)}</div>
-      </div>
-    `;
+      <div class="match-card" style="opacity:${mac.oynandi ? "0.6" : "1"}; background: linear-gradient(145deg, #001a0f, #000d07); border: 1px solid rgba(0,255,135,0.15); border-radius: 10px; padding: 10px 8px; display: flex; align-items: center;">
+        
+        <div class="match-team" style="justify-content:flex-end; text-align:right; width: 38%; font-size: 14px; font-weight: 700; color: #fff;">
+          ${evIsim} <img src="${ev.logo}" style="width:24px; height:24px; border-radius:50%; margin-left: 6px;">
+        </div>
+        
+        <div class="match-score" style="width: 24%; display:flex; justify-content:center;">
+          ${skorHtml}
+        </div>
+        
+        <div class="match-team" style="width: 38%; font-size: 14px; font-weight: 700; color: #fff;">
+          <img src="${dep.logo}" style="width:24px; height:24px; border-radius:50%; margin-right: 6px;"> ${depIsim}
+        </div>
+        
+      </div>`;
   });
 }
 
@@ -873,35 +937,59 @@ function resetCareer() {
   }
 }
 function renderTable() {
-  const tbody = document.getElementById('league-table-body');
+  const tbody = document.getElementById('league-table-body'); 
+  if(!tbody) return;
   tbody.innerHTML = '';
   
   let siralama = Object.keys(simData.takimlar).map(id => ({ id, ...simData.takimlar[id] }));
-  siralama.sort((a, b) => {
-    if(b.p !== a.p) return b.p - a.p;
-    if((b.a - b.y) !== (a.a - a.y)) return (b.a - b.y) - (a.a - a.y);
-    return b.a - a.a;
-  });
-
-  siralama.forEach((t, i) => {
-    const tk = LIGLER.superlig.takimlar[t.id];
-    const av = t.a - t.y;
+  siralama.sort((a, b) => { if(b.p !== a.p) return b.p - a.p; if((b.a - b.y) !== (a.a - a.y)) return (b.a - b.y) - (a.a - a.y); return b.a - a.a; });
+  
+  siralama.forEach((t, i) => { 
+    const tk = LIGLER.superlig.takimlar[t.id]; 
+    const av = t.a - t.y; 
     
-    // Tabloda görünecek ismi ayarla
-    const tabloIsmi = formatUzunIsim(tk.isim);
+    let rowBg = "";
+    let numBg = "";
+    let ptsColor = "#00ff87"; // Genel puan rengi neon yeşil kalabilir
+
+    // 🏆 AVRUPA KUPALARI VE KÜME DÜŞME RENK AYARLARI
+    if (i === 0 || i === 1) { 
+      // 1. ve 2. Sıra: UCL (Mavi)
+      rowBg = "background: linear-gradient(90deg, rgba(0,123,255,0.15), rgba(0,20,40,0.8)); border-left: 4px solid #007bff;";
+      numBg = "background: #007bff; color: #fff;";
+      ptsColor = "#007bff";
+    } else if (i === 2) { 
+      // 3. Sıra: UEL (Sarı)
+      rowBg = "background: linear-gradient(90deg, rgba(255,215,0,0.15), rgba(40,35,0,0.8)); border-left: 4px solid #ffd700;";
+      numBg = "background: #ffd700; color: #000;";
+      ptsColor = "#ffd700";
+    } else if (i === 3) { 
+      // 4. Sıra: UECL (Yeşil)
+      rowBg = "background: linear-gradient(90deg, rgba(0,255,135,0.15), rgba(0,40,20,0.8)); border-left: 4px solid #00ff87;";
+      numBg = "background: #00ff87; color: #000;";
+      ptsColor = "#00ff87";
+    } else if (i >= siralama.length - 3) { 
+      // Son 4 Sıra: Küme Düşme (Kırmızı)
+      rowBg = "background: linear-gradient(90deg, rgba(255,68,68,0.15), rgba(40,0,0,0.8)); border-left: 4px solid #ff4444;";
+      numBg = "background: #ff4444; color: #fff;";
+    } else { 
+      // Orta Sıralar (Standart)
+      rowBg = "background: rgba(255,255,255,0.04); border-left: 4px solid transparent;";
+      numBg = "background: rgba(255,255,255,0.1); color: #fff;";
+      ptsColor = "#fff";
+    }
 
     tbody.innerHTML += `
-      <div class="table-row row-${i+1}">
-        <div class="col-no">${i+1}</div>
-        <div class="col-team"><img src="${tk.logo}"> ${tabloIsmi}</div>
+      <div class="table-row" style="${rowBg} border-radius: 8px; padding: 12px 8px; transition: 0.3s;">
+        <div class="col-no" style="width: 10%;"><div style="${numBg} width: 26px; height: 26px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight:bold;">${i+1}</div></div>
+        <div class="col-team" style="width: 40%; font-size: 14px; font-weight: 700; display:flex; align-items:center; gap:8px;"><img src="${tk?tk.logo:''}" style="width: 24px; height: 24px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.2);"> ${tk?formatUzunIsim(tk.isim):'Bilinmiyor'}</div>
         <div class="col-stat">${t.o}</div>
         <div class="col-stat">${t.g}</div>
         <div class="col-stat">${t.b}</div>
         <div class="col-stat">${t.m}</div>
-        <div class="col-stat">${av > 0 ? '+'+av : av}</div>
-        <div class="col-pts">${t.p}</div>
-      </div>
-    `;
+        <div class="col-stat" style="color: ${av > 0 ? '#00ff87' : (av < 0 ? '#ff4444' : '#fff')}">${av > 0 ? '+'+av : av}</div>
+        <div class="col-pts" style="color:${ptsColor}; font-size: 18px; text-shadow: 0 0 10px ${ptsColor}80;">${t.p}</div>
+      </div>`; 
   });
 }
 function startWCMode() { 
@@ -918,39 +1006,72 @@ function renderWCGroup() {
   currentWCGroup = document.getElementById('wc-group-select').value;
   const groupData = wcData.gruplar[currentWCGroup];
   
-  // 1. ADIM: TABLO YERİNE ŞIK KARTLAR (Puan durumu kısmı)
-  const container = document.getElementById('wc-table-body'); 
-  container.innerHTML = '<div class="wc-group-container"></div>';
-  const grid = container.querySelector('.wc-group-container');
-  
+  // PUAN DURUMU ÇİZİMİ
+  const tbody = document.getElementById('wc-table-body');
+  tbody.innerHTML = '';
   let siralama = Object.keys(groupData.takimlar).map(id => ({ id, ...groupData.takimlar[id] }));
-  siralama.sort((a, b) => b.p - a.p); // Basit puan sıralaması
+  siralama.sort((a, b) => { if(b.p !== a.p) return b.p - a.p; if((b.a - b.y) !== (a.a - a.y)) return (b.a - b.y) - (a.a - a.y); return b.a - a.a; });
   
   siralama.forEach((t, i) => { 
     const tk = LIGLER.wc2026.takimlar[t.id]; 
-    grid.innerHTML += `
-      <div class="wc-team-card">
-        <img src="${tk.logo}">
-        <div>
-          <span style="display:block; font-size:10px; color:#ffd700;">${i+1}. SIRA</span>
-          <span>${tk.kisa} (${t.p} P)</span>
-        </div>
+    const av = t.a - t.y; 
+    
+    // İlk 2 tur atladığı için onlara "Altın" parlama efekti verdik
+    let rowBg = i < 2 
+      ? "background: linear-gradient(90deg, rgba(255,215,0,0.15), rgba(0,26,64,0.8)); border-left: 4px solid #ffd700;" 
+      : "background: rgba(255,255,255,0.04); border-left: 4px solid transparent;";
+      
+    let numBg = i < 2 ? "background: #ffd700; color: #000;" : "background: rgba(255,255,255,0.1); color: #fff;";
+
+    tbody.innerHTML += `
+      <div class="table-row" style="${rowBg} border-radius: 8px; padding: 12px 8px; margin-bottom: 4px; transition: 0.3s;">
+        <div class="col-no" style="width: 10%;"><div style="${numBg} width: 26px; height: 26px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 16px;">${i+1}</div></div>
+        <div class="col-team" style="width: 40%; font-size: 15px; font-weight: 700; display:flex; align-items:center; gap:8px;"><img src="${tk.logo}" style="width: 24px; height: 24px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.2);"> ${tk.isim}</div>
+        <div class="col-stat">${t.o}</div>
+        <div class="col-stat">${t.g}</div>
+        <div class="col-stat">${t.b}</div>
+        <div class="col-stat">${t.m}</div>
+        <div class="col-stat" style="color: ${av > 0 ? '#00ff87' : (av < 0 ? '#ff4444' : '#fff')}">${av > 0 ? '+'+av : av}</div>
+        <div class="col-pts" style="color:#ffd700; font-size: 18px; text-shadow: 0 0 10px rgba(255,215,0,0.5);">${t.p}</div>
       </div>`; 
   });
 
-  // 2. ADIM: FİKSTÜRÜ DAHA ŞIK HALE GETİR
-  const flist = document.getElementById('wc-fixture-list'); flist.innerHTML = '';
+  // FİKSTÜR ÇİZİMİ
+  const flist = document.getElementById('wc-fixture-list'); 
+  flist.innerHTML = '';
   groupData.fikstur.forEach((mac, index) => {
-    const ev = LIGLER.wc2026.takimlar[mac.ev]; const dep = LIGLER.wc2026.takimlar[mac.dep];
-    let skorHtml = mac.oynandi ? `${mac.skorEv} - ${mac.skorDep}` : `<button class="play-match-btn" style="background:#ffd700;" onclick="playWCMatch(${index})">MAÇA GİT</button>`;
+    const ev = LIGLER.wc2026.takimlar[mac.ev]; 
+    const dep = LIGLER.wc2026.takimlar[mac.dep];
     
+    // Maç oynandıysa skoru göster, oynanmadıysa efsanevi "OYNA" butonu
+    let skorHtml = mac.oynandi 
+      ? `<div style="font-family: 'Bebas Neue'; font-size: 32px; color: #ffd700; text-shadow: 0 0 15px rgba(255,215,0,0.5);">${mac.skorEv} - ${mac.skorDep}</div>` 
+      : `<button class="action-btn" style="background: linear-gradient(135deg, #ffd700, #ff9900); color: #000; padding: 8px 15px; font-size: 14px; border-radius: 8px; box-shadow: 0 4px 15px rgba(255,215,0,0.4);" onclick="playWCMatch(${index})">OYNA ▶</button>`;
+      
+    let opacity = mac.oynandi ? "0.6" : "1";
+
     flist.innerHTML += `
-      <div class="match-card" style="background: linear-gradient(90deg, #002d72, #050d0f); border-left: 3px solid #ffd700;">
-        <div class="match-team" style="justify-content:flex-end;">${ev.kisa} <img src="${ev.logo}"></div>
-        <div class="match-score" style="color:#ffd700;">${skorHtml}</div>
-        <div class="match-team"><img src="${dep.logo}"> ${dep.kisa}</div>
+      <div class="match-card" style="opacity:${opacity}; background: linear-gradient(145deg, #001533, #000a1a); border: 1px solid rgba(255,215,0,0.15); border-radius: 12px; padding: 15px 10px;">
+        <div class="match-team" style="justify-content:flex-end; text-align:right; width: 35%; font-size: 15px; font-weight: 700;">${ev.kisa} <img src="${ev.logo}" style="width:28px; height:28px; border-radius:50%;"></div>
+        <div class="match-score" style="width: 30%; display:flex; justify-content:center;">${skorHtml}</div>
+        <div class="match-team" style="width: 35%; font-size: 15px; font-weight: 700;"><img src="${dep.logo}" style="width:28px; height:28px; border-radius:50%;"> ${dep.kisa}</div>
       </div>`;
   });
+}
+
+function playSimMatch(haftaIndex, macIndex) {
+  const mac = simData.fikstur[haftaIndex][macIndex]; if(mac.oynandi) return; 
+  currentMatchData = mac; currentGameMode = 'sim';
+  AYARLAR.takim1 = LIGLER.superlig.takimlar[mac.ev]; AYARLAR.takim2 = LIGLER.superlig.takimlar[mac.dep];
+  
+  // 🛡️ ÜST ROZETİ SÜPER LİG OLARAK GÜNCELLE
+  const badge = document.getElementById('match-info-badge');
+  badge.style.display = 'block'; 
+  badge.style.borderColor = "var(--neon-green)"; 
+  badge.style.color = "var(--neon-green)";
+  badge.innerHTML = `🏆 SÜPER LİG <br><span style="color: #fff; font-size: 12px;">${haftaIndex + 1}. HAFTA</span>`;
+  
+  prepareGameUI();
 }
 
 function playWCMatch(macIndex) {
@@ -958,26 +1079,12 @@ function playWCMatch(macIndex) {
   currentMatchData = mac; currentGameMode = 'wc';
   AYARLAR.takim1 = LIGLER.wc2026.takimlar[mac.ev]; AYARLAR.takim2 = LIGLER.wc2026.takimlar[mac.dep];
   
-  document.getElementById('match-info-badge').style.display = 'block'; 
-  document.getElementById('match-week-text').textContent = "GRUP " + currentWCGroup; 
-  document.getElementById('match-info-badge').style.borderColor = "#ffd700"; 
-  document.getElementById('match-info-badge').style.color = "#ffd700";
-  prepareGameUI();
-}
-
-function playSimMatch(haftaIndex, macIndex) {
-  const mac = simData.fikstur[haftaIndex][macIndex];
-  if(mac.oynandi) return; 
-  
-  currentMatchData = mac;
-  currentGameMode = 'sim';
-  
-  AYARLAR.takim1 = LIGLER.superlig.takimlar[mac.ev];
-  AYARLAR.takim2 = LIGLER.superlig.takimlar[mac.dep];
-  
-  // HAFTA ROZETİNİ GÖSTER VE YAZISINI GÜNCELLE
-  document.getElementById('match-info-badge').style.display = 'block';
-  document.getElementById('match-week-text').textContent = (haftaIndex + 1) + ". HAFTA";
+  // 🛡️ ÜST ROZETİ DÜNYA KUPASI OLARAK GÜNCELLE
+  const badge = document.getElementById('match-info-badge');
+  badge.style.display = 'block'; 
+  badge.style.borderColor = "#ffd700"; 
+  badge.style.color = "#ffd700";
+  badge.innerHTML = `🌍 DÜNYA KUPASI <br><span style="color: #fff; font-size: 12px;">GRUP ${currentWCGroup}</span>`;
   
   prepareGameUI();
 }
@@ -985,29 +1092,62 @@ function playSimMatch(haftaIndex, macIndex) {
 
 
 function saveSimResult() {
-  const sEv = scores.team1; const sDep = scores.team2;
-  currentMatchData.oynandi = true; currentMatchData.skorEv = sEv; currentMatchData.skorDep = sDep;
-  
-  let targetTable = currentGameMode === 'sim' ? simData.takimlar : wcData.gruplar[currentWCGroup].takimlar;
-  let tEv = targetTable[currentMatchData.ev]; let tDep = targetTable[currentMatchData.dep];
+  try {
+    const sEv = scores.team1; 
+    const sDep = scores.team2;
+    
+    currentMatchData.oynandi = true; 
+    currentMatchData.skorEv = sEv; 
+    currentMatchData.skorDep = sDep;
 
-  tEv.o++; tDep.o++; tEv.a += sEv; tEv.y += sDep; tDep.a += sDep; tDep.y += sEv;
-  if(sEv > sDep) { tEv.g++; tEv.p += 3; tDep.m++; }
-  else if(sDep > sEv) { tDep.g++; tDep.p += 3; tEv.m++; }
-  else { tEv.b++; tDep.b++; tEv.p += 1; tDep.p += 1; }
+    // 🛡️ Ekranları gizlerken Null hatası vermemesi için güvenlik önlemi
+    const matchEndEl = document.getElementById('match-end') || document.getElementById('overlay');
+    if(matchEndEl) matchEndEl.style.display = 'none';
+    if(document.getElementById('scoreboard')) document.getElementById('scoreboard').style.display = 'none';
+    if(document.getElementById('gameCanvas')) document.getElementById('gameCanvas').style.display = 'none';
 
-  document.getElementById('match-end').style.display = 'none';
-  document.getElementById('scoreboard').style.display = 'none';
-  document.getElementById('gameCanvas').style.display = 'none';
+    if (currentGameMode === 'sim') {
+      let tEv = simData.takimlar[currentMatchData.ev]; 
+      let tDep = simData.takimlar[currentMatchData.dep];
 
-  if (currentGameMode === 'sim') {
-    localStorage.setItem('futbolTayfaKariyer', JSON.stringify(simData));
-    document.getElementById('sim-dashboard').style.display = 'flex';
-    renderFixtures(); renderTable();
-  } else if (currentGameMode === 'wc') {
-    localStorage.setItem('futbolTayfaWC', JSON.stringify(wcData));
-    document.getElementById('wc-dashboard').style.display = 'flex';
-    renderWCGroup();
+      if (!tEv || !tDep) {
+        alert("Eski veri çakışması! Lütfen Fikstür panelinden 'LİGİ SIFIRLA' butonuna bas.");
+        return;
+      }
+
+      tEv.o++; tDep.o++; tEv.a += sEv; tEv.y += sDep; tDep.a += sDep; tDep.y += sEv;
+      if(sEv > sDep) { tEv.g++; tEv.p += 3; tDep.m++; }
+      else if(sDep > sEv) { tDep.g++; tDep.p += 3; tEv.m++; }
+      else { tEv.b++; tDep.b++; tEv.p += 1; tDep.p += 1; }
+
+      localStorage.setItem('futbolTayfaKariyer', JSON.stringify(simData));
+      
+      if(document.getElementById('sim-dashboard')) document.getElementById('sim-dashboard').style.display = 'flex';
+      renderFixtures(); 
+      renderTable();
+
+    } else if (currentGameMode === 'wc') {
+      let tEv = wcData.gruplar[currentWCGroup].takimlar[currentMatchData.ev]; 
+      let tDep = wcData.gruplar[currentWCGroup].takimlar[currentMatchData.dep];
+
+      if (!tEv || !tDep) {
+        alert("Eski veri çakışması! Lütfen Dünya Kupası panelinden 'TURNUVAYI SIFIRLA' butonuna bas.");
+        return;
+      }
+
+      tEv.o++; tDep.o++; tEv.a += sEv; tEv.y += sDep; tDep.a += sDep; tDep.y += sEv;
+      if(sEv > sDep) { tEv.g++; tEv.p += 3; tDep.m++; }
+      else if(sDep > sEv) { tDep.g++; tDep.p += 3; tEv.m++; }
+      else { tEv.b++; tDep.b++; tEv.p += 1; tDep.p += 1; }
+
+      localStorage.setItem('futbolTayfaWC', JSON.stringify(wcData));
+      
+      if(document.getElementById('wc-dashboard')) document.getElementById('wc-dashboard').style.display = 'flex';
+      renderWCGroup();
+    }
+  } catch(err) {
+    console.error("KAYDETME HATASI:", err);
+    alert("Kayıt sırasında bir hata oluştu. F12'ye basıp konsola bakabilir misin?");
   }
 }
 
@@ -1563,26 +1703,39 @@ function runActualGame() {
 }
 
 function endGame() {
-  gameRunning=false;
+  gameRunning = false;
   clearInterval(timerInterval);
+  
+  // 1. Orijinal Müzik ve Ses Durdurma Kodların (Korundu)
   try {
-    const a1=document.getElementById('audio-team1'), a2=document.getElementById('audio-team2');
-    a1.pause(); a1.currentTime=0; a2.pause(); a2.currentTime=0;
-    if (musicTimeout) clearTimeout(musicTimeout);
+    const a1 = document.getElementById('audio-team1'), a2 = document.getElementById('audio-team2');
+    if(a1) { a1.pause(); a1.currentTime = 0; }
+    if(a2) { a2.pause(); a2.currentTime = 0; }
+    if (typeof musicTimeout !== 'undefined' && musicTimeout) clearTimeout(musicTimeout);
   } catch(e) {}
 
-  const overlay=document.getElementById('overlay');
-  overlay.style.display='flex';
+  // 2. Maç Sonu Ekranını Getir
+  const overlay = document.getElementById('match-end') || document.getElementById('overlay');
+  if(overlay) overlay.style.display = 'flex';
 
-  let winnerHTML='';
-  if (scores.team1>scores.team2)      winnerHTML=`<div class="winner-text">${AYARLAR.takim1.kazandiYazisi}</div>`;
-  else if (scores.team2>scores.team1) winnerHTML=`<div class="winner-text">${AYARLAR.takim2.kazandiYazisi}</div>`;
-  else                                winnerHTML=`<div class="winner-text">🤝 BERABERE!</div>`;
+  // 3. Undefined Hatasını Önleyen Kazanan Metni
+  let winText = "🤝 BERABERE!";
+  if (scores.team1 > scores.team2) {
+    winText = AYARLAR.takim1.kazandiYazisi ? AYARLAR.takim1.kazandiYazisi : (AYARLAR.takim1.isim + " KAZANDI!");
+  } else if (scores.team2 > scores.team1) {
+    winText = AYARLAR.takim2.kazandiYazisi ? AYARLAR.takim2.kazandiYazisi : (AYARLAR.takim2.isim + " KAZANDI!");
+  }
+  let winnerHTML = `<div style="font-family:'Bebas Neue'; font-size:36px; color:#ffffff; text-shadow: 0 0 15px rgba(255,255,255,0.6); text-align:center; letter-spacing: 2px;">${winText}</div>`;
 
+  // 4. Modlara Göre Çıkan Dinamik Butonlar
   let actionButtons = '';
   if (currentGameMode === 'sim') {
     actionButtons = `<button class="action-btn" onclick="saveSimResult()">KAYDET VE LİGE DÖN</button>`;
+  } else if (currentGameMode === 'wc') {
+    // Dünya Kupası İçin Altın Sarısı Kaydet Butonu
+    actionButtons = `<button class="action-btn" style="background:#ffd700; color:#000; box-shadow: 0 0 15px rgba(255,215,0,0.4);" onclick="saveSimResult()">SONUCU KAYDET VE GRUBA DÖN</button>`;
   } else {
+    // Orijinal Özel Maç Ekranın (İkonlu)
     actionButtons = `
       <button class="action-btn" onclick="startCountdown()">TEKRAR OYNA</button>
       <div class="home-icon-btn" onclick="showMainMenu()">
@@ -1590,16 +1743,19 @@ function endGame() {
       </div>`;
   }
 
-  overlay.innerHTML=`
-    <h1>⏱ MAÇIN SONU!</h1>
-    <div class="result-divider"></div>
-    <div class="result-score">${scores.team1} — ${scores.team2}</div>
-    ${winnerHTML}
-    <div class="result-divider"></div>
-    <div style="display:flex;flex-direction:column;align-items:center;gap:14px;margin-top:6px;">
-      ${actionButtons}
-    </div>
-  `;
+  // 5. Senin Kendi Tasarımın Üzerinden Ekrana Basma
+  if(overlay) {
+    overlay.innerHTML = `
+      <h1 style="font-family:'Bebas Neue'; font-size:50px; color:white;">⏱ MAÇIN SONU!</h1>
+      <div class="result-divider"></div>
+      <div class="result-score" style="font-family:'Bebas Neue'; font-size:90px; color:var(--neon-green);">${scores.team1} — ${scores.team2}</div>
+      ${winnerHTML}
+      <div class="result-divider"></div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:14px;margin-top:6px;">
+        ${actionButtons}
+      </div>
+    `;
+  }
 }
 
 // ====== UYGULAMAYI BAŞLAT ======
