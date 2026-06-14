@@ -51,7 +51,7 @@
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
     pointer-events: none;
     z-index: 100;
-    opacity: 0.6;
+    opacity: 0.05;
   }
 
   /* ========== GAME WRAPPER ========== */
@@ -66,28 +66,21 @@
     box-shadow: 0 10px 50px rgba(0,0,0,0.8), 0 0 20px rgba(0,255,135,0.1); /* Dışa gölge eklendi */
   }
 
+
   /* ========== SCOREBOARD — PREMIUM ========== */
   #scoreboard {
     position: relative;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: var(--panel-bg);
-    border: 1px solid var(--border);
+    background: rgba(0, 0, 0, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.03);
     border-bottom: none;
-    padding: 12px 14px 10px;
+    /* İŞTE BURASI: Üst boşluğu 12px'ten 35px'e çıkardık! */
+    padding: 35px 14px 10px; 
     border-radius: 22px 22px 0 0;
-    overflow: hidden;
-    backdrop-filter: blur(20px);
-  }
-
-  #scoreboard::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 10%; right: 10%;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--neon-green), rgba(0,255,135,0.4), var(--neon-green), transparent);
-    box-shadow: 0 0 12px var(--neon-green), 0 0 24px rgba(0,255,135,0.4);
+    backdrop-filter: blur(15px);
+    z-index: 20;
   }
 
   #scoreboard::after {
@@ -99,10 +92,20 @@
       linear-gradient(90deg, rgba(0,255,135,0.015) 1px, transparent 1px);
     background-size: 24px 24px;
     pointer-events: none;
+    border-radius: 22px 22px 0 0; /* Taşkınlığı önlemek için eklendi */
   }
 
   /* ========== TEAM COLUMNS ========== */
-  .team-col { display: flex; flex-direction: column; align-items: center; width: 100px; z-index: 1; gap: 4px; }
+  .team-col { 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    width: 115px; 
+    z-index: 50; 
+    gap: 4px; 
+    position: relative; /* Olay kutularının havada asılı kalması için referans noktası */
+  }
+  
   .team-logo-ring { position: relative; width: 58px; height: 58px; }
 
   .team-logo-ring::before {
@@ -139,18 +142,47 @@
     font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; text-align: center; line-height: 1.2;
   }
 
-  /* Events */
-  .team-events { width: 100%; height: 75px; overflow-y: auto; display: flex; flex-direction: column; gap: 2px; scrollbar-width: none; }
-  .team-events::-webkit-scrollbar { display: none; }
-  .event-item {
-    font-size: 13px; font-family: 'Barlow Condensed', sans-serif; font-weight: 600; text-align: left;
-    background: rgba(255,255,255,0.04); padding: 2px 6px; border-radius: 4px; border-left: 2px solid currentColor;
-    display: flex; align-items: center; gap: 3px; letter-spacing: 0.5px; flex-shrink: 0;
+  /* 💎 GOL VE KART OLAYLARI (SAHAYA DOĞRU UZAYAN SİSTEM) 💎 */
+  .team-events { 
+    position: absolute; 
+    top: calc(100% + 15px); 
+    left: 50%; 
+    transform: translateX(-50%); /* Olay kutusunu logonun tam ortasından hizalar */
+    width: max-content; /* İŞTE SIR BURADA: Genişliği 115px'e kilitlemez, Abdülkerim gibi uzun isimlerde kutuyu sağa-sola esnetir! */
+    min-width: 100%; /* Çok kısa isimlerde bile kutu güzel dursun diye minimum bir genişlik verir */
+    height: auto; 
+    max-height: 450px; 
+    overflow-y: auto; 
+    display: flex; 
+    flex-direction: column; 
+    gap: 6px; 
+    scrollbar-width: none; 
   }
-  .event-time { opacity: 0.5; font-size: 12px; }
+  .team-events::-webkit-scrollbar { display: none; }
+  
+  .event-item {
+    font-size: 15px; /* Uzun isimler skorborda çarpmasın diye milimetrik küçültüldü */
+    font-family: 'Barlow Condensed', sans-serif; 
+    font-weight: 700; 
+    text-align: left;
+    background: rgba(0, 0, 0, 0.75); /* Cam efekti biraz daha koyulaştırıldı, netlik eklendi */
+    backdrop-filter: blur(5px); 
+    padding: 6px 12px; /* Kutu içi sağ-sol boşluğu artırıldı ki nefes alsın */
+    border-radius: 8px; 
+    border-left: 3px solid currentColor; 
+    display: flex; 
+    align-items: center; 
+    gap: 5px; 
+    letter-spacing: 0.5px; 
+    flex-shrink: 0;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    white-space: nowrap; /* İKİNCİ SIR: Yazı asla alt satıra atlamaz, tek satırda jilet gibi durur! */
+  }
+  
+  .event-time { opacity: 0.9; font-size: 14px; font-weight: 800; color: #fff; }
 
   /* ========== CENTER SCORE ========== */
-  .score-center { display: flex; flex-direction: column; align-items: center; gap: 6px; z-index: 1; }
+  .score-center { display: flex; flex-direction: column; align-items: center; gap: 6px; z-index: 1; margin-top: 18px; }
   .scores-row { display: flex; align-items: center; gap: 8px; }
   .team-score {
     font-family: 'Bebas Neue', cursive; font-size: 52px; color: #fff; line-height: 1; min-width: 36px;
@@ -170,9 +202,17 @@
   @keyframes pulse-dot { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.3; transform: scale(0.7); } }
   #timer { font-family: 'Rajdhani', sans-serif; font-size: 15px; font-weight: 700; color: var(--neon-green); letter-spacing: 1px; }
 
-  /* ========== CANVAS ========== */
-  #gameCanvas { display: block; border: 1px solid rgba(0,255,135,0.1); border-top: none; border-radius: 0 0 22px 22px; background: #071409; }
-
+ /* ========== CANVAS ========== */
+  #gameCanvas { 
+    display: block; 
+    border: 1px solid rgba(0,255,135,0.05); 
+    border-top: none; 
+    border-radius: 0 0 22px 22px; 
+    background: transparent; /* Sahanın altı şeffaf oldu ki geçiş görünsün */
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+    image-rendering: high-quality;
+  }
   /* ========== OVERLAYS ========== */
   .overlay-screen {
     position: absolute; top: 0; left: 1px; right: 1px; bottom: 1px;
@@ -715,7 +755,7 @@ const LIGLER = {
       "İngiltere": {isim:"İNGİLTERE", kisa:"İngiltere", logo:"./ingiltere.png", renkAna:"#FFFFFF", oyuncular:["Kane","Bellingham","Foden","Rice","Saka","Rogers","Anderson","O'Reilly","Guehi"]},
       "Hırvatistan": {isim:"HIRVATİSTAN", kisa:"Hırvatistan", logo:"./hırvatistan.png", renkAna:"#FF0000", oyuncular:["Modric","Gvardiol","Kramaric"]},
       "Gana": {isim:"GANA", kisa:"Gana", logo:"./gana.png", renkAna:"#006B3F", oyuncular:["Semenyo","Fatawu","Sulemana","Asante","Bonsu Baah","Nuamah","Oppong"]},
-      "Panama": {isim:"PANAMA", kisa:"Panama", logo:"./pananam.png", renkAna:"#DA291C", oyuncular:["Amir Murillo","Carrasquilla","Cordoba","Andrade","Rodriguez","Blackman","Diaz"]},
+      "Panama": {isim:"PANAMA", kisa:"Panama", logo:"./panama.png", renkAna:"#DA291C", oyuncular:["Amir Murillo","Carrasquilla","Cordoba","Andrade","Rodriguez","Blackman","Diaz"]},
     }
   }
 };
@@ -805,11 +845,30 @@ function resetWC() {
     renderWCGroup(); 
   } 
 }
+// ==========================================
+// 🎨 DİNAMİK TEMA MOTORU (KESİNTİSİZ GEÇİŞ)
+// ==========================================
+function applyTheme(tema) {
+  const wrapper = document.getElementById('game-wrapper');
+  
+  if (tema === 'wc') {
+    // 🌍 DÜNYA KUPASI: Mor'dan siyaha geçiş
+    wrapper.style.background = "linear-gradient(to top, #14082b 0%, #080312 60%, #030105 100%)";
+    wrapper.style.boxShadow = "0 10px 50px rgba(0,0,0,0.9), 0 0 35px rgba(0, 243, 255, 0.15)";
+    document.body.style.backgroundImage = "radial-gradient(ellipse 80% 50% at 50% -10%, rgba(0,243,255,0.08) 0%, transparent 60%), radial-gradient(ellipse 60% 40% at 50% 110%, rgba(255,0,127,0.06) 0%, transparent 60%)";
+  } else {
+    // 🏆 SÜPER LİG: Koyu yeşilden siyaha geçiş
+    wrapper.style.background = "linear-gradient(to top, #09210e 0%, #030a04 60%, #010301 100%)";
+    wrapper.style.boxShadow = "0 10px 50px rgba(0,0,0,0.8), 0 0 20px rgba(0,255,135,0.1)";
+    document.body.style.backgroundImage = "radial-gradient(ellipse 80% 50% at 50% -10%, rgba(0,255,135,0.08) 0%, transparent 60%), radial-gradient(ellipse 60% 40% at 50% 110%, rgba(255,107,0,0.06) 0%, transparent 60%)";
+  }
+}
 
 // ==========================================
 // 🖥️ UI VE MENÜ GEÇİŞLERİ
 // ==========================================
 function showMainMenu() {
+  applyTheme('default');
   document.querySelectorAll('.overlay-screen').forEach(el => el.style.display = 'none');
   document.getElementById('scoreboard').style.display = 'none';
   document.getElementById('gameCanvas').style.display = 'none';
@@ -818,6 +877,7 @@ function showMainMenu() {
 
 // -- KARİYER MODU --
 function startCareerMode() {
+  applyTheme('default');
   initSimData();
   document.getElementById('main-menu').style.display = 'none';
   document.getElementById('sim-dashboard').style.display = 'flex';
@@ -993,6 +1053,7 @@ function renderTable() {
   });
 }
 function startWCMode() { 
+  applyTheme('wc');
   initWCData(); 
   document.querySelectorAll('.overlay-screen').forEach(el => el.style.display = 'none');
   const sel = document.getElementById('wc-group-select'); 
@@ -1153,6 +1214,7 @@ function saveSimResult() {
 
 // -- ÖZEL MAÇ MODU --
 function startCustomMode() {
+  applyTheme('default');
   document.getElementById('main-menu').style.display = 'none';
   const selLig = document.getElementById('select-league');
   selLig.innerHTML = '';
@@ -1196,17 +1258,26 @@ function confirmCustomTeams() {
 // ⚽ OYUN HAZIRLIK VE MOTOR BAŞLATMA
 // ==========================================
 function prepareGameUI() {
+  // 🎵 TEKİL GOL MÜZİĞİ DOSYANIN ADI
+  const genelMuzik = "./jenerik-gol.mp3";
+
   // Update scoreboard UI
   document.getElementById('name-team1').textContent = AYARLAR.takim1.isim;
   document.getElementById('img-team1').src = AYARLAR.takim1.logo;
-  if(AYARLAR.takim1.muzik) document.getElementById('audio-team1').src = AYARLAR.takim1.muzik;
+  
+  // 1. Takım Müzik Kontrolü (Özel müziği yoksa genel müziği ata)
+  document.getElementById('audio-team1').src = AYARLAR.takim1.muzik || genelMuzik;
+  
   document.getElementById('ring-1').style.setProperty('--team-color', AYARLAR.takim1.renkAna);
   document.getElementById('score-team1').style.color = AYARLAR.takim1.renkAna;
   document.getElementById('score-team1').style.textShadow = `0 0 30px ${AYARLAR.takim1.renkAna}, 0 0 60px ${hexToRgba(AYARLAR.takim1.renkAna, 0.4)}`;
 
   document.getElementById('name-team2').textContent = AYARLAR.takim2.isim;
   document.getElementById('img-team2').src = AYARLAR.takim2.logo;
-  if(AYARLAR.takim2.muzik) document.getElementById('audio-team2').src = AYARLAR.takim2.muzik;
+  
+  // 2. Takım Müzik Kontrolü (Özel müziği yoksa genel müziği ata)
+  document.getElementById('audio-team2').src = AYARLAR.takim2.muzik || genelMuzik;
+  
   document.getElementById('ring-2').style.setProperty('--team-color', AYARLAR.takim2.renkAna);
   document.getElementById('score-team2').style.color = AYARLAR.takim2.renkAna;
   document.getElementById('score-team2').style.textShadow = `0 0 30px ${AYARLAR.takim2.renkAna}, 0 0 60px ${hexToRgba(AYARLAR.takim2.renkAna, 0.4)}`;
@@ -1229,16 +1300,27 @@ function prepareGameUI() {
 }
 
 // ==========================================
-// OYUN MOTORU (FİZİK VE ÇİZİM DEĞİŞMEDİ)
+// OYUN MOTORU (FİZİK VE ÇİZİM)
 // ==========================================
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
-const W = canvas.width, H = canvas.height;
+
+const W = 390; 
+const H = 750;
+const dpr = Math.max(window.devicePixelRatio || 1, 3); 
+
+canvas.width = W * dpr;
+canvas.height = H * dpr;
+canvas.style.width = W + "px";
+canvas.style.height = H + "px";
+ctx.scale(dpr, dpr);
+ctx.imageSmoothingEnabled = true;
+ctx.imageSmoothingQuality = "high";
+// ----------------------------------------------
 const CX = W / 2, CY = H / 2 - 30;
 const ARENA_R = 172;
 const GOAL_W = 48, GOAL_H = 22;
 const BALL_R = 23;
-
 let arenaAngle = 0;
 let ROTATE_SPEED = 0.018;
 let teamYellowCards = { team1:0, team2:0 };
@@ -1614,41 +1696,56 @@ function drawBall(ball) {
   ctx.beginPath(); ctx.arc(ball.x, ball.y, ball.r, 0, Math.PI*2); ctx.fillStyle = hlGrd; ctx.fill(); ctx.restore();
 }
 
-function gameLoop() {
-  ctx.clearRect(0, 0, W, H);
-  
-  if (gameRunning) arenaAngle += ROTATE_SPEED;
+// --- FPS KİLİDİ DEĞİŞKENLERİ ---
+let sonCizimZamani = 0;
+const SABIT_FPS = 60;
+const KARE_SURESI = 1000 / SABIT_FPS;
 
-  drawBackground(); drawArena(); drawGoal(); drawParticles(); drawYellowCard();
+function gameLoop(suAnkiZaman) {
+  // Döngü her ekran yenilemesinde kendini çağırır (200Hz ise 200 kere çağırır)
+  requestAnimationFrame(gameLoop);
 
-  if (gameRunning && ballTeam1 && ballTeam2) {
-    updateBall(ballTeam1); updateBall(ballTeam2);
-    collideBalls(ballTeam1, ballTeam2);
-    updateParticles();
+  // Bir önceki çizimden bu yana geçen süreyi hesapla
+  const gecenSure = suAnkiZaman - sonCizimZamani;
 
-    if (yellowCard) {
-      yellowCard.life--;
-      if (yellowCard.life <= 0) yellowCard = null;
-      else {
-        if (checkYellowCard(ballTeam1)) handleCardCollision('team1', ballTeam1);
-        else if (checkYellowCard(ballTeam2)) handleCardCollision('team2', ballTeam2);
+  // Sadece yeterli süre (16.6 ms) geçtiyse oyunu bir adım ileri sar
+  if (gecenSure >= KARE_SURESI) {
+    // Zamanlamayı sıfırla (Küsüratları kaybetmemek için % kullanıyoruz)
+    sonCizimZamani = suAnkiZaman - (gecenSure % KARE_SURESI);
+
+    // --- BURADAN AŞAĞISI ORİJİNAL OYUN MOTORUN ---
+    ctx.clearRect(0, 0, W, H);
+    
+    if (gameRunning) arenaAngle += ROTATE_SPEED;
+
+    drawBackground(); drawArena(); drawGoal(); drawParticles(); drawYellowCard();
+
+    if (gameRunning && ballTeam1 && ballTeam2) {
+      updateBall(ballTeam1); updateBall(ballTeam2);
+      collideBalls(ballTeam1, ballTeam2);
+      updateParticles();
+
+      if (yellowCard) {
+        yellowCard.life--;
+        if (yellowCard.life <= 0) yellowCard = null;
+        else {
+          if (checkYellowCard(ballTeam1)) handleCardCollision('team1', ballTeam1);
+          else if (checkYellowCard(ballTeam2)) handleCardCollision('team2', ballTeam2);
+        }
+      }
+
+      if (goalCooldown > 0) goalCooldown--;
+      if (goalCooldown === 0) {
+        if (checkGoal(ballTeam1)) handleGoal('team1');
+        else if (checkGoal(ballTeam2)) handleGoal('team2');
       }
     }
 
-    if (goalCooldown > 0) goalCooldown--;
-    if (goalCooldown === 0) {
-      if (checkGoal(ballTeam1)) handleGoal('team1');
-      else if (checkGoal(ballTeam2)) handleGoal('team2');
+    if (AYARLAR.takim1 && AYARLAR.takim2) {
+      drawBall(ballTeam1); 
+      drawBall(ballTeam2);
     }
   }
-
-  // 2. GÜVENLİK DUVARI: Sadece takımlar seçildiyse topları ekrana çiz
-  if (AYARLAR.takim1 && AYARLAR.takim2) {
-    drawBall(ballTeam1); 
-    drawBall(ballTeam2);
-  }
-  
-  requestAnimationFrame(gameLoop);
 }
 
 function startCountdown() {
