@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
+
   :root {
     --neon-green: #00ff87;
     --neon-orange: #ff6b00;
@@ -16,6 +17,109 @@
     --glass: rgba(255,255,255,0.04);
     --border: rgba(255,255,255,0.08);
   }
+ /* ========== GAME WRAPPER (DÜZELTİLDİ) ========== */
+  #game-wrapper {
+    position: relative;
+    width: 390px;
+    height: 844px;
+    max-height: 95vh;
+    border-radius: 30px;
+    background: radial-gradient(circle at top, #0a1a1f 0%, #050d0f 100%);
+    overflow: hidden;
+    box-shadow: 0 10px 50px rgba(0,0,0,0.8), 0 0 20px rgba(0,255,135,0.1);
+  }
+/* ⚔️ İKİ NOKTA ÜST ÜSTE (Tam Beyaz ve Parlak) */
+  #score-divider { 
+    font-family: 'Bebas Neue', cursive; 
+    font-size: 42px !important; /* Biraz daha büyüttük */
+    color: #ffffff !important; /* Kesinlikle bembeyaz olacak */
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.8) !important; /* Etrafına beyaz ışık yayacak */
+    line-height: 1; 
+    margin: 0 10px; /* Skorlarla arasına mesafe koyduk */
+    z-index: 50;
+  }
+
+  /* ⏱️ DAKİKA KUTUSU (Simsiyah Arka Plan, Neon Yeşil Çerçeve) */
+  #timer-wrap {
+    display: flex !important; 
+    align-items: center; 
+    gap: 8px; 
+    background: rgba(0, 0, 0, 0.9) !important; /* Kutu içi simsiyah olsun ki yeşil yazı patlasın */
+    border: 2px solid #00ff87 !important; /* Çerçeveyi tam net neon yeşil yaptık */
+    border-radius: 20px; 
+    padding: 6px 16px !important; 
+    box-shadow: 0 0 15px rgba(0, 255, 135, 0.4) !important;
+    z-index: 99 !important; /* Her şeyin üstüne çıksın */
+  }
+  
+  /* 🟢 YANIP SÖNEN NOKTA (Daha Büyük ve Parlak) */
+  #timer-dot {
+    width: 8px !important; 
+    height: 8px !important; 
+    border-radius: 50%; 
+    background: #00ff87 !important;
+    box-shadow: 0 0 10px #00ff87, 0 0 20px rgba(0,255,135,0.8) !important; 
+    animation: pulse-dot 1s ease-in-out infinite;
+  }
+  
+  /* 🟢 DAKİKA YAZISI (Kalın ve Fosforlu) */
+  #timer { 
+    font-family: 'Rajdhani', sans-serif; 
+    font-size: 18px !important; /* Sayıyı biraz büyüttük */
+    font-weight: 800 !important; /* En kalın font ayarı */
+    color: #00ff87 !important; /* Tam neon yeşil */
+    letter-spacing: 1.5px; 
+    text-shadow: 0 0 10px rgba(0, 255, 135, 0.9) !important; /* Yazının arkasından yeşil ışık versin */
+  }
+  
+/* 💰 KAYAN SPONSOR BANTLARI (Kenarlardan Kasıldı) */
+  .sponsor-band {
+    position: absolute;
+    left: 4%; /* Ekranın solundan %4 boşluk bıraktık */
+    width: 92%; /* Genişliği %100'den %92'ye düşürdük, kenarlara değmeyecek */
+    height: 28px;
+    background: rgba(2, 8, 4, 0.85);
+    border: 1px solid var(--neon-green); /* Tam çerçeve yaptık */
+    border-radius: 8px; /* Kenarları yumuşatarak modern bir hap görünümü verdik */
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    z-index: 15;
+    box-shadow: 0 0 15px rgba(0, 255, 135, 0.2);
+    backdrop-filter: blur(5px);
+  }
+
+  /* 🔝 ÜST BANT (Biraz daha yukarı itildi) */
+  .sponsor-top { 
+    top: 28%; /* 33'ten 25'e çektik, yukarı kaydı */
+  }
+
+  /* ⬇️ ALT BANT (Biraz daha aşağı itildi) */
+  .sponsor-bottom { 
+    bottom: 15%; /* 18'den 5'e çektik, ekranın en altına yaslandı */
+  }
+
+  /* 🏃‍♂️ KAYAN YAZI ANİMASYONU */
+  .scrolling-text {
+    display: flex;
+    white-space: nowrap;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    color: var(--neon-green);
+    letter-spacing: 3px;
+    text-shadow: 0 0 8px rgba(0, 255, 135, 0.8);
+    animation: scrollText 21s linear infinite; 
+    position: relative;
+  }
+
+  .scrolling-text span { padding: 0 50px; }
+
+  @keyframes scrollText {
+  0%   { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+
   /* Grup Takımlarını yan yana şık dizmek için */
 .wc-group-container {
     display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin: 20px 0;
@@ -60,6 +164,11 @@
     width: 390px;
     height: 844px;
     max-height: 95vh; /* PC ekranına tam sığması için eklendi */
+    <!-- 💰 SPONSOR LED PANOSU -->
+<div class="sponsor-board">
+  <span class="sponsor-label">RESMİ SPONSOR</span>
+  <span class="sponsor-brand">FUTBOLTAYFA</span>
+</div>
     border-radius: 30px; /* Telefon hissiyatı vermek için köşeleri yuvarlattık */
     background: radial-gradient(circle at top, #0a1a1f 0%, #050d0f 100%);
     overflow: hidden; /* Sadece telefon ekranının içini gizle */
@@ -67,7 +176,7 @@
   }
 
 
-  /* ========== SCOREBOARD — PREMIUM ========== */
+ /* ========== SCOREBOARD (Tavana Yapışık Orijinal Tasarım) ========== */
   #scoreboard {
     position: relative;
     display: flex;
@@ -76,13 +185,15 @@
     background: rgba(0, 0, 0, 0.45);
     border: 1px solid rgba(255, 255, 255, 0.03);
     border-bottom: none;
-    /* İŞTE BURASI: Üst boşluğu 12px'ten 35px'e çıkardık! */
-    padding: 35px 14px 10px; 
-    border-radius: 22px 22px 0 0;
+    padding: 25px 14px 10px; /* Üste yapıştığı için iç boşluğu ayarladık */
+    margin: 0; /* Havada asılı kalmasını sağlayan boşluğu sıfırladık */
+    width: 100%; /* Tam ekran genişliğine geri döndürdük */
+    border-radius: 30px 30px 0 0; /* Sadece üst köşeler telefonun kasasına uyumlu yuvarlak oldu */
     backdrop-filter: blur(15px);
     z-index: 20;
   }
 
+  /* ========== SKORBORD ARKA PLAN DESENİ (Taşmayı Engeller) ========== */
   #scoreboard::after {
     content: '';
     position: absolute;
@@ -92,7 +203,12 @@
       linear-gradient(90deg, rgba(0,255,135,0.015) 1px, transparent 1px);
     background-size: 24px 24px;
     pointer-events: none;
-    border-radius: 22px 22px 0 0; /* Taşkınlığı önlemek için eklendi */
+    border-radius: 30px 30px 0 0; /* Desenin köşelerini de kasayla eşitledik */
+  }
+
+  /* 🛑 HAFTA ROZETİ GİZLİ KALMAYA DEVAM EDİYOR */
+  #match-info-badge {
+    display: none !important; 
   }
 
   /* ========== TEAM COLUMNS ========== */
@@ -142,21 +258,22 @@
     font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; text-align: center; line-height: 1.2;
   }
 
-  /* 💎 GOL VE KART OLAYLARI (SAHAYA DOĞRU UZAYAN SİSTEM) 💎 */
+  /* 💎 GOL LİSTESİ SINIRLAMASI */
   .team-events { 
     position: absolute; 
-    top: calc(100% + 15px); 
+    top: calc(100% + 10px); 
     left: 50%; 
-    transform: translateX(-50%); /* Olay kutusunu logonun tam ortasından hizalar */
-    width: max-content; /* İŞTE SIR BURADA: Genişliği 115px'e kilitlemez, Abdülkerim gibi uzun isimlerde kutuyu sağa-sola esnetir! */
-    min-width: 100%; /* Çok kısa isimlerde bile kutu güzel dursun diye minimum bir genişlik verir */
+    transform: translateX(-50%);
+    width: max-content; 
+    min-width: 100%; 
     height: auto; 
-    max-height: 450px; 
+    max-height: 80px; /* Listeyi biraz daha kısalttık */
     overflow-y: auto; 
     display: flex; 
     flex-direction: column; 
     gap: 6px; 
     scrollbar-width: none; 
+    z-index: 45; 
   }
   .team-events::-webkit-scrollbar { display: none; }
   
@@ -181,26 +298,26 @@
   
   .event-time { opacity: 0.9; font-size: 14px; font-weight: 800; color: #fff; }
 
-  /* ========== CENTER SCORE ========== */
-  .score-center { display: flex; flex-direction: column; align-items: center; gap: 6px; z-index: 1; margin-top: 18px; }
+  /* ========== CENTER SCORE (Dakika Hizalaması) ========== */
+  .score-center { 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    gap: 8px; /* Skor ile dakika arasındaki boşluk */
+    z-index: 1; 
+  }
+  
   .scores-row { display: flex; align-items: center; gap: 8px; }
+  
   .team-score {
-    font-family: 'Bebas Neue', cursive; font-size: 52px; color: #fff; line-height: 1; min-width: 36px;
-    text-align: center; letter-spacing: -1px; text-shadow: 0 0 20px rgba(255,255,255,0.5), 0 0 40px rgba(255,255,255,0.2); transition: color 0.3s;
+    font-family: 'Bebas Neue', cursive; 
+    font-size: 55px; 
+    line-height: 1; 
+    min-width: 40px;
+    text-align: center; 
+    letter-spacing: -1px; 
+    transition: color 0.3s;
   }
-  #score-divider { font-family: 'Bebas Neue', cursive; font-size: 36px; color: rgba(255,255,255,0.2); line-height: 1; }
-
-  /* Timer pill */
-  #timer-wrap {
-    display: flex; align-items: center; gap: 6px; background: rgba(0,255,135,0.08); border: 1px solid rgba(0,255,135,0.2);
-    border-radius: 20px; padding: 4px 12px; box-shadow: 0 0 12px rgba(0,255,135,0.1), inset 0 1px 0 rgba(0,255,135,0.1);
-  }
-  #timer-dot {
-    width: 6px; height: 6px; border-radius: 50%; background: var(--neon-green);
-    box-shadow: 0 0 8px var(--neon-green), 0 0 16px rgba(0,255,135,0.5); animation: pulse-dot 1s ease-in-out infinite;
-  }
-  @keyframes pulse-dot { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.3; transform: scale(0.7); } }
-  #timer { font-family: 'Rajdhani', sans-serif; font-size: 15px; font-weight: 700; color: var(--neon-green); letter-spacing: 1px; }
 
  /* ========== CANVAS ========== */
   #gameCanvas { 
@@ -213,12 +330,17 @@
     image-rendering: crisp-edges;
     image-rendering: high-quality;
   }
-  /* ========== OVERLAYS ========== */
+  
+  /* ========== OVERLAYS (Taşma Sorunu Çözümü) ========== */
   .overlay-screen {
-    position: absolute; top: 0; left: 1px; right: 1px; bottom: 1px;
-    background: linear-gradient(160deg, rgba(5,13,15,0.98), rgba(3,10,8,0.99)); border-radius: 21px;
+    position: absolute; 
+    inset: 0; /* Ekranı milimetrik olarak %100 kaplar, kenar sızmalarını bitirir */
+    background: linear-gradient(160deg, rgba(5,13,15,0.98), rgba(3,10,8,0.99)); 
+    border-radius: 30px; /* Ana çerçevenin ovalliğiyle aynı yaptık */
     display: none; flex-direction: column; align-items: center; justify-content: center; gap: 14px;
-    z-index: 30; backdrop-filter: blur(12px); border: 1px solid rgba(0,255,135,0.08);
+    z-index: 70; /* Tüm elemanların kesinlikle üstünde kalacak */
+    backdrop-filter: blur(12px); 
+    border: none;
   }
   #overlay { top: 175px; background: rgba(3, 8, 6, 0.94); border-radius: 0 0 21px 21px; }
 
@@ -350,6 +472,49 @@
 <audio id="audio-team2"></audio>
 
 <div id="game-wrapper">
+  <!-- 🔝 ÜST SPONSOR BANDI -->
+  <div class="sponsor-band sponsor-top" id="sponsor-top">
+    <div class="scrolling-text">
+      <span>⚽ FUTBOLTAYFA SUNAR ⚽</span>
+      <span>🔥 KANALIMA ABONE OLMAYI UNUTMAYIN 🔥</span>
+      <span>🏆 SÜPER LİG SİMÜLASYONU 🏆</span>
+      <span>🎮 BU SİMÜLASYON SEVGİYLE KODLANDI 💻</span>
+      <span>💥 HER SANİYE HER ŞEY DEĞİŞEBİLİR 💥</span>
+      <span>⚽ TOP DÖNÜYOR, HEYECAN BÜYÜYOR ⚽</span>
+      <span>💬 YORUMLARDA TAKIMINI PAYLAŞ 💬</span>
+      <span>📣 STADYUM ÇILGINA DÖNDÜ! 📣</span>
+      <span>⚽ FUTBOLTAYFA SUNAR ⚽</span>
+      <span>🔥 KANALIMA ABONE OLMAYI UNUTMAYIN 🔥</span>
+      <span>🏆 SÜPER LİG SİMÜLASYONU 🏆</span>
+      <span>🎮 BU SİMÜLASYON SEVGİYLE KODLANDI 💻</span>
+      <span>💥 HER SANİYE HER ŞEY DEĞİŞEBİLİR 💥</span>
+      <span>⚽ TOP DÖNÜYOR, HEYECAN BÜYÜYOR ⚽</span>
+      <span>💬 YORUMLARDA TAKIMINI PAYLAŞ 💬</span>
+      <span>📣 STADYUM ÇILGINA DÖNDÜ! 📣</span>
+  
+    </div>
+  </div>
+
+  <!-- ⬇️ ALT SPONSOR BANDI -->
+  <div class="sponsor-band sponsor-bottom" id="sponsor-bottom">
+    <div class="scrolling-text">
+      <span>🌟 RESMİ SPONSOR: FUTBOLTAYFA 🌟</span>
+      <span>📺 VİDEOYU BEĞENİP YORUM YAPIN 📺</span>
+      <span>🚀 YENİ VİDEOLAR YOLDA 🚀</span>
+      <span>❤️ DESTEĞİNİZ İÇİN TEŞEKKÜRLER ❤️</span>
+      <span>🎥 HER HAFTA YENİ MAÇLAR 🎥</span>
+      <span>🚀 YENİ VİDEOLAR YOLDA 🚀</span>
+      <span>⏰ RESMİ SAAT SPONSORU: SON DAKİKA HEYECANI ⏰</span>
+       <span>🌟 RESMİ SPONSOR: FUTBOLTAYFA 🌟</span>
+      <span>📺 VİDEOYU BEĞENİP YORUM YAPIN 📺</span>
+      <span>🚀 YENİ VİDEOLAR YOLDA 🚀</span>
+      <span>❤️ DESTEĞİNİZ İÇİN TEŞEKKÜRLER ❤️</span>
+      <span>🎥 HER HAFTA YENİ MAÇLAR 🎥</span>
+      <span>🚀 YENİ VİDEOLAR YOLDA 🚀</span>
+      <span>⏰ RESMİ SAAT SPONSORU: SON DAKİKA HEYECANI ⏰</span>
+    
+    </div>
+  </div>
 
   <div id="main-menu" class="overlay-screen">
     <div class="menu-logo">TOP <span>SAVAŞI</span><br><span style="font-size: 28px; color:#fff;">PREMİUM</span></div>
@@ -660,10 +825,11 @@ const LIGLER = {
       "lisbon_ucl": { isim: "SPORTING LISBON", logo: "./lisbon-logo.png", muzik: "lisbon-gol.mp3", renkAna: "#008000", renkIkinci: "#FFFFFF", kazandiYazisi: "🟢⚪ SPORTING KAZANDI!", oyuncular: ["Hjulmand", "Quenda", "Trincao", "Suarez", "Debast", "Diomande"] },
       "bayern_ucl": { isim: "BAYERN MÜNİH", logo: "./bayern-logo.png", muzik: "bayern-gol.mp3", renkAna: "#DC052D", renkIkinci: "#FFFFFF", kazandiYazisi: "🔴⚪ BAYERN KAZANDI!", oyuncular: ["Kane", "Musiala", "Olise", "Kimmich", "Davies", "Diaz", "Karl"] },
       "atletico_ucl": { isim: "ATLETICO MADRID", logo: "./atletico-logo.png", muzik: "atletico-gol.mp3", renkAna: "#CB3524", renkIkinci: "#272E61", kazandiYazisi: "🔴⚪ ATLETICO MADRID KAZANDI!", oyuncular: ["Griezmann", "Alvarez", "Sorloth", "Lookman", "Koke", "Llorente", "Simeone"] },
-      "psg": { isim: "PSG", logo: "./psg-logo.png", muzik: "psg-gol.mp3", renkAna: "#004170", renkIkinci: "#DA291C", kazandiYazisi: "🔵🔴 PSG KAZANDI!", oyuncular: ["Donnarumma", "Hakimi", "Marquinhos", "Vitinha", "Kvaratskhelia", "Doeu", "Dembele", "Hakimi", "Mendes", "Barcola"] },
       "fb_ucl": { isim: "FENERBAHÇE", logo: "./fb-logo.png", muzik: "fb-gol.mp3", renkAna: "#FBED11", renkIkinci: "#000044", kazandiYazisi: "💛💙 FENERBAHÇE KAZANDI!", oyuncular: ["Kerem", "Nene", "Cherif", "Asensio", "Kante", "Guendouzi", "Oosterwolde", "Talisca", "Fred"] },
-      "gornik": { isim: "GÓRNIK ZABRZE", logo: "./gornik-logo.png", muzik: "gornik-gol.mp3", renkAna: "#FFFFFF", renkIkinci: "#00205B", kazandiYazisi: "🤍💙 GÓRNIK ZABRZE KAZANDI!", oyuncular: ["Khlan", "Durdov", "Urbanski", "Sadilek", "Zmrzly", "Ismaheel", "Federico"] }
-      }
+      "gornik": { isim: "GÓRNIK ZABRZE", logo: "./gornik-logo.png", muzik: "gornik-gol.mp3", renkAna: "#FFFFFF", renkIkinci: "#00205B", kazandiYazisi: "🤍💙 GÓRNIK ZABRZE KAZANDI!", oyuncular: ["Khlan", "Durdov", "Urbanski", "Sadilek", "Zmrzly", "Ismaheel", "Federico"] },
+      "psg": { isim: "PSG", logo: "./psg-logo.png", muzik: "psg-gol.mp3", renkAna: "#004170", renkIkinci: "#DA291C", kazandiYazisi: "🔵🔴 PSG KAZANDI!", oyuncular: ["Donnarumma", "Hakimi", "Marquinhos", "Vitinha", "Kvaratskhelia", "Doeu", "Dembele", "Hakimi", "Mendes", "Barcola"] },
+      "liverpool_ucl": { isim: "LIVERPOOL", logo: "./liverpool-logo.png", muzik: "liverpool-gol.mp3", renkAna: "#C8102E", renkIkinci: "#FFFFFF", kazandiYazisi: "🔴 LIVERPOOL KAZANDI!", oyuncular: ["Salah", "Wirtz", "Gravenberch", "Mac Allister", "Szoboszlai", "Van Dijk", "Gakpo", "Isak"] }
+    }
   },
   "uel": {
     isim: "🏆 Avrupa Ligi",
@@ -674,6 +840,8 @@ const LIGLER = {
       "astonvilla_uel": { isim: "ASTON VILLA", logo: "./astonvilla-logo.png", muzik: "astonvilla-gol.mp3", renkAna: "#670E36", renkIkinci: "#95BFE5", kazandiYazisi: "🟣🩵 ASTON VILLA KAZANDI!", oyuncular: ["Rogers", "Onana", "Konsa", "Tielemans", "Watkins", "Abraham", "Maatsen", "Torres"] },
       "celta_uel": { isim: "CELTA VIGO", logo: "./celta-logo.png", muzik: "celta-gol.mp3", renkAna: "#8CC6D7", renkIkinci: "#E53027", kazandiYazisi: "🩵 CELTA VIGO KAZANDI!", oyuncular: ["Iago Aspas", "Bamba", "Mingueza", "Beltran", "Starfelt"] },
       "freiburg_uel": { isim: "FREIBURG", logo: "./freiburg-logo.png", muzik: "freiburg-gol.mp3", renkAna: "#C8102E", renkIkinci: "#000000", kazandiYazisi: "🔴⚫ FREIBURG KAZANDI!", oyuncular: ["Manzambi", "Lienhart", "Suzuki", "Eggestein", "Treu", "Matanovic", "Ogbus"] },
+      "bjk_uel": { isim: "BEŞİKTAŞ", logo: "./bjk-logo.png", muzik: "bjk-gol.mp3", renkAna: "#FFFFFF", renkIkinci: "#222222", kazandiYazisi: "🦅 BEŞİKTAŞ KAZANDI!", oyuncular: ["Orkun", "OH", "Murillo", "Olaitan", "Agbadou", "Fakılı", "Rashica", "Ouattara", "Cerny", "Salih","Semih"] },
+      "midtjylland": { isim: "MIDTJYLLAND", logo: "./midtjylland-logo.png", muzik: "midtjylland-gol.mp3", renkAna: "#000000", renkIkinci: "#ED1C24", kazandiYazisi: "🐺 MIDTJYLLAND KAZANDI!", oyuncular: ["Franculino", "Osorio", "Castillo", "Billing", "Sorensen",  "Erlic", "Bravo"] },
       "porto_uel": { isim: "FC PORTO", logo: "./porto-logo.png", muzik: "porto-gol.mp3", renkAna: "#00428C", renkIkinci: "#FFFFFF", kazandiYazisi: "🔵⚪ FC PORTO KAZANDI!", oyuncular: ["Samu", "Mora", "Varela", "Veiga", "Sainz", "Froholdt"] },
       "nottingham_uel": { isim: "NOTTINGHAM FOREST", logo: "./nottingham-logo.png", muzik: "nottingham-gol.mp3", renkAna: "#DD0000", renkIkinci: "#FFFFFF", kazandiYazisi: "🔴⚪ NOTTINGHAM FOREST KAZANDI!", oyuncular: ["Gibbs-White", "Anderson", "Ndoye", "Milenkovic", "Murillo", "Hutchinson", "Sangare"] }
     }
@@ -702,10 +870,10 @@ const LIGLER = {
       E: ["Almanya","Curaçao","Fildişi Sahili","Ekvador"], 
       F: ["Hollanda","Japonya","İsveç","Tunus"],
       G: ["Belçika","Mısır","İran","Yeni Zelanda"], 
-      H: ["İspanya","Yeşil Burun Adaları","Suudi Arabistan","Uruguay"], 
+      H: ["İspanya","Cape Verde","Suudi Arabistan","Uruguay"], 
       I: ["Fransa","Senegal","Irak","Norveç"],
       J: ["Arjantin","Cezayir","Avusturya","Ürdün"], 
-      K: ["Portekiz","Kongo","Özbekistan","Kolombiya"],
+      K: ["Portekiz","Kamboçya","Özbekistan","Kolombiya"],
       L: ["İngiltere","Hırvatistan","Gana","Panama"]
     },
     takimlar: {
@@ -738,10 +906,10 @@ const LIGLER = {
       "İran": {isim:"İRAN", kisa:"İran", logo:"./iran.png", renkAna:"#239F40", oyuncular:["Taremi","Ghayedi","Mohebi","Hosseinzadeh","Ezatolahi","Kanaani","Torabi","Ghoddos","Yousefi"]},
       "Yeni Zelanda": {isim:"YENİ ZELANDA", kisa:"Yeni Zelanda", logo:"./yenizelanda.png", renkAna:"#000000", oyuncular:["Wood","Bell","Bindon","Stamenic","McCowatt","Cacace","Just","Old","Surman","Randall"]},
       "İspanya": {isim:"İSPANYA", kisa:"İspanya", logo:"./ispanya.png", renkAna:"#AA151B", oyuncular:["Rodri","Yamal","Pedri","Cubarsi","Zubimendi","Olmo","Cucurella","Ferran","Williams","Gavi"]},
-      "Yeşil Burun Adaları": {isim:"Yeşil Burun Adaları", kisa:"Yeşil Burun Adaları", logo:"./yeşilburunadaları.png", renkAna:"#003893", oyuncular:["Costa","Pina","Lenini","Cabral","Arcanjo","Duarte","Moreira"]},
+      "Yeşil Burun Adaları": {isim:"KAP VERDE", kisa:"Yeşil Burun Adaları", logo:"./yeşilburunadaları.png", renkAna:"#003893", oyuncular:["Costa","Pina","Lenini","Cabral","Arcanjo","Duarte","Moreira"]},
       "Suudi Arabistan": {isim:"SUUDİ ARABİSTAN", kisa:"Suudi Arabistan", logo:"./suudiarabistan.png", renkAna:"#006C35", oyuncular:["Abdulhamid","Al-Juwayr","Al-Buraikan","Al-Ghannam","Tambakti","Al-Amri"]},
       "Uruguay": {isim:"URUGUAY", kisa:"Uruguay", logo:"./uruguay.png", renkAna:"#0038A8", oyuncular:["Valverde","Nunez","Araujo","Zalazar","Ugarte","Bentancur","Olivera","Piquerez","Gimenez"]},
-      "Fransa": {isim:"FRANSA", kisa:"Fransa", logo:"./fransa.png", renkAna:"#002395", oyuncular:["Mbappe","Olise","Saliba","Dembele","Cherki","Zaire-Emery","Upamecano","Barcola","Kounde","Kone","Doue"]},
+      "Framsa": {isim:"FRANSA", kisa:"Fransa", logo:"./fransa.png", renkAna:"#002395", oyuncular:["Mbappe","Olise","Saliba","Dembele","Cherki","Zaire-Emery","Upamecano","Barcola","Kounde","Kone","Doue"]},
       "Senegal": {isim:"SENEGAL", kisa:"Senegal", logo:"./senegal.png", renkAna:"#00853F", oyuncular:["Mane","Ndiaye","Sarr","Gueye","Jackson","Camara","Diarra","Diao","Mbaye","Niakhate","Jakobs"]},
       "Irak": {isim:"IRAK", kisa:"Irak", logo:"./ırak.png", renkAna:"#007A3D", oyuncular:["Qasem","Doski","Farji","Sher","Al-Hamadi","Ali","Iqbal","Al-Ammari","Yakob"]},
       "Norveç": {isim:"NORVEÇ", kisa:"Norveç", logo:"./norveç.png", renkAna:"#BA0C2F", oyuncular:["Haaland","Odegaard","Sorloth","Larsen","Nusa","Schjelderup","Bobb","Berge","Ryerson","Ajer"]},
@@ -750,13 +918,13 @@ const LIGLER = {
       "Avusturya": {isim:"AVUSTURYA", kisa:"Avusturya", logo:"./avusturya.png", renkAna:"#ED2939", oyuncular:["Seiwald","Wanner","Laimer","Danso","Affengruber","Chuwuemeka","Schmid","Wimmer"]},
       "Ürdün": {isim:"ÜRDÜN", kisa:"Ürdün", logo:"./ürdün.png", renkAna:"#000000", oyuncular:["Tamari","Al-Arab","Olwan","Shararh","Al-Rashdan","Abu Taha","Saadeh"]},
       "Portekiz": {isim:"PORTEKİZ", kisa:"Portekiz", logo:"./portekiz.png", renkAna:"#FF0000", oyuncular:["Ronaldo","Leao","Fernandes","Vitinha","Joao Neves","Nuno Mendes","Neto","Dias","Bernardo Silva"]},
-      "Kongo": {isim:"KONGO", kisa:"Kongo", logo:"./kongo.png", renkAna:"#F7D116", oyuncular:["Wissa","Sadiki","Wan-Bissaka","Mukau","Banza","Tuanzebe","Kayembe"]},
+      "Kongo DC": {isim:"KONGO DC", kisa:"Kongo", logo:"./kongo.png", renkAna:"#F7D116", oyuncular:["Wissa","Sadiki","Wan-Bissaka","Mukau","Banza","Tuanzebe","Kayembe"]},
       "Özbekistan": {isim:"ÖZBEKİSTAN", kisa:"Özbekistan", logo:"./özbekistan.png", renkAna:"#005999", oyuncular:["Shomurodov","Fayzullayev","Khusanov","Ganiev","Uronov","Shukurov","Mozgovoy"]},
       "Kolombiya": {isim:"KOLOMBİYA", kisa:"Kolombiya", logo:"./kolombiya.png", renkAna:"#FCD116", oyuncular:["Diaz","Suarez","Rios","Lucumi","Munoz","Hernandez","Davidson Sanchez","Arias","Carrascal"]},
       "İngiltere": {isim:"İNGİLTERE", kisa:"İngiltere", logo:"./ingiltere.png", renkAna:"#FFFFFF", oyuncular:["Kane","Bellingham","Foden","Rice","Saka","Rogers","Anderson","O'Reilly","Guehi"]},
       "Hırvatistan": {isim:"HIRVATİSTAN", kisa:"Hırvatistan", logo:"./hırvatistan.png", renkAna:"#FF0000", oyuncular:["Modric","Gvardiol","Kramaric"]},
       "Gana": {isim:"GANA", kisa:"Gana", logo:"./gana.png", renkAna:"#006B3F", oyuncular:["Semenyo","Fatawu","Sulemana","Asante","Bonsu Baah","Nuamah","Oppong"]},
-      "Panama": {isim:"PANAMA", kisa:"Panama", logo:"./panama.png", renkAna:"#DA291C", oyuncular:["Amir Murillo","Carrasquilla","Cordoba","Andrade","Rodriguez","Blackman","Diaz"]},
+      "Panama": {isim:"PANAMA", kisa:"Panama", logo:"./pananam.png", renkAna:"#DA291C", oyuncular:["Amir Murillo","Carrasquilla","Cordoba","Andrade","Rodriguez","Blackman","Diaz"]},
     }
   }
 };
@@ -873,6 +1041,11 @@ function showMainMenu() {
   document.querySelectorAll('.overlay-screen').forEach(el => el.style.display = 'none');
   document.getElementById('scoreboard').style.display = 'none';
   document.getElementById('gameCanvas').style.display = 'none';
+  
+  // 🛑 SPONSORLARI MENÜDE GİZLE 🛑
+  document.getElementById('sponsor-top').style.display = 'none';
+  document.getElementById('sponsor-bottom').style.display = 'none';
+  
   document.getElementById('main-menu').style.display = 'flex';
 }
 
@@ -1271,7 +1444,7 @@ function prepareGameUI() {
   
   document.getElementById('ring-1').style.setProperty('--team-color', AYARLAR.takim1.renkAna);
   document.getElementById('score-team1').style.color = AYARLAR.takim1.renkAna;
-  document.getElementById('score-team1').style.textShadow = `0 0 30px ${AYARLAR.takim1.renkAna}, 0 0 60px ${hexToRgba(AYARLAR.takim1.renkAna, 0.4)}`;
+  document.getElementById('score-team1').style.textShadow = `0 0 15px ${AYARLAR.takim1.renkAna}, 0 0 35px ${hexToRgba(AYARLAR.takim1.renkAna, 0.8)}`;
 
   document.getElementById('name-team2').textContent = AYARLAR.takim2.isim;
   document.getElementById('img-team2').src = AYARLAR.takim2.logo;
@@ -1281,7 +1454,7 @@ function prepareGameUI() {
   
   document.getElementById('ring-2').style.setProperty('--team-color', AYARLAR.takim2.renkAna);
   document.getElementById('score-team2').style.color = AYARLAR.takim2.renkAna;
-  document.getElementById('score-team2').style.textShadow = `0 0 30px ${AYARLAR.takim2.renkAna}, 0 0 60px ${hexToRgba(AYARLAR.takim2.renkAna, 0.4)}`;
+  document.getElementById('score-team2').style.textShadow = `0 0 15px ${AYARLAR.takim2.renkAna}, 0 0 35px ${hexToRgba(AYARLAR.takim2.renkAna, 0.8)}`;
 
   imgTeam1.src = AYARLAR.takim1.logo;
   imgTeam2.src = AYARLAR.takim2.logo;
@@ -1296,6 +1469,15 @@ function prepareGameUI() {
   document.querySelectorAll('.overlay-screen').forEach(el => el.style.display = 'none');
   document.getElementById('scoreboard').style.display='flex';
   document.getElementById('gameCanvas').style.display='block';
+
+  // ... prepareGameUI fonksiyonunun son kısımları ...
+  document.querySelectorAll('.overlay-screen').forEach(el => el.style.display = 'none');
+  document.getElementById('scoreboard').style.display='flex';
+  document.getElementById('gameCanvas').style.display='block';
+
+  // 🟢 SPONSORLARI SADECE MAÇTA GÖSTER 🟢
+  document.getElementById('sponsor-top').style.display = 'flex';
+  document.getElementById('sponsor-bottom').style.display = 'flex';
 
   startCountdown();
 }
@@ -1525,11 +1707,15 @@ function handleCardCollision(teamKey, ballObj) {
   yellowCard = null;
   spawnParticles(ballObj.x, ballObj.y, '#ffe600', 16);
   teamYellowCards[teamKey]++;
+  
   if (teamYellowCards[teamKey] >= 2) {
     teamYellowCards[teamKey] = 0;
-    const pName = getRandomPlayer(teamKey);
-    addEventUI(teamKey, 'red', pName, displaySeconds);
+    
+    // Kırmızı kart olunca sahada kırmızı parçacıklar patlar (efekt olarak kalır)
     spawnParticles(ballObj.x, ballObj.y, '#ff2200', 32);
+    
+    // İPTAL EDİLEN KISIM: addEventUI(teamKey, 'red', pName, displaySeconds);
+    // Artık skorbordda kırmızı kart yazmayacak, o alan sadece GOLLERE kalacak!
   }
 }
 
