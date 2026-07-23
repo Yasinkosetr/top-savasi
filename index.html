@@ -330,13 +330,16 @@
     border: 1px solid rgba(0,255,135,0.05); 
     border-top: none; 
     border-radius: 0 0 22px 22px; 
-    background: transparent; /* Sahanın altı şeffaf oldu ki geçiş görünsün */
+    background: transparent; 
     image-rendering: -webkit-optimize-contrast;
     image-rendering: crisp-edges;
     image-rendering: high-quality;
-    margin-top: -90px !important;
-    transform: translateZ(0); /* Donanım hızlandırmayı (GPU) zorla açar */
-    backface-visibility: hidden; /* Ekstra render yükünü hafifletir */
+    
+    /* 🏟️ SAHA AŞAĞI ÇEKİLDİ */
+    margin-top: 10px !important; /* -90'ı sildik, +10 yaparak sahayı tam ortaya oturttuk. Gözüne göre 0 veya 20 yapabilirsin */
+    
+    transform: translateZ(0); 
+    backface-visibility: hidden; 
   }
   
   /* ========== OVERLAYS (Taşma Sorunu Çözümü) ========== */
@@ -503,26 +506,7 @@
     </div>
   </div>
 
-  <!-- ⬇️ ALT SPONSOR BANDI -->
-  <div class="sponsor-band sponsor-bottom" id="sponsor-bottom">
-    <div class="scrolling-text">
-      <span>🌟 RESMİ SPONSOR: FUTBOLTAYFA 🌟</span>
-      <span>📺 VİDEOYU BEĞENİP YORUM YAPIN 📺</span>
-      <span>🚀 YENİ VİDEOLAR YOLDA 🚀</span>
-      <span>❤️ DESTEĞİNİZ İÇİN TEŞEKKÜRLER ❤️</span>
-      <span>🎥 HER HAFTA YENİ MAÇLAR 🎥</span>
-      <span>🚀 YENİ VİDEOLAR YOLDA 🚀</span>
-      <span>⏰ RESMİ SAAT SPONSORU: SON DAKİKA HEYECANI ⏰</span>
-       <span>🌟 RESMİ SPONSOR: FUTBOLTAYFA 🌟</span>
-      <span>📺 VİDEOYU BEĞENİP YORUM YAPIN 📺</span>
-      <span>🚀 YENİ VİDEOLAR YOLDA 🚀</span>
-      <span>❤️ DESTEĞİNİZ İÇİN TEŞEKKÜRLER ❤️</span>
-      <span>🎥 HER HAFTA YENİ MAÇLAR 🎥</span>
-      <span>🚀 YENİ VİDEOLAR YOLDA 🚀</span>
-      <span>⏰ RESMİ SAAT SPONSORU: SON DAKİKA HEYECANI ⏰</span>
-    
-    </div>
-  </div>
+
 
   <div id="main-menu" class="overlay-screen">
     <div class="menu-logo">TOP <span>SAVAŞI</span><br><span style="font-size: 28px; color:#fff;">PREMİUM</span></div>
@@ -1052,7 +1036,7 @@ function showMainMenu() {
   
   // 🛑 SPONSORLARI MENÜDE GİZLE 🛑
   document.getElementById('sponsor-top').style.display = 'none';
-  document.getElementById('sponsor-bottom').style.display = 'none';
+  
   
   document.getElementById('main-menu').style.display = 'flex';
 }
@@ -1485,7 +1469,7 @@ function prepareGameUI() {
 
   // 🟢 SPONSORLARI SADECE MAÇTA GÖSTER 🟢
   document.getElementById('sponsor-top').style.display = 'flex';
-  document.getElementById('sponsor-bottom').style.display = 'flex';
+  
 
   startCountdown();
 }
