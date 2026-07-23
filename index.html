@@ -37,6 +37,8 @@
     line-height: 1; 
     margin: 0 10px; /* Skorlarla arasına mesafe koyduk */
     z-index: 50;
+    margin-top: 15px !important; /* Sayıları tavandan söküp logoların göbeğine hizalar */
+    display: inline-block;
   }
 
   /* ⏱️ DAKİKA KUTUSU (Simsiyah Arka Plan, Neon Yeşil Çerçeve) */
@@ -49,6 +51,8 @@
     border-radius: 20px; 
     padding: 6px 16px !important; 
     box-shadow: 0 0 15px rgba(0, 255, 135, 0.4) !important;
+    margin-top: 8px !important; /* Skor ile dakika arasına jilet gibi bir boşluk koyar */
+    margin-bottom: 5px !important; /* Alt taraftan da biraz nefes aldırır */
     z-index: 99 !important; /* Her şeyin üstüne çıksın */
   }
   
@@ -96,7 +100,7 @@
 
   /* ⬇️ ALT BANT (Biraz daha aşağı itildi) */
   .sponsor-bottom { 
-    bottom: 10%; /* 18'den 5'e çektik, ekranın en altına yaslandı */
+    bottom: 17%; /* 18'den 5'e çektik, ekranın en altına yaslandı */
   }
 
   /* 🏃‍♂️ KAYAN YAZI ANİMASYONU */
@@ -255,6 +259,7 @@
 
   .team-name {
     font-size: 10px; color: rgba(255,255,255,0.7); font-family: 'Barlow Condensed', sans-serif;
+    margin-top: 6px !important; /* Logolar ile isimlerin birbirine girmesini engeller */
     font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; text-align: center; line-height: 1.2;
   }
 
@@ -329,6 +334,9 @@
     image-rendering: -webkit-optimize-contrast;
     image-rendering: crisp-edges;
     image-rendering: high-quality;
+    margin-top: -160px !important;
+    transform: translateZ(0); /* Donanım hızlandırmayı (GPU) zorla açar */
+    backface-visibility: hidden; /* Ekstra render yükünü hafifletir */
   }
   
   /* ========== OVERLAYS (Taşma Sorunu Çözümü) ========== */
@@ -841,7 +849,7 @@ const LIGLER = {
       "celta_uel": { isim: "CELTA VIGO", logo: "./celta-logo.png", muzik: "celta-gol.mp3", renkAna: "#8CC6D7", renkIkinci: "#E53027", kazandiYazisi: "🩵 CELTA VIGO KAZANDI!", oyuncular: ["Iago Aspas", "Bamba", "Mingueza", "Beltran", "Starfelt"] },
       "freiburg_uel": { isim: "FREIBURG", logo: "./freiburg-logo.png", muzik: "freiburg-gol.mp3", renkAna: "#C8102E", renkIkinci: "#000000", kazandiYazisi: "🔴⚫ FREIBURG KAZANDI!", oyuncular: ["Manzambi", "Lienhart", "Suzuki", "Eggestein", "Treu", "Matanovic", "Ogbus"] },
       "bjk_uel": { isim: "BEŞİKTAŞ", logo: "./bjk-logo.png", muzik: "bjk-gol.mp3", renkAna: "#FFFFFF", renkIkinci: "#222222", kazandiYazisi: "🦅 BEŞİKTAŞ KAZANDI!", oyuncular: ["Orkun", "OH", "Murillo", "Olaitan", "Agbadou", "Fakılı", "Rashica", "Ouattara", "Cerny", "Salih","Semih"] },
-      "midtjylland": { isim: "MIDTJYLLAND", logo: "./midtjylland-logo.png", muzik: "midtjylland-gol.mp3", renkAna: "#000000", renkIkinci: "#ED1C24", kazandiYazisi: "🐺 MIDTJYLLAND KAZANDI!", oyuncular: ["Franculino", "Osorio", "Castillo", "Billing", "Sorensen",  "Erlic", "Bravo"] },
+      "midtjylland": { isim: "MIDTJYLLAND", logo: "./midtjylland-logo.png", muzik: "midtjylland-gol.mp3", renkAna: "#ED1C24", renkIkinci: "#ED1C24", kazandiYazisi: "🐺 MIDTJYLLAND KAZANDI!", oyuncular: ["Franculino", "Osorio", "Castillo", "Billing", "Sorensen",  "Erlic", "Bravo"] },
       "porto_uel": { isim: "FC PORTO", logo: "./porto-logo.png", muzik: "porto-gol.mp3", renkAna: "#00428C", renkIkinci: "#FFFFFF", kazandiYazisi: "🔵⚪ FC PORTO KAZANDI!", oyuncular: ["Samu", "Mora", "Varela", "Veiga", "Sainz", "Froholdt"] },
       "nottingham_uel": { isim: "NOTTINGHAM FOREST", logo: "./nottingham-logo.png", muzik: "nottingham-gol.mp3", renkAna: "#DD0000", renkIkinci: "#FFFFFF", kazandiYazisi: "🔴⚪ NOTTINGHAM FOREST KAZANDI!", oyuncular: ["Gibbs-White", "Anderson", "Ndoye", "Milenkovic", "Murillo", "Hutchinson", "Sangare"] }
     }
@@ -1604,14 +1612,29 @@ function addEventUI(teamKey, type, player, minute) {
   container.scrollTop = container.scrollHeight;
 }
 
-function spawnParticles(x, y, teamOrColor, count = 6) {
+function spawnParticles(x, y, teamOrColor, count = 3) { // 6 olan standart sayıyı 3'e indirdik
   let colorHex = teamOrColor;
   if (teamOrColor === 'team1') colorHex = AYARLAR.takim1.renkAna;
   if (teamOrColor === 'team2') colorHex = AYARLAR.takim2.renkAna;
-  for (let i = 0; i < count; i++) {
+  
+  // Drop girmemesi için tek seferde çıkacak parçacığı MAKSİMUM 5 ile zorla sınırlıyoruz
+  let maxCount = Math.min(count, 5); 
+
+  for (let i = 0; i < maxCount; i++) {
     const angle = Math.random() * Math.PI * 2;
-    const speed = 2 + Math.random() * 7;
-    particles.push({ x, y, vx: Math.cos(angle)*speed, vy: Math.sin(angle)*speed, life: 1.0, decay: 0.022 + Math.random()*0.03, r: 3 + Math.random()*5, color: colorHex });
+    const speed = 1 + Math.random() * 4; // Yayılma hızını düşürdük, daha az alan tarasın
+    
+    particles.push({ 
+      x, 
+      y, 
+      vx: Math.cos(angle)*speed, 
+      vy: Math.sin(angle)*speed, 
+      life: 1.0, 
+      // DECAY ARTIRILDI: Parçacıklar ekranda birikmeden çok daha hızlı silinecek (Drop kalkar)
+      decay: 0.05 + Math.random() * 0.06, 
+      r: 2 + Math.random() * 3, // Çapları biraz küçültüldü ki GPU az yorulsun
+      color: colorHex 
+    });
   }
 }
 
