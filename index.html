@@ -28,16 +28,16 @@
     overflow: hidden;
     box-shadow: 0 10px 50px rgba(0,0,0,0.8), 0 0 20px rgba(0,255,135,0.1);
   }
-/* ⚔️ İKİ NOKTA ÜST ÜSTE (Tam Beyaz ve Parlak) */
+/* ⚔️ İKİ NOKTA ÜST ÜSTE (Düzeltme) */
   #score-divider { 
     font-family: 'Bebas Neue', cursive; 
-    font-size: 42px !important; /* Biraz daha büyüttük */
-    color: #ffffff !important; /* Kesinlikle bembeyaz olacak */
-    text-shadow: 0 0 15px rgba(255, 255, 255, 0.8) !important; /* Etrafına beyaz ışık yayacak */
+    font-size: 42px !important; 
+    color: #ffffff !important; 
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.8) !important; 
     line-height: 1; 
-    margin: 0 10px; /* Skorlarla arasına mesafe koyduk */
+    margin: 0 10px; 
     z-index: 50;
-    margin-top: 15px !important; /* Sayıları tavandan söküp logoların göbeğine hizalar */
+    margin-top: 0 !important; /* Artık yukarıdaki scores-row bunu da indiriyor, o yüzden bunu sıfırladık */
     display: inline-block;
   }
 
@@ -257,10 +257,18 @@
 
   .team-logo img { width: 88%; height: 88%; object-fit: contain; filter: drop-shadow(0 0 4px rgba(255,255,255,0.2)); }
 
+  /* 🛡️ TAKIM İSİMLERİ (Bembeyaz ve Okunabilir) */
   .team-name {
-    font-size: 10px; color: rgba(255,255,255,0.7); font-family: 'Barlow Condensed', sans-serif;
-    margin-top: 6px !important; /* Logolar ile isimlerin birbirine girmesini engeller */
-    font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; text-align: center; line-height: 1.2;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px !important; /* Okunması için 1 tık büyüttük */
+    color: #ffffff !important; /* Gri tonlamayı atıp TAM BEYAZ yaptık */
+    font-weight: 800 !important; /* En kalın haline getirdik */
+    letter-spacing: 1.5px; 
+    text-transform: uppercase; 
+    text-align: center; 
+    line-height: 1.2;
+    margin-top: 8px !important; /* Logoyla arasına ferahlık kattık */
+    text-shadow: 0 2px 4px rgba(0,0,0,0.8); /* Yazının arkasına siyah gölge attık ki arka planla karışmasın, jilet gibi çıksın */
   }
 
   /* 💎 GOL LİSTESİ SINIRLAMASI */
@@ -312,7 +320,13 @@
     z-index: 1; 
   }
   
-  .scores-row { display: flex; align-items: center; gap: 8px; }
+  /* 🔢 SKOR SATIRI (Tüm Skor Bloğunu Aşağı İter) */
+  .scores-row { 
+    display: flex; 
+    align-items: center; 
+    gap: 8px; 
+    margin-top: 25px !important; /* Rakamları tavandan kurtarıp logolarla hizalar */
+  }
   
   .team-score {
     font-family: 'Bebas Neue', cursive; 
@@ -335,8 +349,8 @@
     image-rendering: crisp-edges;
     image-rendering: high-quality;
     
-    /* 🏟️ SAHA AŞAĞI ÇEKİLDİ */
-    margin-top: 10px !important; /* -90'ı sildik, +10 yaparak sahayı tam ortaya oturttuk. Gözüne göre 0 veya 20 yapabilirsin */
+    /* 📱 iPHONE EKRANINA ÖZEL YUKARI ÇEKME */
+    margin-top: -45px !important; /* Sahayı skorborda doğru yukarı çeker, boşluğu dengeler */
     
     transform: translateZ(0); 
     backface-visibility: hidden; 
